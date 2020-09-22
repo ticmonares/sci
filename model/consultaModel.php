@@ -8,27 +8,83 @@ class ConsultaModel extends Model{
         parent::__construct();
     }
     //Insert
-    public function agregarRegistroInmueble($datos){
-        $stringQuery = "INSERT INTO `registro_inmuebles`(`
-        id`, `no_consecutivo`, `id_region`, 
-        `id_distrito_judicial`, `id_municipio`, `edificio`, 
-        `domicilio`, `id_modalidad_prop`, `id_estado_proc`, 
-        `superficie`, `doc_status`, `doc_acciones_real`, 
-        `id_usuario`, `fecha_generada`, `fecha_mod`, 
-        `id_user_mod`) 
-        VALUES ([value-1],[value-2],[value-3],
-        [value-4],[value-5],[value-6],
-        [value-7],[value-8],[value-9],
-        [value-10],[value-11],[value-12],
-        [value-13],[value-14],[value-15],
-        [value-16]) ";
+    public function insert($datos){
+
+        $region = $datos ['region'];
+        //echo $region . "<br>";
+        $distrito = $datos ['distrito'];
+        //echo $distrito . "<br>";
+        $municipio = $datos ['municipio'];
+        //echo $municipio . "<br>";
+        $edificio = $datos ['edificio'];
+        //echo $edificio . "<br>";
+        $domicilio = $datos ['domicilio'];
+        //echo $domicilio . "<br>";
+        $modalidad = $datos ['modalidad'];
+        //echo $modalidad . "<br>";
+        $estado = $datos ['estado'];
+        //echo $estado . "<br>";
+        $superficie = $datos ['superficie'];
+        //echo $superficie . "<br>";
+        $id_user = $_SESSION['user_id'];
+        //echo $id_user . "<br>";
+        /*
+        [seconds] => 40
+    [minutes] => 58
+    [hours]   => 21
+    [mday]    => 17
+    [wday]    => 2
+    [mon]     => 6
+    [year]    => 2003
+    [yday]    => 167
+    [weekday] => Tuesday
+    [month]   => June
+    [0]       => 1055901520
+         */
+        //2020-09-22
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        echo $fecha_generada;
+        
+
+        $stringQuery = "INSERT INTO registro_inmuebles(
+        id, no_consecutivo, id_region, 
+        id_distrito_judicial, id_municipio, edificio, 
+        domicilio, id_modalidad_prop, id_estado_proc, 
+        superficie, doc_status, doc_acciones_real, 
+        id_usuario, fecha_generada) 
+        VALUES (:id, :no_consecutivo, :id_region, 
+        :id_distrito_judicial, :id_municipio, :edificio, 
+        :domicilio, :id_modalidad_prop, :id_estado_proc, 
+        :superficie, :doc_status, :doc_acciones_real, 
+        :id_usuario, :fecha_generada)
+         ";
+         $datos = [
+            'id'=> null,
+            'no_consecutivo' => "pendiente",
+            'id_region'=>  $region,
+            'id_distrito_judicial'=> $distrito,
+            'id_municipio'=>  $municipio,
+            'edificio'=>  $edificio,
+            'domicilio'=> $domicilio,
+            'id_modalidad_prop'=> $modalidad,
+            'id_estado_proc'=> $estado,
+            'superficie'=> $superficie,
+            'doc_status'=> "pendiente",
+            'doc_acciones_real'=> "pendiente",
+            'id_usuario'=> $id_user,
+            'fecha_generada'=>  $fecha_generada
+         ];
         try {
-            $query = $this->bd->conn()->prepare($stringQuery);
-            if ($query->execute($datos)){
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ( $query->execute($datos) ){
                 print("Éxito en el registro");
                 return true;
             }else{
-                print("Éxito en el registro");
+                print("Error en el registro");
                 return false;
             }
         } catch (PDOException $e) {
@@ -122,10 +178,41 @@ class ConsultaModel extends Model{
         }
     }
     public function getModalidades(){
-
+        $modalidades = [];
+        $stringQuery = "SELECT * FROM modalidad_propiedad";
+        try{
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute()){
+                while ($row = $query->fetchObject() ){
+                    array_push($modalidades, $row);
+                }
+                //echo $modalidades;
+                return $modalidades;
+            }else{
+                return null;
+            }
+        } catch (PDOException $e) {
+            //print ("Error: " . $e->getMessage());
+            return null;
+        }
     }
     public function getEstadosProc(){
-
+        $estadosProc = [];
+        $stringQuery = "SELECT * FROM estado_procesal";
+        try {
+            $query= $this->db->conn()->prepare($stringQuery);
+            if( $query->execute() ){
+                while ($row = $query->fetchObject() ) {
+                    array_push($estadosProc, $row);
+                }
+                return $estadosProc;
+            }else{
+                return null;
+            }
+        } catch (PDOexception $e) {
+            //print ("Error ->  " . $e->getMessage());
+            return null;
+        }
     }
 }
 ?>

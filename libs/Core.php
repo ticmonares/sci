@@ -44,5 +44,10 @@ class Core{
         }
     }
 
+    public static function formatDBFecha($agno, $mes, $dia){
+        $fechaFormateada = $agno."-".$mes."-".$dia;
+        return $fechaFormateada;
+    }
+
 }
 ?>

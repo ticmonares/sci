@@ -11,8 +11,6 @@ class signinModel extends Model{
         $contrasena = $datos['contrasena'];
         $rol = $datos['rol'];
         $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
-       
-
         try {
             if($this->validaCorreo($correo)){
                 $query = "INSERT INTO `usuarios`(`id`, `nombre`, `no_empleado`, `correo`, `pass`, `rol`) VALUES (null, :nombre, :no_empleado, :correo, :pass, :rol)";

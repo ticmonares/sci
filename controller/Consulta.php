@@ -25,7 +25,35 @@ class Consulta extends Controller{
     }
 
     public function  registrarNuevo(){
-        echo "Amos a registrar";
+        if (isset($_POST['region'])){
+            $region = $_POST ['region'];
+            $distrito = $_POST ['distrito'];
+            $municipio = $_POST ['municipio'];
+            $edificio = $_POST ['edificio'];
+            $domicilio = $_POST ['domicilio'];
+            $modalidad = $_POST ['modalidad'];
+            $estado = $_POST ['estado_proc'];
+            $superficie = $_POST ['superficie'];
+            $datos = [
+                'region' => $region,
+                'distrito' => $distrito,
+                'municipio' => $municipio,
+                'edificio' => $edificio,
+                'domicilio' => $domicilio,
+                'modalidad' => $modalidad,
+                'estado' => $estado,
+                'superficie' => $superficie
+            ];
+            if ($this->model->insert($datos)){
+                $mensaje = " Usuario registrado con éxito";
+            }else{
+                $mensaje = "Error al registrar usuario";
+            }
+            $this->view->mensaje = $mensaje;
+            $this->render();
+        }else{
+            $this->view->render('login/index');
+        }
     }
 
     public function getDistrito($param = null){
@@ -52,6 +80,29 @@ class Consulta extends Controller{
         }
         $municipiosJSON = json_encode($municipios);
         echo $municipiosJSON;
+    }
+
+    function getModalidades(){
+        $modalidades = $this->model->getModalidades();
+        if($modalidades){
+            $mensaje = "Exito al obtener modalidades";
+        }else{
+            $mensaje = "Error al obtener modalidades";
+        }
+        //echo $mensaje;
+        $modalidadesJSON = json_encode($modalidades);
+        echo $modalidadesJSON;
+    }
+
+    function getEstadosProc(){
+        $estadosProc = $this->model->getEstadosProc();
+        if ($estadosProc){
+            $mensaje = "Exito al obtener estados";
+        }else{
+            $mensaje = "Exito al obtener estados";
+        }
+        $estadosProcJson = json_encode($estadosProc);
+        echo $estadosProcJson;
     }
 }
 ?>
