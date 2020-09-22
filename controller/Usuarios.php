@@ -13,20 +13,17 @@ class Usuarios extends Controller{
     function verUsuario($param = null){
         $idUsuario = $param[0];
         $usuario = $this->model->getUserById($idUsuario);
-
-        session_start();
         $_SESSION['id_verUsuario'] = $usuario->id;
-
         $this->view->mensaje = "";
-        $this->view->user = $usuario;
+        $this->view->usuario = $usuario;
         $this->view->render('usuarios/detalle');
     }
     function agregarAlumno(){
         $this->view->render('signin/index');
     }
-    function actualizarAlumno(){
-        session_start();
-        $id = $_SESSION['id_userId'];
+    function actualizarUsuario(){
+        //session_start();
+        $id = $_SESSION['id_verUsuario'];
         $nombre = $_POST['nombre'];
         $no_empleado = $_POST['no_empleado'];
         $correo = $_POST['correo'];

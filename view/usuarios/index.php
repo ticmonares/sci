@@ -44,17 +44,19 @@
                         <td><?php echo $row->nombre; ?> </td>
                         <td><?php echo $row->no_empleado; ?> </td>
                         <td><?php echo $row->correo; ?> </td>
-                    <!--
+                        <td><?php echo $row->rol; ?> </td>
                         <td>
-                            <a href="<?php echo constant('URL') . 'usuario/verUsuario/' .  $row->id; ?>">Editar</a>
+                            <a href="<?php echo constant('URL') . 'usuarios/verUsuario/' .  $row->id; ?>" class="btn">Editar</a>
                         </td>
+                    <!--
                         <td>
                             <a href="<?php echo constant('URL') . 'usuario/borrarUsuario/' . $row->id; ?> ">Eliminar</a>
                         </td>
-                    -->
+                    
                         <td>
                             <button class="btnEditar"  data-id="<?php echo $row->id ; ?>" >Editar</button>
                         </td>
+                -->
                         <td>
                             <button class="btnEliminar" 
                                 data-id="<?php echo $row->id ; ?>" 

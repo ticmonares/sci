@@ -7,7 +7,7 @@
 <body>
     <?php require_once 'view/header.php'; ?>
     <div id="main">
-        <h1 class="center">Editar a  <?php echo $this->usuario->matricula; ?> </h1>
+        <h1 class="center">Editar a  <?php echo $this->usuario->no_empleado; ?> </h1>
     </div>
     <div class="center">
     <?php
@@ -15,22 +15,28 @@
     ?>
     </div>
     <div>
-        <form action="<?php echo constant('URL').'consulta/actualizarAlumno'; ?>" method="POST">
+        <form action="<?php echo constant('URL').'usuarios/actualizarUsuario'; ?>" method="POST">
             <p>
                 <label for="id">Id</label>
                 <input type="text" name="id" id="id" value="<?php echo $this->usuario->id; ?>" required  disabled>
             </p>
             <p>
-                <label for="matricula">Matrícula</label>
-                <input type="text" name="matricula" id="matricula" value="<?php echo $this->usuario->matricula; ?>" required>
+                <label for="no_empleado">Matrícula</label>
+                <input type="text" name="no_empleado" id="no_empleado" value="<?php echo $this->usuario->no_empleado; ?>" required>
             </p>
             <p>
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" value="<?php echo $this->usuario->nombre; ?>" required>
             </p>
             <p>
-                <label for="apellido">Apellido</label>
-                <input type="text" name="apellido" id="apellido" value="<?php echo $this->usuario->apellido; ?>" required>
+                <label for="correo">Correo</label>
+                <input type="email" name="correo" id="correo" value="<?php echo $this->usuario->correo; ?>" required>
+            </p>
+            <p>
+                <label for="rol">Rol</label>
+                <select name="rol" required>
+                   <?php echo $this->usuario->stringRol; ?>
+                </select>
             </p>
             <input type="submit" value="Editar">
         </form>

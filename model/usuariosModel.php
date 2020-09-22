@@ -15,6 +15,7 @@ class UsuariosModel extends Model{
                 $item->nombre = $row['nombre'];
                 $item->no_empleado = $row['no_empleado'];
                 $item->correo  = $row['correo'];
+                $item->rol  = $item->traduceRol($row['rol']);
                 //Pasamos los datos del objeto alumno al arreglo items
                 array_push($items, $item);
             }
@@ -28,16 +29,18 @@ class UsuariosModel extends Model{
         }
     }
     //Consultamos por id para mostrar en formulario de editar
-    public function getUserById($idAlumno){
+    public function getUserById($idUsuario){
         try{
             $item = new Usuario();
             $query = $this->db->conn()->prepare("SELECT * FROM usuarios WHERE id = :id");
-            $query->execute(['id' => $idAlumno ]);
+            $query->execute(['id' => $idUsuario]);
             while($row = $query->fetchObject()){
                 $item->id = $row->id;
                 $item->nombre = $row->nombre;
                 $item->no_empleado = $row->no_empleado;
                 $item->correo = $row->correo;
+                $item->rol = $row->rol;
+                $item->stringRol = $item->cargaSelectRol($item->rol);
             }
             //$item =   $query->fetchObject;
             return $item;
@@ -50,19 +53,23 @@ class UsuariosModel extends Model{
     //Método para actualizar
     public function update($params){
         $id = $params['id'];
-        $matricula = $params['matricula'];
+        $no_empleado = $params['no_empleado'];
         $nombre = $params['nombre'];
-        $apellido = $params['apellido'];
+        $correo = $params['correo'];
+        $rol = $params['rol'];
         $query = $this->db->conn()->prepare("UPDATE usuarios SET 
-        matricula = :matricula, 
+        no_empleado = :no_empleado, 
         nombre = :nombre, 
-        apellido = :apellido WHERE id = :id ");        
+        correo = :correo,
+        rol = :rol
+        WHERE id = :id ");        
         try{
             $query->execute([
                 'id' => $id,
-                'matricula' => $matricula,
+                'no_empleado' => $no_empleado,
                 'nombre' => $nombre,
-                'apellido' => $apellido
+                'correo' => $correo,
+                'rol' => $rol
             ]);
             return true;
         }
@@ -73,10 +80,10 @@ class UsuariosModel extends Model{
         }
     }
 
-    public function delete($idAlumno){
+    public function delete($idUsuario){
         $query = $this->db->conn()->prepare("DELETE FROM usuarios WHERE id = :id");
         try{
-            $query->execute(['id' => $idAlumno]);
+            $query->execute(['id' => $idUsuario]);
             return true;
         }catch(PDOException $e){
             return false;
