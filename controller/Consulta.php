@@ -12,7 +12,7 @@ class Consulta extends Controller{
         $this->view->mensaje = "";
         $this->view->render('consulta/index');
         */
-        
+        $this->view->render('consulta/index');
     }
 
 
@@ -46,14 +46,12 @@ class Consulta extends Controller{
         $id_distrito = $param[0];
         $municipios = $this->model->getMunicipios($id_distrito);
         if ($municipios){
-            $mensaje = "Error al cargar municipios";
+            $mensaje = "Exito al cargar municipios";
         }else{
             $mensaje = "Error al cargar municipios";
-            echo $mensaje;
         }
         $municipiosJSON = json_encode($municipios);
-        echo $mensaje;
-        //echo $municipiosJSON;
+        echo $municipiosJSON;
     }
 }
 ?>

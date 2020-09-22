@@ -12,12 +12,13 @@
     </div>
     <div class="center">
     <?php
-        echo $this->mensaje;
+        //echo $this->mensaje ;
     ?>
     </div>
     <div class="main">
+        <a href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
         <h2>Aquí va la tabla</h2>
-       <table>
+        <table>
            <thead>
                <tr>
                     <th>#</th>

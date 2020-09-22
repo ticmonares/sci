@@ -41,14 +41,17 @@ function getRegion(){
 }
 
 //Cargar Municipios
-const urlGetRegion = "http://localhost/sci/consulta/getRegion/";
+const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
 const selectMunicipio = document.querySelector("#distrito");
 
 selectMunicipio.addEventListener("change", function(){
     const opt = getDistrito();
-    httpRequest(urlGetRegion+opt, function(){
+    console.log(urlGetMunicipios+opt);
+    httpRequest(urlGetMunicipios+opt, function(){
+        //console.log(this.responseText);
         $municipios = JSON.parse(this.responseText);
-        console.log(this.responseText);
+        console.log($municipios);
+        //console.log($municipios);
         $municipios.forEach(municipio =>{
             result=result+'<option value="'+municipio.id+'" >'+municipio.nombre+'</option>';
         });
@@ -58,8 +61,9 @@ selectMunicipio.addEventListener("change", function(){
 });
 
 function getDistrito(){
-    let $select = document.querySelector("#municipio");
+    let $select = document.querySelector("#distrito");
     let option = $select.options[$select.selectedIndex].value;
+    //console.log(option);
     return option;
 }
 

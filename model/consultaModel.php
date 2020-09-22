@@ -79,6 +79,9 @@ class ConsultaModel extends Model{
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute( ['id_region' => $id_region] ) ){
                 while($row = $query->fetch()){
+                    //Crear en cada iteración un nuevo objeto
+                    //Importante donde instansiamos el objeto,
+                    //SIno se carga el mismo dato
                     $distrito = new Region();
                     $distrito->id = $row['id'];
                     $distrito->id_region = $row['id_region'];
@@ -98,12 +101,12 @@ class ConsultaModel extends Model{
     }
     public function getMunicipios($id_distrito_judicial){
         $municipios = [];
-        $municipio = new Municipio();
         $stringQuery = "SELECT * FROM municipios WHERE id_distrito_judicial = :id_distrito_judicial";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if($query->execute(['id_distrito_judicial' => $id_distrito_judicial])){
                 while($row = $query->fetch()){
+                    $municipio = new Municipio();
                     $municipio->id = $row['id'];
                     $municipio->id_distrito_judicial = $row['id_distrito_judicial'];
                     $municipio->nombre = $row['nombre'];
