@@ -73,11 +73,13 @@
                     <label for="superficie">Superficie</label>
                     <input class="form-control" type="text" name="superficie" id="superficie" maxlength="30" required>
                 </div>
+                <!--
                 <div class="form-group">
                     <label for="doc_status">Documentación que ampara status del inmueble</label>
                     <input class="form-control-file" type="file" name="doc_status" id="doc_status" required>
                 </div>
-
+                -->
+                
                 <input class="btn btn-dark bg-red-pj" type="submit" value="Agregar">
             </form>
         </div>
