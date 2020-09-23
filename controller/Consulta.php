@@ -6,7 +6,6 @@ class Consulta extends Controller{
     }
     public function render(){
         //muestra los datos
-        
         $datos = $this->model->getDatos();
         $this->view->datos = $datos;
         $this->view->mensaje = "";
