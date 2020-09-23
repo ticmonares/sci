@@ -49,7 +49,7 @@ const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
 const selectMunicipio = document.querySelector("#distrito");
 
 function cargarMunicipios() {
-    const opt = getDistrito();
+    let opt = getDistrito();
     console.log(urlGetMunicipios + opt);
     httpRequest(urlGetMunicipios + opt, function () {
         //console.log(this.responseText);
@@ -64,10 +64,10 @@ function cargarMunicipios() {
     });
 }
 function getDistrito() {
-    let $select = document.querySelector("#distrito");
-    let option = $select.options[$select.selectedIndex].value;
-    //console.log(option);
-    return option;
+    $select = document.querySelector("#distrito");
+    $option = $select.options[$select.selectedIndex].value;
+    //console.log("Has seleccionado " + $option);
+    return $option;
 }
 
 function cargarSelectModalidad() {
@@ -94,3 +94,14 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
         result = "";
     });
 }
+//Al cambiar 
+//Actualizamos Distritos
+var $selectRegion = document.querySelector("#region");
+$selectRegion.addEventListener("change", function (){
+    cargarDistritos();
+});
+//Actualizamos Municipios
+var $selectDistrito = document.querySelector("#distrito");
+$selectDistrito.addEventListener("change", function (){
+    cargarMunicipios();
+});

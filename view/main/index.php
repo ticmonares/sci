@@ -8,13 +8,15 @@
 </head>
 <body>
     <?php require 'view/header.php'; ?>
-    <div id="main" class="center">
-    <img id="logo" src="<?php echo constant('URL') . "resources/img/logo-pjedomex.png" ?>" alt="Logo Poder Judicual del Estado de México">
+    <div class="container text-center">
+    <img class="img-fluid" id="logo" src="<?php echo constant('URL') . "resources/img/logo-pjedomex.png" ?>" alt="Logo Poder Judicual del Estado de México">
         <h1>Bienvenido</h1>
         <h2>Sistema de Contro de Inmuebles</h2>      
         <h2>Usuario</h2>
-        <div class="btn-container">
-            <a class="button" href="<?php echo constant('URL')?>main/saludo"> Saludos </a>
+        <div class=" ">
+            <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL')?>consulta/nuevoRegistro"> 
+                Iniciar
+            </a>
         </div>
     </div>
     <?php require 'view/footer.php'; ?>
