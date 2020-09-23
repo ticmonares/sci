@@ -4,7 +4,15 @@ class View{
         //echo "vista base";
     }
     function render($nombre){
-        require 'view/' .  $nombre . '.php';
+        if (Core::validarSession()){
+            if (Core::validarSU() || Core::validarAD() ){
+                require 'view/' .  $nombre . '.php';
+            }else{
+                require 'view/main/index.php';
+            }
+        }else{
+            require 'view/login/index.php';
+        }
     }
 }
 ?>

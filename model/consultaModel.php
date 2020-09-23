@@ -9,11 +9,17 @@ class ConsultaModel extends Model{
     }
     public function getDatos(){
         $datos = [];
-        $stringQuery = "SELECT id, id_region, id_distrito_judicial, id_municipio, doc_status FROM registro_inmuebles";
+        $stringQuery = "SELECT id, id_region,  id_distrito_judicial, id_municipio, doc_status FROM registro_inmuebles";
         try{
             $query = $this->db->conn()->prepare($stringQuery);
             if($query->execute()){
-                while($row = $query->fetchObject() ){
+                while($row = $query->fetchObject()){
+                    //getNombreDistrito($idDistrito);
+                    $idDistrito = $row->id_distrito_judicial;
+                    $row->nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
+
+                    $idMunicipio = $row->id_municipio;
+                    $row->nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
                     array_push($datos, $row);
                 }
                 return  $datos;
@@ -137,7 +143,38 @@ class ConsultaModel extends Model{
             print ("Error: " . $e->getMessage());
         }
     }
-
+    public function getNombreDistrito($idDistrito){
+        $queryString = "SELECT nombre from  distritos_judiciales WHERE id = :id";
+        try {
+            $query = $this->db->conn()->prepare($queryString);
+            if ( $query->execute(['id' => $idDistrito ]) ){
+                $distrito = $query->fetchObject();
+                return $distrito;
+            }else{
+                //print "Error al ejecutar consulta";
+                return null;
+            }
+        } catch (PDOException $e) {
+            return null;
+            print ("Error: " . $e->getMessage());
+        }
+    }
+    public function getNombreMunicipio($id ){
+        $queryString = "SELECT nombre from municipios WHERE id = :id";
+        try {
+            $query = $this->db->conn()->prepare($queryString);
+            if ( $query->execute(['id' => $id] ) ){
+                $distrito = $query->fetchObject();
+                return $distrito;
+            }else{
+                //print "Error al ejecutar consulta";
+                return null;
+            }
+        } catch (PDOException $e) {
+            return null;
+            print ("Error: " . $e->getMessage());
+        }
+    }
     public function getRegiones(){
         $regiones = [];
         try {

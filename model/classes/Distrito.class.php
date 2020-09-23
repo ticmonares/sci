@@ -4,4 +4,5 @@ class Distrito{
     public $id_region;
     public $nombre;
 }
+
 ?>

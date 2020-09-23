@@ -66,17 +66,22 @@
                         </td>
                         <td>
                             <?php
-                            echo $registro->id_region;
+                            $region = new Region();
+                            $idRegion = $registro->id_region;
+                            echo $region->traduceRegion($idRegion);
+                            //echo $registro->nombre;
                             ?>
                         </td>
                         <td>
                             <?php
-                            echo $registro->id_distrito_judicial;
+                            //echo $registro->id_distrito_judicial;
+                            echo $registro->nombreDistrito;
                             ?>
                         </td>
                         <td>
                             <?php
-                            echo $registro->id_municipio;
+                            //echo $registro->id_municipio;
+                            echo $registro->nombreMunicipio;
                             ?>
                         </td>
                         <td>

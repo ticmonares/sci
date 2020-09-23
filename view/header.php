@@ -18,7 +18,7 @@
                 <li><a href="<?php echo constant('URL'); ?>usuarios">Usuarios</a></li>
                 <li><a href="<?php echo constant('URL'); ?>consulta/nuevoRegistro">Nuevo Registro</a></li>
                 <li><a href="<?php echo constant('URL'); ?>consulta">Consulta Registros</a></li>
-                <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li>
+<!--                 <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li> -->
                 <li><a href="<?php echo constant('URL'); ?>ayuda">Ayuda</a></li>
                 <li><a href="<?php echo constant('URL'); ?>cerrarsesion/cerrarSesion">Cerrar sesión</a></li>
             <?php
@@ -30,7 +30,7 @@
                 <li><a href="<?php echo constant('URL'); ?>main">Inicio</a></li>
                 <li><a href="<?php echo constant('URL'); ?>consulta/nuevoRegistro">Nuevo Registro</a></li>
                 <li><a href="<?php echo constant('URL'); ?>consulta">Consulta Registros</a></li>
-                <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li>
+                <!-- <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li> -->
                 <li><a href="<?php echo constant('URL'); ?>ayuda">Ayuda</a></li>
                 <li><a href="<?php echo constant('URL'); ?>cerrarsesion/cerrarSesion">Cerrar sesión</a></li>
             <?php
@@ -41,7 +41,7 @@
             ?>
                 <li><a href="<?php echo constant('URL'); ?>main">Inicio</a></li>
                 <li><a href="<?php echo constant('URL'); ?>consulta">Consulta Registros</a></li>
-                <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li>
+                <!-- <li><a href="<?php echo constant('URL'); ?>perfil">Perfil</a></li> -->
                 <li><a href="<?php echo constant('URL'); ?>ayuda">Ayuda</a></li>
                 <li><a href="<?php echo constant('URL'); ?>cerrarsesion/cerrarSesion">Cerrar sesión</a></li>
             <?php

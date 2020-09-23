@@ -16,7 +16,7 @@ class Consulta extends Controller{
 
     public function nuevoRegistro(){
         //cargar formulario
-        $this->view->mensaje = "Agregar nuevo";
+        $this->view->mensaje = "";
         $regiones = $this->model-> getRegiones();
         $this->view->regiones = $regiones;
         $this->view->render('consulta/nuevo');
@@ -55,6 +55,7 @@ class Consulta extends Controller{
             $this->view->render('login/index');
         }
     }
+
 
     public function getDistrito($param = null){
         //Recibimos el id del distrito
