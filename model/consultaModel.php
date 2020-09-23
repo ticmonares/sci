@@ -7,9 +7,41 @@ class ConsultaModel extends Model{
     function __construct(){
         parent::__construct();
     }
+    public function getDatos(){
+        $datos = [];
+        $stringQuery = "SELECT id, id_region, id_distrito_judicial, id_municipio, doc_status FROM registro_inmuebles";
+        try{
+            $query = $this->db->conn()->prepare($stringQuery);
+            if($query->execute()){
+                while($row = $query->fetchObject() ){
+                    array_push($datos, $row);
+                }
+                return  $datos;
+            }else{  
+                print ("Error al ejecutar consulta");
+                return null;
+            }
+        }catch(PDOException $e){
+            print ("Error-> "  . $e->getMessage());
+            return null;
+        }
+    }
+    public function getLastId(){
+        $stringQuery = "SELECT id FROM registro_inmuebles ORDER BY id DESC LIMIT 1";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ( $query->execute() ){
+                $row = $query->fetchObject();
+                //var_dump($row);
+                return $row->id;
+            }
+        } catch (PDOException $e) {
+            return null;
+            //print ("Error -> " . $e->getMessage()  );
+        }
+    }
     //Insert
-    public function insert($datos){
-
+    public function insert($datos, $doc_status){
         $region = $datos ['region'];
         //echo $region . "<br>";
         $distrito = $datos ['distrito'];
@@ -27,28 +59,31 @@ class ConsultaModel extends Model{
         $superficie = $datos ['superficie'];
         //echo $superficie . "<br>";
         $id_user = $_SESSION['user_id'];
-        //echo $id_user . "<br>";
-        /*
-        [seconds] => 40
-    [minutes] => 58
-    [hours]   => 21
-    [mday]    => 17
-    [wday]    => 2
-    [mon]     => 6
-    [year]    => 2003
-    [yday]    => 167
-    [weekday] => Tuesday
-    [month]   => June
-    [0]       => 1055901520
-         */
-        //2020-09-22
+        //Obtenemos fecha de registro
         $fecha_generada = getdate();
+        //Damos formato
         $agno = $fecha_generada['year'];
         $mes = $fecha_generada['mon'];
         $dia = $fecha_generada['mday'];
         $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
-        echo $fecha_generada;
-        
+        //echo $fecha_generada;
+        //Obteniendo datos del PDF de status
+        //echo var_dump($doc_status);
+        //$nombreArchivo = $doc_status['name'];
+        $nombreArchivo = $this->getLastId().$id_user.$fecha_generada.$municipio.".pdf";
+        $tipo = $doc_status['type'];
+        $tamanio = $doc_status['size'];
+        $ruta = $doc_status['tmp_name'];
+        $destino = "resources/archivosStatus/".$nombreArchivo;
+
+        if ( $nombreArchivo != ""  ){
+            if(copy($ruta, $destino)){
+                //echo "exito";
+                $doc_status = $nombreArchivo;
+            }else{
+                //echo "el fracaso te hace mejor";
+            }
+        }
 
         $stringQuery = "INSERT INTO registro_inmuebles(
         id, no_consecutivo, id_region, 
@@ -73,7 +108,7 @@ class ConsultaModel extends Model{
             'id_modalidad_prop'=> $modalidad,
             'id_estado_proc'=> $estado,
             'superficie'=> $superficie,
-            'doc_status'=> "pendiente",
+            'doc_status'=> $doc_status,
             'doc_acciones_real'=> "pendiente",
             'id_usuario'=> $id_user,
             'fecha_generada'=>  $fecha_generada
@@ -81,14 +116,14 @@ class ConsultaModel extends Model{
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ( $query->execute($datos) ){
-                print("Éxito en el registro");
+                //print("Éxito en el registro");
                 return true;
             }else{
-                print("Error en el registro");
+                //print("Error en el registro");
                 return false;
             }
         } catch (PDOException $e) {
-            print ("Error -> " . $e->getMessage());
+            //print ("Error -> " . $e->getMessage());
         }
     }
     //Cargar datos al formulario
@@ -211,6 +246,21 @@ class ConsultaModel extends Model{
             }
         } catch (PDOexception $e) {
             //print ("Error ->  " . $e->getMessage());
+            return null;
+        }
+    }
+    public function getById($id_registro){
+        $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ( $query->execute( ['id' => $id_registro] ) ){
+                return $query->fetchObject();
+            }else{
+                print "Fallo al ejecutar";
+                return null;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
             return null;
         }
     }

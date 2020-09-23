@@ -6,12 +6,10 @@ class Consulta extends Controller{
     }
     public function render(){
         //muestra los datos
-        /*
+        
         $datos = $this->model->getDatos();
         $this->view->datos = $datos;
         $this->view->mensaje = "";
-        $this->view->render('consulta/index');
-        */
         $this->view->render('consulta/index');
     }
 
@@ -34,6 +32,8 @@ class Consulta extends Controller{
             $modalidad = $_POST ['modalidad'];
             $estado = $_POST ['estado_proc'];
             $superficie = $_POST ['superficie'];
+            $doc_status = [];
+            $doc_status = $_FILES['doc_status'];
             $datos = [
                 'region' => $region,
                 'distrito' => $distrito,
@@ -44,7 +44,7 @@ class Consulta extends Controller{
                 'estado' => $estado,
                 'superficie' => $superficie
             ];
-            if ($this->model->insert($datos)){
+            if ($this->model->insert($datos, $doc_status)){
                 $mensaje = " Usuario registrado con éxito";
             }else{
                 $mensaje = "Error al registrar usuario";
@@ -104,5 +104,20 @@ class Consulta extends Controller{
         $estadosProcJson = json_encode($estadosProc);
         echo $estadosProcJson;
     }
+    public function VerRegistro($param = null){
+        $id_registro = $param[0];
+        $registro = $this->model->getById($id_registro);
+        if ($registro){
+            //$mensaje = "Exito";
+            $this->view->registro = $registro;
+            $this->view->mensaje = "Ver detalles";
+            $this->view->render('consulta/detalle');
+        }else{
+            //$mensaje = "Error";
+        }
+        //print $mensaje;
+    }
+    //Editar registro?
+    
 }
 ?>

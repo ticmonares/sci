@@ -16,7 +16,7 @@
     ?>
     </div>
     <div>
-        <form action="<?php echo constant('URL').'consulta/registrarNuevo'; ?>" method="POST">
+        <form action="<?php echo constant('URL').'consulta/registrarNuevo'; ?>" method="POST" enctype="multipart/form-data" >
         <?php
         
         ?>
@@ -34,7 +34,7 @@
                 </select>
             </p>
             <p>
-                <label for="distrito">Distrito</label>
+                <label for="distrito">Distrito Judicial </label>
                 <select name="distrito" id="distrito" class="registro" required>
                     <option value="">Elija una opción</option>
                 </select>
@@ -68,6 +68,10 @@
             <p>
                 <label for="superficie">Superficie</label>
                 <input type="text" name="superficie" id="superficie" maxlength="30" required>
+            </p>
+            <p>
+                <label for="doc_status">Documentación que ampara status del inmueble</label>
+                <input type="file" name="doc_status" id="doc_status" required>
             </p>
            
             <input type="submit" value="Agregar">
