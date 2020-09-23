@@ -9,7 +9,7 @@ class ConsultaModel extends Model{
     }
     public function getDatos(){
         $datos = [];
-        $stringQuery = "SELECT id, id_region,  id_distrito_judicial, id_municipio, doc_status FROM registro_inmuebles";
+        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles";
         try{
             $query = $this->db->conn()->prepare($stringQuery);
             if($query->execute()){
@@ -47,7 +47,7 @@ class ConsultaModel extends Model{
         }
     }
     //Insert
-    public function insert($datos, $doc_status){
+    public function insert($datos){
         $region = $datos ['region'];
         //echo $region . "<br>";
         $distrito = $datos ['distrito'];
@@ -76,32 +76,31 @@ class ConsultaModel extends Model{
         //Obteniendo datos del PDF de status
         //echo var_dump($doc_status);
         //$nombreArchivo = $doc_status['name'];
-        $nombreArchivo = $this->getLastId().$id_user.$fecha_generada.$municipio.".pdf";
-        $tipo = $doc_status['type'];
-        $tamanio = $doc_status['size'];
-        $ruta = $doc_status['tmp_name'];
-        $destino = "resources/archivosStatus/".$nombreArchivo;
+        // $nombreArchivo = $this->getLastId().$id_user.$fecha_generada.$municipio.".pdf";
+        // $tipo = $doc_status['type'];
+        // $tamanio = $doc_status['size'];
+        // $ruta = $doc_status['tmp_name'];
+        // $destino = "resources/archivosStatus/".$nombreArchivo;
 
-        if ( $nombreArchivo != ""  ){
-            if(copy($ruta, $destino)){
-                //echo "exito";
-                $doc_status = $nombreArchivo;
-            }else{
-                //echo "el fracaso te hace mejor";
-            }
-        }
+        // if ( $nombreArchivo != ""  ){
+        //     if(copy($ruta, $destino)){
+        //         //echo "exito";
+        //         $doc_status = $nombreArchivo;
+        //     }else{
+        //         //echo "el fracaso te hace mejor";
+        //     }
+        // }
 
         $stringQuery = "INSERT INTO registro_inmuebles(
-        id, no_consecutivo, id_region, 
-        id_distrito_judicial, id_municipio, edificio, 
-        domicilio, id_modalidad_prop, id_estado_proc, 
-        superficie, doc_status, doc_acciones_real, 
-        id_usuario, fecha_generada) 
-        VALUES (:id, :no_consecutivo, :id_region, 
-        :id_distrito_judicial, :id_municipio, :edificio, 
-        :domicilio, :id_modalidad_prop, :id_estado_proc, 
-        :superficie, :doc_status, :doc_acciones_real, 
-        :id_usuario, :fecha_generada)
+            id, no_expediente, id_region, 
+            id_distrito_judicial, id_municipio, edificio, 
+            domicilio, id_modalidad_prop, id_estado_proc, 
+            superficie, id_usuario, fecha_generada, 
+            fecha_mod, id_user_mod)
+            VALUES (:id, :no_consecutivo, :id_region, 
+            :id_distrito_judicial, :id_municipio, :edificio, 
+            :domicilio, :id_modalidad_prop, :id_estado_proc, 
+            :superficie, :id_usuario, :fecha_generada)
          ";
          $datos = [
             'id'=> null,
@@ -114,8 +113,6 @@ class ConsultaModel extends Model{
             'id_modalidad_prop'=> $modalidad,
             'id_estado_proc'=> $estado,
             'superficie'=> $superficie,
-            'doc_status'=> $doc_status,
-            'doc_acciones_real'=> "pendiente",
             'id_usuario'=> $id_user,
             'fecha_generada'=>  $fecha_generada
          ];
@@ -291,7 +288,18 @@ class ConsultaModel extends Model{
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ( $query->execute( ['id' => $id_registro] ) ){
-                return $query->fetchObject();
+                $row = $query->fetchObject();
+
+                $idDistrito = $row->id_distrito_judicial;
+                $nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
+                $row->{"nombreDistrito"} = $nombreDistrito;
+
+                $idMunicipio = $row->id_municipio;
+                $nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
+                $row->{"nombreMunicipio"} = $nombreMunicipio;
+
+                //echo var_dump($row);
+                return $row;
             }else{
                 print "Fallo al ejecutar";
                 return null;
@@ -302,4 +310,3 @@ class ConsultaModel extends Model{
         }
     }
 }
-?>

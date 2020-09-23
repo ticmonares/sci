@@ -31,8 +31,8 @@ class Consulta extends Controller{
             $modalidad = $_POST ['modalidad'];
             $estado = $_POST ['estado_proc'];
             $superficie = $_POST ['superficie'];
-            $doc_status = [];
-            $doc_status = $_FILES['doc_status'];
+            //$doc_status = [];
+            //$doc_status = $_FILES['doc_status'];
             $datos = [
                 'region' => $region,
                 'distrito' => $distrito,
@@ -43,10 +43,10 @@ class Consulta extends Controller{
                 'estado' => $estado,
                 'superficie' => $superficie
             ];
-            if ($this->model->insert($datos, $doc_status)){
-                $mensaje = " Usuario registrado con éxito";
+            if ($this->model->insert($datos)){
+                $mensaje = " Expediente de inmueble registrado con éxito";
             }else{
-                $mensaje = "Error al registrar usuario";
+                $mensaje = "Error al registrar expediente del inmueble";
             }
             $this->view->mensaje = $mensaje;
             $this->render();

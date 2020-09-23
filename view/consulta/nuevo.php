@@ -51,11 +51,11 @@
 
                 <div class="form-group">
                     <label for="edificio">Edificio</label>
-                    <input class="form-control" type="text" name="edificio" id="edificio" maxlength="30" required>
+                    <input class="form-control" type="text" name="edificio" id="edificio" maxlength="100" required>
                 </div>
                 <div class="form-group">
                     <label for="domicilio">Domicilio</label>
-                    <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="50" required>
+                    <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="100" required>
                 </div>
                 <div class="form-group">
                     <label for="modalidad">Modalidad de propiedad</label>
@@ -70,8 +70,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="superficie">Superficie</label>
-                    <input class="form-control" type="text" name="superficie" id="superficie" maxlength="30" required>
+                    <label for="superficie">Superficie en metros cuadrados </label>
+                    <input class="form-control" type="number" name="superficie" id="superficie" maxlength="100" required>
                 </div>
                 <!--
                 <div class="form-group">
@@ -79,7 +79,7 @@
                     <input class="form-control-file" type="file" name="doc_status" id="doc_status" required>
                 </div>
                 -->
-                
+
                 <input class="btn btn-dark bg-red-pj" type="submit" value="Agregar">
             </form>
         </div>

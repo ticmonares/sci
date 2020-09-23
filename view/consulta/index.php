@@ -20,10 +20,10 @@
         </div>
         <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
         <div class="container">
-            <strong>Ver por: </strong>
-            <div class="row float-right">
+            <div class="row ">
                 <form action="#" class="form-inline">
-                    <div class="col">
+                    <strong>Ver por: </strong>
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="region">Región</label>
                             <select class="form-control" name="region" id="region">
@@ -34,7 +34,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="distrito">Distrito</label>
                             <select class="form-control" name="distrito" id="distrito">
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <select class="form-control" name="municipio" id="municipio">
@@ -65,11 +65,11 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">#</th>
+                                <!-- <th scope="col">#</th> -->
+                                <th scope="col" >Expediente</th>
                                 <th scope="col">Region</th>
                                 <th scope="col">Distrito J.</th>
                                 <th scope="col">Municipio</th>
-                                <th scope="col">Documentos de Status</th>
                                 <th scope="col">Detalles</th>
                             </tr>
                         </thead>
@@ -78,9 +78,14 @@
                             foreach ($this->datos as $registro) {
                             ?>
                                 <tr>
-                                    <th class="scope">
+                                    <!-- <th class="scope">
                                         <?php
                                         echo $registro->id;
+                                        ?>
+                                    </th> -->
+                                    <th>
+                                        <?php
+                                        echo $registro->no_expediente;
                                         ?>
                                     </th>
                                     <td>
@@ -103,11 +108,13 @@
                                         echo $registro->nombreMunicipio;
                                         ?>
                                     </td>
-                                    <td>
+                                    
+                                    <!-- <td>
                                         <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $registro->doc_status; ?>" target="_blank">
                                             <?php echo $registro->doc_status;  ?>
                                         </a>
-                                    </td>
+                                    </td> -->
+                                    
                                     <td>
                                         <a href="<?php echo constant('URL') . 'consulta/VerRegistro/' . $registro->id; ?>">Ver más</a>
                                     </td>

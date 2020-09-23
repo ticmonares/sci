@@ -10,7 +10,7 @@
 <body>
     <?php require_once 'view/header.php'; ?>
     <div id="main">
-        <h1 class="center">Editar registro: <?php echo $this->registro->id; ?> </h1>
+        <h1 class="center">Editar expediente: <?php echo $this->registro->no_expediente; ?> </h1>
     </div>
     <div class="center">
         <?php
@@ -24,7 +24,7 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="region">Región</label>
-                            <select class="form-control" name="region" id="region" class="region" required>
+                            <select class="form-control" name="region" id="region" class="region" required disabled >
                                 <?php
                                 $region = new Region();
                                 $id_region = $this->registro->id_region;
@@ -34,15 +34,25 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="distrito">Distrito Judicial </label>
-                            <select class="form-control" name="distrito" id="distrito" class="registro" required>
-                                <option value="">Elija una opción</option>
+                            <select class="form-control" name="distrito" id="distrito" class="registro" required disabled >
+                                <!-- <option value="">Elija una opción</option> -->
+                                <option value="0">
+                                    <?php
+                                        echo $this->registro->nombreDistrito;
+                                    ?>
+                                </option>
                             </select>
                         </div>
                     </div>
                         <div class="form-group">
                             <label for="municipio">Municipio</label>
-                            <select class="form-control" name="municipio" id="municipio" required>
-                                <option value="">Elija una opción</option>
+                            <select class="form-control" name="municipio" id="municipio" required disabled >
+                                <!-- <option value="">Elija una opción</option> -->
+                                <option value="0">
+                                    <?php
+                                        echo $this->registro->nombreMunicipio;
+                                    ?>
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -72,10 +82,10 @@
                                 <label for="superficie">Superficie</label>
                                 <input class="form-control" type="text" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="doc_status">Documentación que ampara status del inmueble</label>
                                 <input class="form-control" type="file" name="doc_status" id="doc_status" required>
-                            </div>
+                            </div> -->
 
                             <input class="btn btn-dark bg-red-pj" type="submit" value="Editar" disabled>
                 </form>
@@ -85,6 +95,6 @@
     <?php require_once 'view/footer.php'; ?>
 </body>
 <!--<script src="<?php echo constant('URL'); ?>resources/js/inmuebles.js"></script>-->
-<script src="<?php echo constant('URL') . 'resources/js/detallesInmuebles.js'; ?>"></script>
+<!-- <script src="<?php echo constant('URL') . 'resources/js/detallesInmuebles.js'; ?>"></script> -->
 
 </html>
