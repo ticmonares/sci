@@ -21,6 +21,12 @@
             </div>
 
             <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="noExpediente">Número de expediente</label>
+                    <input type="number" min="0" class="form-control" name="noExpediente" id ="noExpediente"  required>
+                </div>
+
                 <div class="form-group">
                     <label for="region">Región</label>
                     <select class="form-control" name="region" id="region" class="region" required>

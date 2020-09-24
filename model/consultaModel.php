@@ -48,6 +48,8 @@ class ConsultaModel extends Model{
     }
     //Insert
     public function insert($datos){
+        $noExpediente = $datos['noExpediente'];
+        //echo $noExpediente . "<br>";
         $region = $datos ['region'];
         //echo $region . "<br>";
         $distrito = $datos ['distrito'];
@@ -92,19 +94,35 @@ class ConsultaModel extends Model{
         // }
 
         $stringQuery = "INSERT INTO registro_inmuebles(
-            id, no_expediente, id_region, 
-            id_distrito_judicial, id_municipio, edificio, 
-            domicilio, id_modalidad_prop, id_estado_proc, 
-            superficie, id_usuario, fecha_generada, 
-            fecha_mod, id_user_mod)
-            VALUES (:id, :no_consecutivo, :id_region, 
-            :id_distrito_judicial, :id_municipio, :edificio, 
-            :domicilio, :id_modalidad_prop, :id_estado_proc, 
-            :superficie, :id_usuario, :fecha_generada)
+            id, 
+            no_expediente, 
+            id_region, 
+            id_distrito_judicial, 
+            id_municipio, 
+            edificio, 
+            domicilio, 
+            id_modalidad_prop, 
+            id_estado_proc, 
+            superficie, 
+            id_usuario, 
+            fecha_generada)
+            VALUES (
+            :id, 
+            :no_expediente, 
+            :id_region, 
+            :id_distrito_judicial, 
+            :id_municipio, 
+            :edificio, 
+            :domicilio, 
+            :id_modalidad_prop, 
+            :id_estado_proc, 
+            :superficie, 
+            :id_usuario, 
+            :fecha_generada)
          ";
          $datos = [
             'id'=> null,
-            'no_consecutivo' => "pendiente",
+            'no_expediente' => $noExpediente,
             'id_region'=>  $region,
             'id_distrito_judicial'=> $distrito,
             'id_municipio'=>  $municipio,
@@ -307,6 +325,33 @@ class ConsultaModel extends Model{
         } catch (PDOException $e) {
             print "Error -> " . $e->getMessage();
             return null;
+        }
+    }
+    public function update($idRegistro, $datos){
+        /*
+        $edificio = $datos['edificio'] ;
+        $domicilio = $datos['domicilio'] ;
+        $idModalidadProp = $datos['idModalidadProp'] ;
+        $idEstadoProc = $datos['idEstadoProc'] ;
+        $superficie = $datos['superficie'] ;
+        */
+        $datos ['id'] = $idRegistro;
+        //echo var_dump($datos);
+        $stringQuery = "UPDATE registro_inmuebles SET 
+        edificio = :edificio, domicilio = :domicilio, id_modalidad_prop = :idModalidadProp, 
+        id_estado_proc = :idEstadoProc, superficie = :superficie WHERE id = :id ";
+        try {
+            $query=$this->db->conn()->prepare($stringQuery);
+            if( $query->execute ($datos)){
+                return true; 
+            }
+            else{
+                print "Error al actualizar desde el modelo";
+                return true;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return true;
         }
     }
 }

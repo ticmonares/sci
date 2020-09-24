@@ -8,7 +8,6 @@ class Consulta extends Controller{
         //muestra los datos
         $datos = $this->model->getDatos();
         $this->view->datos = $datos;
-        $this->view->mensaje = "";
         $this->view->render('consulta/index');
     }
 
@@ -23,6 +22,7 @@ class Consulta extends Controller{
 
     public function  registrarNuevo(){
         if (isset($_POST['region'])){
+            $noExpediente = $_POST['noExpediente'];
             $region = $_POST ['region'];
             $distrito = $_POST ['distrito'];
             $municipio = $_POST ['municipio'];
@@ -34,6 +34,7 @@ class Consulta extends Controller{
             //$doc_status = [];
             //$doc_status = $_FILES['doc_status'];
             $datos = [
+                'noExpediente' => $noExpediente,
                 'region' => $region,
                 'distrito' => $distrito,
                 'municipio' => $municipio,
@@ -44,14 +45,24 @@ class Consulta extends Controller{
                 'superficie' => $superficie
             ];
             if ($this->model->insert($datos)){
+                //print "Exito";
+                $tipoMensaje = "succes";
                 $mensaje = " Expediente de inmueble registrado con éxito";
             }else{
-                $mensaje = "Error al registrar expediente del inmueble";
+                $tipoMensaje = "danger";
+                $mensaje = "ERROR: El número de expediente ya se encuentra registrado";
+                //print "Error";
             }
+            $this->view->tipoMensaje = $tipoMensaje;
             $this->view->mensaje = $mensaje;
-            $this->render();
+            //print $mensaje;
+            $this->render('consulta/index');
         }else{
-            $this->view->render('login/index');
+            if(Core::validarSession()){
+                $this->view->render('main/index');
+            }else{
+                $this->view->render('login/index');
+            }
         }
     }
 
@@ -105,19 +116,47 @@ class Consulta extends Controller{
         echo $estadosProcJson;
     }
     public function VerRegistro($param = null){
-        $id_registro = $param[0];
-        $registro = $this->model->getById($id_registro);
+        $idRegistro = $param[0];
+        $registro = $this->model->getById($idRegistro);
+        $modalidades  = $this->model->getModalidades();
+        $estados  = $this->model->getEstadosProc();
         if ($registro){
             //$mensaje = "Exito";
             $this->view->registro = $registro;
-            $this->view->mensaje = "Ver detalles";
+            $this->view->modalidades  = $modalidades;
+            $this->view->estados_proc  = $estados;
+            //$this->view->mensaje = "Ver detalles";
             $this->view->render('consulta/detalle');
         }else{
             //$mensaje = "Error";
         }
         //print $mensaje;
     }
-    //Editar registro?
+    function editarRegistro($param = null){
+        $idRegistro = $param[0];
+        $datos = [];
+        $datos ['edificio'] = $_POST['edificio'] ;
+        $datos ['domicilio'] = $_POST['domicilio'] ;
+        $datos ['idModalidadProp'] = $_POST['modalidad'] ;
+        $datos ['idEstadoProc'] = $_POST['estado_proc'] ;
+        $datos ['superficie'] = $_POST['superficie'] ;
+        $result = $this->model->update($idRegistro, $datos);
+        if ($result){
+            $tipoMensaje = "success";
+            $mensaje = "Expediente  actualizado con éxito";
+        }else{
+            $tipoMensaje = "danger";
+            $mensaje = "Error al actualizar registro";
+        }
+        $this->view->tipoMensaje = $tipoMensaje;
+        $this->view->mensaje = $mensaje;
+        $this->render('consulta/index');
+    }
     
 }
 ?>
+
+
+
+
+

@@ -13,13 +13,14 @@
         <div id="main">
             <h1 class="center">Registros</h1>
         </div>
-        <div class="center">
-            <?php
-            //echo $this->mensaje ;
-            ?>
-        </div>
+        <?php
+        if (isset($this->mensaje)) {
+            //echo $this->mensaje;
+            Core::alert($this->mensaje, $this->tipoMensaje);
+        }
+        ?>
         <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
-        <div class="container">
+        <div class="container ">
             <div class="row ">
                 <form action="#" class="form-inline">
                     <strong>Ver por: </strong>
@@ -59,14 +60,14 @@
                 </form>
             </div>
         </div>
-        <div class="container mt-5">
+        <div class="container mb-5 mt-5">
             <div class="row mt-5">
                 <div class="col mt-5">
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <!-- <th scope="col">#</th> -->
-                                <th scope="col" >Expediente</th>
+                                <th scope="col">Expediente</th>
                                 <th scope="col">Region</th>
                                 <th scope="col">Distrito J.</th>
                                 <th scope="col">Municipio</th>
@@ -108,17 +109,17 @@
                                         echo $registro->nombreMunicipio;
                                         ?>
                                     </td>
-                                    
+
                                     <!-- <td>
                                         <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $registro->doc_status; ?>" target="_blank">
                                             <?php echo $registro->doc_status;  ?>
                                         </a>
                                     </td> -->
-                                    
+
                                     <td>
                                         <a href="<?php echo constant('URL') . 'consulta/VerRegistro/' . $registro->id; ?>">Ver más</a>
                                     </td>
-        
+
                                 </tr>
                             <?php
                             }
@@ -131,6 +132,9 @@
         </div>
     </div>
     <?php require_once 'view/footer.php'; ?>
+                        
+    
+
 </body>
 
 </html>
