@@ -46,7 +46,7 @@ class Consulta extends Controller{
             ];
             if ($this->model->insert($datos)){
                 //print "Exito";
-                $tipoMensaje = "succes";
+                $tipoMensaje = "success";
                 $mensaje = " Expediente de inmueble registrado con éxito";
             }else{
                 $tipoMensaje = "danger";
@@ -120,17 +120,32 @@ class Consulta extends Controller{
         $registro = $this->model->getById($idRegistro);
         $modalidades  = $this->model->getModalidades();
         $estados  = $this->model->getEstadosProc();
+        //echo var_dump($registro);
+        $noExpediente = $registro->no_expediente;
+        $docStatus = $this->verDocumentosStatus($noExpediente);
         if ($registro){
             //$mensaje = "Exito";
             $this->view->registro = $registro;
             $this->view->modalidades  = $modalidades;
             $this->view->estados_proc  = $estados;
+            //echo var_dump($docStatus);
+            $this->view->docStatus = $docStatus;
             //$this->view->mensaje = "Ver detalles";
             $this->view->render('consulta/detalle');
         }else{
             //$mensaje = "Error";
         }
         //print $mensaje;
+    }
+    function verDocumentosStatus($noExpediente){
+        $documentosStatus = $this->model->getDocStatus($noExpediente);
+        if($documentosStatus){
+            return $documentosStatus;
+            //echo "Exito";
+        }else{
+            return false;
+        }
+
     }
     function editarRegistro($param = null){
         $idRegistro = $param[0];
@@ -152,10 +167,43 @@ class Consulta extends Controller{
         $this->view->mensaje = $mensaje;
         $this->render('consulta/index');
     }
+
+    function subirStatus($param=null){
+        $noExpediente = $param[0];
+        $idRegistro = $param[1];
+        $docStatus = [];
+        $docStatus = $_FILES['docStatus'];
+        $tipo = $docStatus['type'];
+        $tamanio = $docStatus['size'];
+      
+        if ( Core::validarPDF($tipo, $tamanio) ){
+            $docResult = $this->model->insertStatusDoc($noExpediente, $docStatus);
+            if($docResult){
+                //echo "Exito";
+               // echo $idRegistro;
+               $mensaje = "Documento guardado con éxito";
+                echo 'consulta/VerRegistro/'.$idRegistro;
+                //$this->view->render('consulta/detalle');
+                header('location: ' . constant('URL').'consulta/VerRegistro/'.$idRegistro);
+            }else{
+                echo "Error al subir archivo";
+            }
+        }else{
+            $tipoMensaje = "danger";
+            $mensaje = "<p>Error en el formato o tamaño del PDF</p>";
+            $mensaje .="<p>puedes 
+            <a href='https://www.ilovepdf.com/es/comprimir_pdf' target='_blank' > comprimir tu archivo aquí </a>
+            <strong> o </strong>
+            <a href='https://www.ilovepdf.com/es/word_a_pdf' target='_blank' > convertir tu archivo aquí </a>
+            </p>";
+            $this->view->tipoMensaje = $tipoMensaje;
+            $this->view->mensaje = $mensaje;
+            $this->render('consulta/index');
+        }
+    }
     
 }
 ?>
-
 
 
 

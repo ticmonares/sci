@@ -1,3 +1,4 @@
+<?php require_once 'modalStatus.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,22 +10,22 @@
 
 <body>
     <?php require_once 'view/header.php'; ?>
-    <div id="main">
-        <h1 class="center">Editar expediente: <?php echo $this->registro->no_expediente; ?> </h1>
-    </div>
-    <div class="center">
-        <?php
-        if(isset($this->mensaje)){
-            echo $this->mensaje;
-        }else{
-            echo "Ver detalles";
-        }
-        ?>
-    </div>
     <div class="container py-5 mb-5">
+        <div id="main">
+            <h1 class="center">Editar expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+        </div>
+        <div class="center">
+            <?php
+            if (isset($this->mensaje)) {
+                echo $this->mensaje;
+            } else {
+                echo "Ver detalles";
+            }
+            ?>
+        </div>
         <div class="row">
             <div class="col-md-10 mx-auto">
-                <form action="<?php echo constant('URL') . 'consulta/editarRegistro/'.$this->registro->id; ?>" method="POST" enctype="multipart/form-data">
+                <form action="<?php echo constant('URL') . 'consulta/editarRegistro/' . $this->registro->id; ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="region">Región</label>
@@ -76,15 +77,15 @@
                                 $this->modalidades;
                                 foreach ($this->modalidades as $modalidad) {
                                     if ($this->registro->id_modalidad_prop == $modalidad->id) {
-                                        ?>
+                                ?>
                                         <option selected value="<?php echo $modalidad->id ?>">
                                             <?php
                                             echo $modalidad->nombre;
                                             ?>
                                         </option>
-                                        <?php
+                                    <?php
                                     } else {
-                                ?>
+                                    ?>
                                         <option value="<?php echo $modalidad->id ?>">
                                             <?php
                                             echo $modalidad->nombre;
@@ -103,15 +104,15 @@
                                 $this->estados_proc;
                                 foreach ($this->estados_proc as $estado_proc) {
                                     if ($this->registro->id_estado_proc == $estado_proc->id) {
-                                        ?>
+                                ?>
                                         <option selected value="<?php echo $estado_proc->id ?>">
                                             <?php
                                             echo $estado_proc->nombre;
                                             ?>
-                                        </>
+                                            </>
                                         <?php
                                     } else {
-                                ?>
+                                        ?>
                                         <option value="<?php echo $estado_proc->id ?>">
                                             <?php
                                             echo $estado_proc->nombre;
@@ -137,6 +138,62 @@
             </div>
         </div>
     </div>
+
+    <div class="container  mb-5 ">
+        <div class="row">
+            <div class="col clearfix mb-4">
+                <h3>Historial de documentos</h3>
+                <!-- Button trigger modal -->
+                <a href="#" class="btn btn-dark bg-red-pj float-left" data-toggle="modal" data-target="#modalStatus" >Agregar Status</a>
+                <a href="#" class="btn btn-dark bg-red-pj float-right ">Agregar Evidencia</a>
+            </div>
+            <div class="col-12">
+
+            </div>
+            <table class="table tabala-documentos">
+                <thead>
+                    <tr>
+                        <th>Status Inmueble</th>
+                        <th>Evidencia de acciones realizadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($this->docStatus) {
+                        foreach ($this->docStatus as $documentoStatus) {
+                    ?>
+                            <tr>
+                                <td>
+                                    <?php
+                                    echo $documentoStatus['fecha'];
+                                    ?>
+                                    <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $documentoStatus['nombre']; ?> " target="_blank">
+                                        <?php
+                                        echo $documentoStatus['nombre'];
+                                        ?>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <tr>
+                            <td>
+                                <?php
+                                echo "No hay registros";
+                                ?>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
     <?php require_once 'view/footer.php'; ?>
 </body>
 <!--<script src="<?php echo constant('URL'); ?>resources/js/inmuebles.js"></script>-->

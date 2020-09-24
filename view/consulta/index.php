@@ -21,7 +21,7 @@
         ?>
         <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
         <div class="container ">
-            <div class="row ">
+            <div class="row mb-5">
                 <form action="#" class="form-inline">
                     <strong>Ver por: </strong>
                     <div class="col-3">
@@ -59,6 +59,34 @@
                     </div>
                 </form>
             </div>
+            <div class="row ">
+                <p>
+                <strong>Buscar por:</strong>    
+                </p>
+                <div class="col-4">
+                    <div class="form-group">
+                        
+                        <input type="text" class="form-control" placeholder="Atributo">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        
+                        <select name="criterio" id="criterio" class="form-control">
+                            <option value="1">No. Expediente</option>
+                            <option value="1">Modalidad</option>
+                            <option value="1">Estado procesal</option>
+                            <option value="1">Status</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <input type="button" value="Buscar" class="btn btn-dark bg-red-pj  " >
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="container mb-5 mt-5">
             <div class="row mt-5">
@@ -132,8 +160,8 @@
         </div>
     </div>
     <?php require_once 'view/footer.php'; ?>
-                        
-    
+
+
 
 </body>
 

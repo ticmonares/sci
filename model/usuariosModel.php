@@ -1,5 +1,4 @@
 <?php
-include_once 'model/classes/Alumno.class.php';
 include_once 'model/classes/Usuario.class.php';
 class UsuariosModel extends Model{
     public function __construct(){

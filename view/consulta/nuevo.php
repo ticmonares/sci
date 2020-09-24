@@ -20,7 +20,7 @@
                 ?>
             </div>
 
-            <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" ">
 
                 <div class="form-group">
                     <label for="noExpediente">Número de expediente</label>

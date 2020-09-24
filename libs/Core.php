@@ -55,8 +55,7 @@ class Core
         return $fechaFormateada;
     }
 
-    public static function alert($mensaje, $tipo = null)
-    {
+    public static function alert($mensaje, $tipo = null){
      
         if ( !($tipo != "success" || $tipo != "danger" || $tipo != "warning" ) ) {
             $tipo = "info";
@@ -70,6 +69,14 @@ class Core
                 ?>
             </div>
         <?php
+    }
+    public static function validarPDF($tipo, $tamanio){
+        if ($tipo == "application/pdf"){
+            if($tamanio < 1000000){
+                return true;
+            }
+        }
+        return false;
     }
 }
 ?>

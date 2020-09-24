@@ -9,7 +9,7 @@ class ConsultaModel extends Model{
     }
     public function getDatos(){
         $datos = [];
-        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles";
+        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles" ;
         try{
             $query = $this->db->conn()->prepare($stringQuery);
             if($query->execute()){
@@ -32,8 +32,22 @@ class ConsultaModel extends Model{
             return null;
         }
     }
-    public function getLastId(){
+    public function getLastRegistroId(){
         $stringQuery = "SELECT id FROM registro_inmuebles ORDER BY id DESC LIMIT 1";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ( $query->execute() ){
+                $row = $query->fetchObject();
+                //var_dump($row);
+                return $row->id;
+            }
+        } catch (PDOException $e) {
+            return null;
+            //print ("Error -> " . $e->getMessage()  );
+        }
+    }
+    public function getLastStatusId(){
+        $stringQuery = "SELECT id FROM doc_status ORDER BY id DESC LIMIT 1";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ( $query->execute() ){
@@ -78,7 +92,7 @@ class ConsultaModel extends Model{
         //Obteniendo datos del PDF de status
         //echo var_dump($doc_status);
         //$nombreArchivo = $doc_status['name'];
-        // $nombreArchivo = $this->getLastId().$id_user.$fecha_generada.$municipio.".pdf";
+        // $nombreArchivo = $this->getLastRegistroId().$id_user.$fecha_generada.$municipio.".pdf";
         // $tipo = $doc_status['type'];
         // $tamanio = $doc_status['size'];
         // $ruta = $doc_status['tmp_name'];
@@ -307,15 +321,12 @@ class ConsultaModel extends Model{
             $query = $this->db->conn()->prepare($stringQuery);
             if ( $query->execute( ['id' => $id_registro] ) ){
                 $row = $query->fetchObject();
-
                 $idDistrito = $row->id_distrito_judicial;
                 $nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
                 $row->{"nombreDistrito"} = $nombreDistrito;
-
                 $idMunicipio = $row->id_municipio;
                 $nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
                 $row->{"nombreMunicipio"} = $nombreMunicipio;
-
                 //echo var_dump($row);
                 return $row;
             }else{
@@ -328,18 +339,23 @@ class ConsultaModel extends Model{
         }
     }
     public function update($idRegistro, $datos){
-        /*
-        $edificio = $datos['edificio'] ;
-        $domicilio = $datos['domicilio'] ;
-        $idModalidadProp = $datos['idModalidadProp'] ;
-        $idEstadoProc = $datos['idEstadoProc'] ;
-        $superficie = $datos['superficie'] ;
-        */
         $datos ['id'] = $idRegistro;
+        //echo var_dump($datos);
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        $idUsuario = $_SESSION['user_id'];
+        $datos['fechaMod'] = $fecha_generada;
+        $datos['idUsuario'] = $idUsuario;
         //echo var_dump($datos);
         $stringQuery = "UPDATE registro_inmuebles SET 
         edificio = :edificio, domicilio = :domicilio, id_modalidad_prop = :idModalidadProp, 
-        id_estado_proc = :idEstadoProc, superficie = :superficie WHERE id = :id ";
+        id_estado_proc = :idEstadoProc, superficie = :superficie,
+        fecha_mod = :fechaMod,
+        id_user_mod = :idUsuario
+        WHERE id = :id ";
         try {
             $query=$this->db->conn()->prepare($stringQuery);
             if( $query->execute ($datos)){
@@ -347,11 +363,81 @@ class ConsultaModel extends Model{
             }
             else{
                 print "Error al actualizar desde el modelo";
-                return true;
+                return false;
             }
         } catch (PDOException $e) {
             print "Error -> " . $e->getMessage();
-            return true;
+            return false;
+        }
+    }
+    public function getDocStatus($noExpediente){
+        $documentos =[];
+        $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_status WHERE  no_expediente = :noExpediente ORDER BY `doc_status`.`id` DESC";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute( ['noExpediente' => $noExpediente] ) ) {
+                while($row = $query->fetch() ){
+                    array_push($documentos, $row);
+                }
+                //echo "Este es el vr".var_dump($datos);
+                return $documentos;
+            }else{
+                print ("Error al consultar documentos");
+               return false;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    public function insertStatusDoc($noExpediente, $docStatus){
+        $id_user = $_SESSION['user_id'];
+        //Damos formato
+        //Obtenemos fecha de registro
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        //echo $fecha_generada;
+        //Obteniendo datos del PDF de status
+       // echo var_dump($docStatus);
+        $nombreArchivo = $docStatus['name'];
+        $nombreArchivo = "Status-".$this->getLastStatusId()."-".$noExpediente."-".$id_user."-".$fecha_generada.".pdf";
+        //$tipo = $docStatus['type'];
+        //$tamanio = $docStatus['size'];
+        $ruta = $docStatus['tmp_name'];
+        $destino = "resources/archivosStatus/".$nombreArchivo;
+
+        if ( $nombreArchivo != ""  ){
+            if(copy($ruta, $destino)){
+                //echo "exito";
+                $docStatus = $nombreArchivo;
+                $stringQuery= "INSERT INTO `doc_status`(`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
+                VALUES (:nombre, :fecha, :id_usuario, :no_expediente)";
+                //echo "El numero de expediente" .  $noExpediente;
+                try {
+                    $query = $this->db->conn()->prepare($stringQuery);
+                    $arrayDatos = [
+                        'nombre'  => $docStatus,
+                        'fecha'  => $fecha_generada ,
+                        'id_usuario'  =>$id_user,
+                        'no_expediente' => $noExpediente
+                    ];
+                    if ($query->execute($arrayDatos) ) {
+                        print "Archivo guardado";
+                        return true;
+                    }else{
+                        print "Error al subir archivo";
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    print "Error -> " . $e->getMessage();
+                    return false;
+                }
+            }else{
+                //echo "el fracaso te hace mejor";
+            }
         }
     }
 }
