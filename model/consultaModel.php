@@ -60,6 +60,20 @@ class ConsultaModel extends Model{
             //print ("Error -> " . $e->getMessage()  );
         }
     }
+    public function getLastAccionId(){
+        $stringQuery = "SELECT id FROM doc_acciones_real ORDER BY id DESC LIMIT 1";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ( $query->execute() ){
+                $row = $query->fetchObject();
+                //var_dump($row);
+                return $row->id;
+            }
+        } catch (PDOException $e) {
+            return null;
+            //print ("Error -> " . $e->getMessage()  );
+        }
+    }
     //Insert
     public function insert($datos){
         $noExpediente = $datos['noExpediente'];
@@ -372,7 +386,27 @@ class ConsultaModel extends Model{
     }
     public function getDocStatus($noExpediente){
         $documentos =[];
-        $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_status WHERE  no_expediente = :noExpediente ORDER BY `doc_status`.`id` DESC";
+        $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_status WHERE  no_expediente = :noExpediente ORDER BY id DESC";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute( ['noExpediente' => $noExpediente] ) ) {
+                while($row = $query->fetch() ){
+                    array_push($documentos, $row);
+                }
+                //echo "Este es el vr".var_dump($datos);
+                return $documentos;
+            }else{
+                print ("Error al consultar documentos");
+               return false;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    public function getDocAcciones($noExpediente){
+        $documentos =[];
+        $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_acciones_real  WHERE  no_expediente = :noExpediente ORDER BY id DESC";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute( ['noExpediente' => $noExpediente] ) ) {
@@ -420,6 +454,57 @@ class ConsultaModel extends Model{
                     $query = $this->db->conn()->prepare($stringQuery);
                     $arrayDatos = [
                         'nombre'  => $docStatus,
+                        'fecha'  => $fecha_generada ,
+                        'id_usuario'  =>$id_user,
+                        'no_expediente' => $noExpediente
+                    ];
+                    if ($query->execute($arrayDatos) ) {
+                        print "Archivo guardado";
+                        return true;
+                    }else{
+                        print "Error al subir archivo";
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    print "Error -> " . $e->getMessage();
+                    return false;
+                }
+            }else{
+                //echo "el fracaso te hace mejor";
+            }
+        }
+    }
+    //Método para insertar documentos de acciones realizads
+    function insertAccionDoc($noExpediente, $documento){
+        $id_user = $_SESSION['user_id'];
+        //Damos formato
+        //Obtenemos fecha de registro
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        //echo $fecha_generada;
+        //Obteniendo datos del PDF de status
+       // echo var_dump($documento);
+        $nombreArchivo = $documento['name'];
+        $nombreArchivo = "Accion-".$this->getLastAccionId()."-".$noExpediente."-".$id_user."-".$fecha_generada.".pdf";
+        //$tipo = $documento['type'];
+        //$tamanio = $documento['size'];
+        $ruta = $documento['tmp_name'];
+        $destino = "resources/archivosAcciones/".$nombreArchivo;
+
+        if ( $nombreArchivo != ""  ){
+            if(copy($ruta, $destino)){
+                //echo "exito";
+                $documento = $nombreArchivo;
+                $stringQuery= "INSERT INTO doc_acciones_real (`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
+                VALUES (:nombre, :fecha, :id_usuario, :no_expediente)";
+                //echo "El numero de expediente" .  $noExpediente;
+                try {
+                    $query = $this->db->conn()->prepare($stringQuery);
+                    $arrayDatos = [
+                        'nombre'  => $documento,
                         'fecha'  => $fecha_generada ,
                         'id_usuario'  =>$id_user,
                         'no_expediente' => $noExpediente

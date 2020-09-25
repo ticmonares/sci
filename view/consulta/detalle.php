@@ -1,4 +1,5 @@
 <?php require_once 'modalStatus.php'; ?>
+<?php require_once 'modalAcciones.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -144,54 +145,94 @@
             <div class="col clearfix mb-4">
                 <h3>Historial de documentos</h3>
                 <!-- Button trigger modal -->
-                <a href="#" class="btn btn-dark bg-red-pj float-left" data-toggle="modal" data-target="#modalStatus" >Agregar Status</a>
-                <a href="#" class="btn btn-dark bg-red-pj float-right ">Agregar Evidencia</a>
+                <a href="#" class="btn btn-dark bg-red-pj float-left" data-toggle="modal" data-target="#modalStatus">Agregar Status</a>
+                <a href="#" class="btn btn-dark bg-red-pj float-right" data-toggle="modal" data-target="#modalAcciones">Agregar Evidencia</a>
             </div>
-            <div class="col-12">
-
-            </div>
-            <table class="table tabala-documentos">
-                <thead>
-                    <tr>
-                        <th>Status Inmueble</th>
-                        <th>Evidencia de acciones realizadas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($this->docStatus) {
-                        foreach ($this->docStatus as $documentoStatus) {
-                    ?>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <table class="table tabala-documentos">
+                    <thead>
+                        <tr>
+                            <th>Status Inmueble</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($this->docStatus) {
+                            foreach ($this->docStatus as $documentoStatus) {
+                        ?>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        echo $documentoStatus['fecha'];
+                                        ?>
+                                        <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $documentoStatus['nombre']; ?> " target="_blank">
+                                            <?php
+                                            echo $documentoStatus['nombre'];
+                                            ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            ?>
                             <tr>
                                 <td>
                                     <?php
-                                    echo $documentoStatus['fecha'];
+                                    echo "No hay registros";
                                     ?>
-                                    <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $documentoStatus['nombre']; ?> " target="_blank">
-                                        <?php
-                                        echo $documentoStatus['nombre'];
-                                        ?>
-                                    </a>
                                 </td>
                             </tr>
                         <?php
                         }
-                    } else {
                         ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <table class="table tabala-documentos">
+                    <thead>
                         <tr>
-                            <td>
-                                <?php
-                                echo "No hay registros";
-                                ?>
-                            </td>
+                            <th>Acciones realizadas</th>
                         </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($this->docAcciones) {
+                            foreach ($this->docAcciones as $documentoAcciones) {
+                        ?>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        echo $documentoAcciones['fecha'];
+                                        ?>
+                                        <a href="<?php echo constant('URL') . 'resources/archivosAcciones/' . $documentoAcciones['nombre']; ?> " target="_blank">
+                                            <?php
+                                            echo $documentoAcciones['nombre'];
+                                            ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php
+                                    echo "No hay registros";
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 
     <?php require_once 'view/footer.php'; ?>

@@ -92,7 +92,6 @@ class Consulta extends Controller{
         $municipiosJSON = json_encode($municipios);
         echo $municipiosJSON;
     }
-
     function getModalidades(){
         $modalidades = $this->model->getModalidades();
         if($modalidades){
@@ -104,7 +103,6 @@ class Consulta extends Controller{
         $modalidadesJSON = json_encode($modalidades);
         echo $modalidadesJSON;
     }
-
     function getEstadosProc(){
         $estadosProc = $this->model->getEstadosProc();
         if ($estadosProc){
@@ -115,28 +113,6 @@ class Consulta extends Controller{
         $estadosProcJson = json_encode($estadosProc);
         echo $estadosProcJson;
     }
-    public function VerRegistro($param = null){
-        $idRegistro = $param[0];
-        $registro = $this->model->getById($idRegistro);
-        $modalidades  = $this->model->getModalidades();
-        $estados  = $this->model->getEstadosProc();
-        //echo var_dump($registro);
-        $noExpediente = $registro->no_expediente;
-        $docStatus = $this->verDocumentosStatus($noExpediente);
-        if ($registro){
-            //$mensaje = "Exito";
-            $this->view->registro = $registro;
-            $this->view->modalidades  = $modalidades;
-            $this->view->estados_proc  = $estados;
-            //echo var_dump($docStatus);
-            $this->view->docStatus = $docStatus;
-            //$this->view->mensaje = "Ver detalles";
-            $this->view->render('consulta/detalle');
-        }else{
-            //$mensaje = "Error";
-        }
-        //print $mensaje;
-    }
     function verDocumentosStatus($noExpediente){
         $documentosStatus = $this->model->getDocStatus($noExpediente);
         if($documentosStatus){
@@ -145,7 +121,39 @@ class Consulta extends Controller{
         }else{
             return false;
         }
-
+    }
+    function verDocumentosAcciones($noExpediente){
+        $documentosAcciones = $this->model->getDocAcciones($noExpediente);
+        if($documentosAcciones){
+            return $documentosAcciones;
+            //echo "Exito";
+        }else{
+            return false;
+        }
+    }
+    public function VerRegistro($param = null){
+        $idRegistro = $param[0];
+        $registro = $this->model->getById($idRegistro);
+        $modalidades  = $this->model->getModalidades();
+        $estados  = $this->model->getEstadosProc();
+        //echo var_dump($registro);
+        $noExpediente = $registro->no_expediente;
+        $docStatus = $this->verDocumentosStatus($noExpediente);
+        $docAcciones = $this->verDocumentosAcciones($noExpediente);
+        if ($registro){
+            //$mensaje = "Exito";
+            $this->view->registro = $registro;
+            $this->view->modalidades  = $modalidades;
+            $this->view->estados_proc  = $estados;
+            //echo var_dump($docStatus);
+            $this->view->docStatus = $docStatus;
+            $this->view->docAcciones = $docAcciones;
+            //$this->view->mensaje = "Ver detalles";
+            $this->view->render('consulta/detalle');
+        }else{
+            //$mensaje = "Error";
+        }
+        //print $mensaje;
     }
     function editarRegistro($param = null){
         $idRegistro = $param[0];
@@ -168,25 +176,34 @@ class Consulta extends Controller{
         $this->render('consulta/index');
     }
 
-    function subirStatus($param=null){
-        $noExpediente = $param[0];
-        $idRegistro = $param[1];
-        $docStatus = [];
-        $docStatus = $_FILES['docStatus'];
-        $tipo = $docStatus['type'];
-        $tamanio = $docStatus['size'];
-      
+    function subirDocumento($param = null){
+        //TipoDocumento 0->Status |  1->Acciones
+        $tipoDocumento = $param[0];
+        $noExpediente = $param[1];
+        $idRegistro = $param[2];
+        $documento = [];
+        $documento = $_FILES['documento'];
+        $tipo = $documento['type'];
+        $tamanio = $documento['size'];
+
         if ( Core::validarPDF($tipo, $tamanio) ){
-            $docResult = $this->model->insertStatusDoc($noExpediente, $docStatus);
+            if($tipoDocumento == 0 ){
+                $docResult = $this->model->insertStatusDoc($noExpediente, $documento);
+            }
+            if ($tipoDocumento == 1){
+                $docResult = $this->model->insertAccionDoc($noExpediente, $documento);
+            }
             if($docResult){
-                //echo "Exito";
+               //echo "Exito";
                // echo $idRegistro;
                $mensaje = "Documento guardado con éxito";
                 echo 'consulta/VerRegistro/'.$idRegistro;
                 //$this->view->render('consulta/detalle');
                 header('location: ' . constant('URL').'consulta/VerRegistro/'.$idRegistro);
             }else{
-                echo "Error al subir archivo";
+                //echo "Error al subir archivo";
+                $tipoMensaje = "danger";
+                $mensaje = "<p> Error al subir archivo </p>";
             }
         }else{
             $tipoMensaje = "danger";
@@ -203,8 +220,3 @@ class Consulta extends Controller{
     }
     
 }
-?>
-
-
-
-
