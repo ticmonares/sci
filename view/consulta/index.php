@@ -160,9 +160,6 @@
         </div>
     </div>
     <?php require_once 'view/footer.php'; ?>
-
-
-
 </body>
-
+<script src="<?php echo constant('URL'); ?>resources/js/tabla-inmuebles.js"></script>
 </html>

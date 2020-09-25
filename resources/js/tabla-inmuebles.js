@@ -1,27 +1,29 @@
+$selectRegion = document.querySelector("#region");
+$selectRegion.addEventListener("change", function(){
+    cargarDistritos();
+});
+$selectDistrito = document.querySelector("#distrito");
+$selectDistrito.addEventListener("change", function(){
+    cargarMunicipios();
+} );
 var result = "";
 window.onload = function () {
     alCargar();
 };
-
 function alCargar() {
     cargarDistritos();
     cargarMunicipios();
-    cargarSelectModalidad();
-    cargarSelectEstadoProcesal();
 }
-
 function httpRequest(url, callback) {
     const http = new XMLHttpRequest();
     http.open("GET", url);
     http.send();
-
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             callback.apply(http);
         }
     }
 }
-
 function cargarDistritos(){
     const urlGetDistrito = "http://localhost/sci/consulta/getDistrito/";
     let $selectRegion = document.querySelector("#region");
@@ -36,6 +38,7 @@ function cargarDistritos(){
         document.querySelector("#distrito").innerHTML = result;
         result = "";
     });
+    cargarMunicipios();
 }
 
 function getRegion() {
@@ -45,11 +48,13 @@ function getRegion() {
     return $option;
 }
 
-const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
-const selectMunicipio = document.querySelector("#distrito");
+
 
 function cargarMunicipios() {
-    let opt = getDistrito();
+    const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
+    const selectMunicipio = document.querySelector("#distrito");
+    //let opt = getDistrito();
+    let opt = selectMunicipio.options[selectMunicipio.selectedIndex].value;
     console.log(urlGetMunicipios + opt);
     httpRequest(urlGetMunicipios + opt, function () {
         //console.log(this.responseText);
@@ -69,40 +74,3 @@ function getDistrito() {
     //console.log("Has seleccionado " + $option);
     return $option;
 }
-
-function cargarSelectModalidad() {
-    let urlGetModalidad = "http://localhost/sci/consulta/getModalidades/";
-    preLoadHTTPRequest(urlGetModalidad, '', '#modalidad' );
-}
-
-function cargarSelectEstadoProcesal() {
-    let urlGetEstadoProc = "http://localhost/sci/consulta/getEstadosProc/";
-    preLoadHTTPRequest(urlGetEstadoProc, '', '#estado_proc');
-}
-
-function preLoadHTTPRequest(urlPeticion, param, dOMID) {
-    //console.log(urlPeticion + param);
-    console.log("El dom del dpreload: " + dOMID );
-    httpRequest(urlPeticion + param, function () {
-        //console.log(this.responseText);
-        $datos = JSON.parse(this.responseText);
-        //console.log($datos);
-        //console.log($datos);
-        $datos.forEach(dato => {
-            result = result + '<option value="' + dato.id + '" >' + dato.nombre + '</option>';
-        });
-        document.querySelector(dOMID).innerHTML = result;
-        result = "";
-    });
-}
-//Al cambiar 
-//Actualizamos Distritos
-var $selectRegion = document.querySelector("#region");
-$selectRegion.addEventListener("change", function (){
-    cargarDistritos();
-});
-//Actualizamos Municipios
-var $selectDistrito = document.querySelector("#distrito");
-$selectDistrito.addEventListener("change", function (){
-    cargarMunicipios();
-});
