@@ -86,3 +86,16 @@ footer.div{
 .form-inline .form-control.registro-select{
     width: 20rem;
 }
+#logo-main-index{
+    width: 25rem;
+}
+
+/* .regiones-map{
+    width: 33rem;
+} */
+
+.header-main{
+    font-weight: bold;
+    color: #941822;
+}
+

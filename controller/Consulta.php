@@ -231,5 +231,18 @@ class Consulta extends Controller{
         $resultadosJSON = json_encode($resultados);
         echo $resultadosJSON;
     }
+
+    function toluca(){
+        $this->view->render('consulta/index');
+    }
+    function texcoco(){
+        $this->view->render('consulta/index');
+    }
+    function tlanepantla(){
+        $this->view->render('consulta/index');
+    }
+    function ecatepec(){
+        $this->view->render('consulta/index');
+    }
     
 }

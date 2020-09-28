@@ -28,6 +28,7 @@
                         <div class="form-group">
                             <label for="region">Región</label>
                             <select class="form-control registro-select " name="region" id="region">
+                                <option value="0">ELIJA UNA  REGIÓN</option>
                                 <option value="1">TOLUCA</option>
                                 <option value="2">TEXCOCO</option>
                                 <option value="3">TLANEPANTLA</option>

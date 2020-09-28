@@ -595,4 +595,5 @@ class ConsultaModel extends Model
             return null;
         }
     }
+
 }
