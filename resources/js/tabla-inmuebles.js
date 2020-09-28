@@ -1,6 +1,7 @@
 $selectRegion = document.querySelector("#region");
 $selectRegion.addEventListener("change", function(){
     cargarDistritos();
+    cargarMunicipios();
 });
 $selectDistrito = document.querySelector("#distrito");
 $selectDistrito.addEventListener("change", function(){
@@ -31,14 +32,14 @@ function cargarDistritos(){
     httpRequest(urlGetDistrito + opt, function () {
         //console.log(this.responseText);
         $distritos = JSON.parse(this.responseText);
-        //console.log($distritos);
+        console.log("El distrito->" + $distritos[0].id );
+        cargarMunicipios();
         $distritos.forEach(distrito => {
             result = result + '<option value="' + distrito.id + '" >' + distrito.nombre + '</option>';
         });
         document.querySelector("#distrito").innerHTML = result;
         result = "";
     });
-    cargarMunicipios();
 }
 
 function getRegion() {
@@ -50,27 +51,28 @@ function getRegion() {
 
 
 
-function cargarMunicipios() {
-    const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
-    const selectMunicipio = document.querySelector("#distrito");
+function cargarMunicipios(opt){
+    //const urlGetMunicipios = "http://localhost/sci/consulta/getMunicipios/";
     //let opt = getDistrito();
-    let opt = selectMunicipio.options[selectMunicipio.selectedIndex].value;
-    console.log(urlGetMunicipios + opt);
-    httpRequest(urlGetMunicipios + opt, function () {
-        //console.log(this.responseText);
-        $municipios = JSON.parse(this.responseText);
-        //console.log($municipios);
-        //console.log($municipios);
-        $municipios.forEach(municipio => {
-            result = result + '<option value="' + municipio.id + '" >' + municipio.nombre + '</option>';
-        });
-        document.querySelector("#municipio").innerHTML = result;
-        result = "";
-    });
+    console.log(opt);
+    //let opt = selectMunicipio.options[selectMunicipio.selectedIndex].value;
+    //console.log(urlGetMunicipios + opt);
+    // console.log(opt);
+    // httpRequest(urlGetMunicipios + opt, function () {
+    //     //console.log(this.responseText);
+    //     $municipios = JSON.parse(this.responseText);
+    //     //console.log($municipios);
+    //     //console.log($municipios);
+    //     $municipios.forEach(municipio => {
+    //         result = result + '<option value="' + municipio.id + '" >' + municipio.nombre + '</option>';
+    //     });
+    //     document.querySelector("#municipio").innerHTML = result;
+    //     result = "";
+    // });
 }
 function getDistrito() {
     $select = document.querySelector("#distrito");
     $option = $select.options[$select.selectedIndex].value;
-    //console.log("Has seleccionado " + $option);
+    console.log("Has seleccionado el distrito: " + $option);
     return $option;
 }

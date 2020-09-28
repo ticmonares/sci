@@ -39,10 +39,6 @@
                         <div class="form-group">
                             <label for="distrito">Distrito</label>
                             <select class="form-control" name="distrito" id="distrito">
-                                <option value="1">TOLUCA</option>
-                                <option value="2">TEXCOCO</option>
-                                <option value="3">TLANEPANTLA</option>
-                                <option value="4">ECATEPEC</option>
                             </select>
                         </div>
                     </div>
@@ -50,10 +46,7 @@
                         <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <select class="form-control" name="municipio" id="municipio">
-                                <option value="1">TOLUCA</option>
-                                <option value="2">TEXCOCO</option>
-                                <option value="3">TLANEPANTLA</option>
-                                <option value="4">ECATEPEC</option>
+                                <option value="0">Selecciona una región</option>
                             </select>
                         </div>
                     </div>
