@@ -86,7 +86,7 @@
         <div class="container mb-5 mt-0">
             <div class="row mt-0">
                 <div class="col-12">
-                    <table class="table" id="tabla-registros-inmuebles" >
+                    <table class="table table-responsive " id="tabla-registros-inmuebles" >
                         <thead class="thead-dark">
                             <tr>
                                 <!-- <th scope="col">#</th> -->
@@ -143,7 +143,6 @@
                                     </td>
                                     <td>
                                         <?php
-                                        
                                         echo $registro->edificio;
                                         ?>
                                     </td>
@@ -183,5 +182,6 @@
     </div>
     <?php require_once 'view/footer.php'; ?>
 </body>
+<script src="<?php echo constant('URL'); ?>resources/js/main.js"></script>
 <script src="<?php echo constant('URL'); ?>resources/js/tabla-inmuebles.js"></script>
 </html>

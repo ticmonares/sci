@@ -553,13 +553,13 @@ class ConsultaModel extends Model
         //echo $parametro;
         switch ($criterio) {
             case 'id_region':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_region = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_region = :id_parametro";
             break;
             case 'id_distrito_judicial':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
             break;
             case 'id_municipio':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_municipio = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_municipio = :id_parametro";
             break;
             default:
                 $stringQuery="";
@@ -595,21 +595,4 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    function getModalidadNombre($idModalidad){
-        echo "hola";
-        $stringQuery = "SELECT nombre FROM modalidad_propiedad WHERE id = :idModalidad ";
-        try {
-            $query = $this->db->conn($stringQuery);
-            if ( $query->execute( ['id' => $idModalidad ] ) ){
-                $query->fecthObject();
-                return $query->nombre;
-            }else{
-                return false;
-            }
-        } catch (PDOException $e) {
-            print "Error -> " . $e->getMessage();
-            return false;
-        }
-    }
-
 }

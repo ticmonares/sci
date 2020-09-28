@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    cargarDataTable();
+    //cargarDataTable();
 });
 function cargarDataTable(){
     $("#tabla-registros-inmuebles").DataTable({
@@ -57,6 +57,9 @@ var result = "";
 window.onload = function () {
   alCargar();
   cargarURL();
+  setTimeout(function() {
+    cargarDataTable();
+}, 500);
 };
 
 function alCargar() {
@@ -96,7 +99,7 @@ function cargarDistritos() {
         distrito.nombre +
         "</option>";
     });
-    result = "<option value='0'>ELIJA UN DISTRITO</option>" + result;
+    result = "<option value='0'>SELECCIONE UN DISTRITO</option>" + result;
     document.querySelector("#distrito").innerHTML = result;
     result = "";
   });
@@ -136,7 +139,7 @@ function cargarMunicipios($distrito) {
         municipio.nombre +
         "</option>";
     });
-    result = "<option value='0'>ELIJA UN MUNICIPIO</option>" + result;
+    result = "<option value='0'>SELECCIONE UN MUNICIPIO</option>" + result;
     document.querySelector("#municipio").innerHTML = result;
     result = "";
   });
@@ -176,6 +179,9 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
       result += "  <td> " + dato.nombreRegion + "</td> ";
       result += "  <td> " + dato.nombreDistrito + "</td> ";
       result += "  <td> " + dato.nombreMunicipio + "</td> ";
+      result += "  <td> " + dato.edificio + "</td> ";
+      result += "  <td> " + modalidadToString(dato.id_modalidad_prop) + "</td> ";
+      result += "  <td> " + estadoToString(dato.id_estado_proc) + "</td> ";
       result +=
         '  <td> <a href="http://localhost/sci/consulta/VerRegistro/' +
         dato.id +
@@ -221,5 +227,7 @@ function cargarURL() {
     $selectRegion = document.querySelector("#region");
     $selectRegion.options.item(param).selected = "selected";
     cargarDistritos();
+    //table.destroy();
+    //cargarDataTable();
   }
 }

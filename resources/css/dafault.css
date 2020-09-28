@@ -28,8 +28,6 @@ body{
     width: 100rem;
 }
 
-
-
 .error{
     color: #ee0000;
 }
@@ -102,3 +100,15 @@ footer.div{
 .tbl-heading:hover{
     cursor: pointer;
 }
+.page-item.active .page-link {
+    background-color: #941822;
+    border-color: #dee2e6;
+}
+
+.page-link{ 
+    color:  #2b2b2b;
+}
+.page-link:hover {
+    color: #941822;
+}
+
