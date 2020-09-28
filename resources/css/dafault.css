@@ -82,3 +82,7 @@ footer.div{
     margin: 0 auto 10px;
     display: block;
 }
+
+.form-inline .form-control.registro-select{
+    width: 20rem;
+}

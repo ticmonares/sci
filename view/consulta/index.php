@@ -20,14 +20,14 @@
         }
         ?>
         <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
-        <div class="container ">
+        <div class="container "  >
             <div class="row mb-5">
                 <form action="#" class="form-inline">
                     <strong>Ver por: </strong>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3  ">
                         <div class="form-group">
                             <label for="region">Región</label>
-                            <select class="form-control" name="region" id="region">
+                            <select class="form-control registro-select " name="region" id="region">
                                 <option value="1">TOLUCA</option>
                                 <option value="2">TEXCOCO</option>
                                 <option value="3">TLANEPANTLA</option>
@@ -35,25 +35,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 ">
                         <div class="form-group">
                             <label for="distrito">Distrito</label>
-                            <select class="form-control" name="distrito" id="distrito">
-                                <option value="1">TOLUCA</option>
-                                <option value="2">TEXCOCO</option>
-                                <option value="3">TLANEPANTLA</option>
-                                <option value="4">ECATEPEC</option>
+                            <select class="form-control registro-select " name="distrito" id="distrito">
+                                <option value="0">Elige un distrito</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 ">
                         <div class="form-group">
                             <label for="municipio">Municipio</label>
-                            <select class="form-control" name="municipio" id="municipio">
-                                <option value="1">TOLUCA</option>
-                                <option value="2">TEXCOCO</option>
-                                <option value="3">TLANEPANTLA</option>
-                                <option value="4">ECATEPEC</option>
+                            <select class="form-control registro-select " name="municipio" id="municipio">
+                            <option value="0">Elige un municipio</option>
                             </select>
                         </div>
                     </div>
@@ -88,10 +82,10 @@
             </div>
 
         </div>
-        <div class="container mb-5 mt-5">
-            <div class="row mt-5">
-                <div class="col mt-5">
-                    <table class="table">
+        <div class="container mb-5 mt-0">
+            <div class="row mt-0">
+                <div class="col-12 mt-5">
+                    <table class="table" id="tabla-registros-inmuebles" >
                         <thead class="thead-dark">
                             <tr>
                                 <!-- <th scope="col">#</th> -->
@@ -102,7 +96,7 @@
                                 <th scope="col">Detalles</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody-tabla-registros" >
                             <?php
                             foreach ($this->datos as $registro) {
                             ?>
