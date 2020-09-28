@@ -8,8 +8,8 @@
 </head>
 <body>
     <?php require 'view/header.php'; ?>
-    <div id="main" class="center">
-    <img id="logo" src="<?php echo constant('URL') . "resources/img/logo-pjedomex.png" ?>" alt="Logo Poder Judicual del Estado de México">
+    <div id="main" class="text-center">
+    <img id="logo-main-index" src="<?php echo constant('URL') . "resources/img/logo-pjedomex.png" ?>" alt="Logo Poder Judicual del Estado de México">
         <h1>Ayuda</h1>
         <h2>Puedes comunicarte con nosotros a la extensión <strong>15423</strong> </h2>      
         <h2>Si deseas asistencia virtual</h2>

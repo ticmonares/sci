@@ -218,5 +218,31 @@ class Consulta extends Controller{
             $this->render('consulta/index');
         }
     }
+    function buscarPor($params){
+        $criterio = "id_".$params[0];
+        $param = $params[1];
+        $resultados = $this->model->buscarPor($criterio, $param);
+        if($resultados){
+            $mensaje = "Exito al obtener resultados" ;
+        }else{
+            $mensaje = "Error al obtener resultados" ;
+        }
+        //echo $mensaje;
+        $resultadosJSON = json_encode($resultados);
+        echo $resultadosJSON;
+    }
+
+    function toluca(){
+        $this->view->render('consulta/index');
+    }
+    function texcoco(){
+        $this->view->render('consulta/index');
+    }
+    function tlanepantla(){
+        $this->view->render('consulta/index');
+    }
+    function ecatepec(){
+        $this->view->render('consulta/index');
+    }
     
 }

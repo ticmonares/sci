@@ -20,39 +20,41 @@
         }
         ?>
         <a class="btn btn-dark bg-red-pj" href="<?php echo constant('URL') . 'consulta/nuevoRegistro'; ?>">Nuevo</a>
-        <div class="container ">
-            <div class="row mb-5">
+        <div class="container "  >
+            <div class="row">
                 <form action="#" class="form-inline">
                     <strong>Ver por: </strong>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3  ">
                         <div class="form-group">
                             <label for="region">Región</label>
-                            <select class="form-control" name="region" id="region">
+                            <select class="form-control registro-select " name="region" id="region">
+                                <option value="0">Seleccione una región</option>
                                 <option value="1">TOLUCA</option>
                                 <option value="2">TEXCOCO</option>
-                                <option value="3">TLANEPANTLA</option>
+                                <option value="3">TLALNEPANTLA</option>
                                 <option value="4">ECATEPEC</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 ">
                         <div class="form-group">
                             <label for="distrito">Distrito</label>
-                            <select class="form-control" name="distrito" id="distrito">
+                            <select class="form-control registro-select " name="distrito" id="distrito">
+                                <option value="0">Seleccione un distrito</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 ">
                         <div class="form-group">
                             <label for="municipio">Municipio</label>
-                            <select class="form-control" name="municipio" id="municipio">
-                                <option value="0">Selecciona una región</option>
+                            <select class="form-control registro-select " name="municipio" id="municipio">
+                            <option value="0">Seleccione un municipio</option>
                             </select>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="row ">
+            <!-- <div class="row ">
                 <p>
                 <strong>Buscar por:</strong>    
                 </p>
@@ -78,25 +80,34 @@
                         <input type="button" value="Buscar" class="btn btn-dark bg-red-pj  " >
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
-        <div class="container mb-5 mt-5">
-            <div class="row mt-5">
-                <div class="col mt-5">
-                    <table class="table">
+        <div class="container mb-5 mt-0">
+            <div class="row mt-0">
+                <div class="col-12">
+                    <table class="table" id="tabla-registros-inmuebles" >
                         <thead class="thead-dark">
                             <tr>
                                 <!-- <th scope="col">#</th> -->
-                                <th scope="col">Expediente</th>
-                                <th scope="col">Region</th>
-                                <th scope="col">Distrito J.</th>
-                                <th scope="col">Municipio</th>
-                                <th scope="col">Detalles</th>
+                                <th class="tbl-heading" scope="col">No. Exp</th>
+                                <th class="tbl-heading" scope="col">Región</th>
+                                <th class="tbl-heading" scope="col">Distrito J.</th>
+                                <th class="tbl-heading" scope="col">Municipio</th>
+                                <th class="tbl-heading" scope="col">Edificio</th>
+                                <th class="tbl-heading" scope="col">Modalidad</th>
+                                <th class="tbl-heading" scope="col">Estado Procesal</th>
+                                <th class="tbl-heading" scope="col">Ver</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody-tabla-registros" >
                             <?php
+                            //
+                            require_once 'model/classes/ModalidadPropiedad.class.php';
+                            $modalidad = new ModalidadPropiedad();
+                            require_once 'model/classes/EstadoProcesal.class.php';
+                            $estado = new EstadoProcesal();
+                            //
                             foreach ($this->datos as $registro) {
                             ?>
                                 <tr>
@@ -130,6 +141,24 @@
                                         echo $registro->nombreMunicipio;
                                         ?>
                                     </td>
+                                    <td>
+                                        <?php
+                                        
+                                        echo $registro->edificio;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        //echo $registro->id_modalidad_prop;
+                                        echo $modalidad->toString($registro->id_modalidad_prop);
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        //echo $registro->id_estado_proc;
+                                        echo $estado->toString($registro->id_estado_proc);
+                                        ?>
+                                    </td>
 
                                     <!-- <td>
                                         <a href="<?php echo constant('URL') . 'resources/archivosStatus/' . $registro->doc_status; ?>" target="_blank">
@@ -138,7 +167,7 @@
                                     </td> -->
 
                                     <td>
-                                        <a href="<?php echo constant('URL') . 'consulta/VerRegistro/' . $registro->id; ?>">Ver más</a>
+                                        <a href="<?php echo constant('URL') . 'consulta/VerRegistro/' . $registro->id; ?>">más</a>
                                     </td>
 
                                 </tr>

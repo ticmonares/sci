@@ -1,4 +1,7 @@
 
+$(document).ready(function() {
+    $('#tbl-usuarios').DataTable();
+} );
 const urlTabla = "http://localhost/sci/usuarios/borrarUsuario/"
 //Definimos una constante con una colección de los botones que tengan la clase btnEliminar
 const botones = document.querySelectorAll(".btnEliminar");
@@ -10,7 +13,7 @@ botones.forEach(boton => {
         const id = this.dataset.id;
         const no_empleado = this.dataset.matricula;
         //Creamos un confirm en una constante para evaluar si  realmente se desea eliminar al alumno
-        const confirm = window.confirm("¿Deseas eliminar al usuario: " + no_empleado  +"?");
+        const confirm = window.confirm("¿Deseas deshabilitar al usuario: " + no_empleado  +"?");
         if(confirm){
             //Solicitud AJAX
             httpRequest(urlTabla+id, function(){
@@ -22,7 +25,6 @@ botones.forEach(boton => {
                 const tbody = document.querySelector("#tbody-usuarios");
                 const row = document.querySelector("#fila-id-"+id);
                 tbody.removeChild(row);
-
             });
         }
     });
@@ -32,7 +34,6 @@ function httpRequest(url, callback){
     const http = new XMLHttpRequest();
     http.open("GET", url);
     http.send();
-
     http.onreadystatechange = function(){
         if ( this.readyState == 4 && this.status == 200 ){
             callback.apply(http);

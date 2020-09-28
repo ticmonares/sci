@@ -3,17 +3,20 @@ require_once 'model/classes/Region.class.php';
 require_once 'model/classes/Distrito.class.php';
 require_once 'model/classes/Municipio.class.php';
 
-class ConsultaModel extends Model{
-    function __construct(){
+class ConsultaModel extends Model
+{
+    function __construct()
+    {
         parent::__construct();
     }
-    public function getDatos(){
+    public function getDatos()
+    {
         $datos = [];
-        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles" ;
-        try{
+        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  FROM registro_inmuebles";
+        try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if($query->execute()){
-                while($row = $query->fetchObject()){
+            if ($query->execute()) {
+                while ($row = $query->fetchObject()) {
                     //getNombreDistrito($idDistrito);
                     $idDistrito = $row->id_distrito_judicial;
                     $row->nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
@@ -23,20 +26,21 @@ class ConsultaModel extends Model{
                     array_push($datos, $row);
                 }
                 return  $datos;
-            }else{  
-                print ("Error al ejecutar consulta");
+            } else {
+                print("Error al ejecutar consulta");
                 return null;
             }
-        }catch(PDOException $e){
-            print ("Error-> "  . $e->getMessage());
+        } catch (PDOException $e) {
+            print("Error-> "  . $e->getMessage());
             return null;
         }
     }
-    public function getLastRegistroId(){
+    public function getLastRegistroId()
+    {
         $stringQuery = "SELECT id FROM registro_inmuebles ORDER BY id DESC LIMIT 1";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute() ){
+            if ($query->execute()) {
                 $row = $query->fetchObject();
                 //var_dump($row);
                 return $row->id;
@@ -46,11 +50,12 @@ class ConsultaModel extends Model{
             //print ("Error -> " . $e->getMessage()  );
         }
     }
-    public function getLastStatusId(){
+    public function getLastStatusId()
+    {
         $stringQuery = "SELECT id FROM doc_status ORDER BY id DESC LIMIT 1";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute() ){
+            if ($query->execute()) {
                 $row = $query->fetchObject();
                 //var_dump($row);
                 return $row->id;
@@ -60,11 +65,12 @@ class ConsultaModel extends Model{
             //print ("Error -> " . $e->getMessage()  );
         }
     }
-    public function getLastAccionId(){
+    public function getLastAccionId()
+    {
         $stringQuery = "SELECT id FROM doc_acciones_real ORDER BY id DESC LIMIT 1";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute() ){
+            if ($query->execute()) {
                 $row = $query->fetchObject();
                 //var_dump($row);
                 return $row->id;
@@ -75,24 +81,25 @@ class ConsultaModel extends Model{
         }
     }
     //Insert
-    public function insert($datos){
+    public function insert($datos)
+    {
         $noExpediente = $datos['noExpediente'];
         //echo $noExpediente . "<br>";
-        $region = $datos ['region'];
+        $region = $datos['region'];
         //echo $region . "<br>";
-        $distrito = $datos ['distrito'];
+        $distrito = $datos['distrito'];
         //echo $distrito . "<br>";
-        $municipio = $datos ['municipio'];
+        $municipio = $datos['municipio'];
         //echo $municipio . "<br>";
-        $edificio = $datos ['edificio'];
+        $edificio = $datos['edificio'];
         //echo $edificio . "<br>";
-        $domicilio = $datos ['domicilio'];
+        $domicilio = $datos['domicilio'];
         //echo $domicilio . "<br>";
-        $modalidad = $datos ['modalidad'];
+        $modalidad = $datos['modalidad'];
         //echo $modalidad . "<br>";
-        $estado = $datos ['estado'];
+        $estado = $datos['estado'];
         //echo $estado . "<br>";
-        $superficie = $datos ['superficie'];
+        $superficie = $datos['superficie'];
         //echo $superficie . "<br>";
         $id_user = $_SESSION['user_id'];
         //Obtenemos fecha de registro
@@ -148,26 +155,26 @@ class ConsultaModel extends Model{
             :id_usuario, 
             :fecha_generada)
          ";
-         $datos = [
-            'id'=> null,
+        $datos = [
+            'id' => null,
             'no_expediente' => $noExpediente,
-            'id_region'=>  $region,
-            'id_distrito_judicial'=> $distrito,
-            'id_municipio'=>  $municipio,
-            'edificio'=>  $edificio,
-            'domicilio'=> $domicilio,
-            'id_modalidad_prop'=> $modalidad,
-            'id_estado_proc'=> $estado,
-            'superficie'=> $superficie,
-            'id_usuario'=> $id_user,
-            'fecha_generada'=>  $fecha_generada
-         ];
+            'id_region' =>  $region,
+            'id_distrito_judicial' => $distrito,
+            'id_municipio' =>  $municipio,
+            'edificio' =>  $edificio,
+            'domicilio' => $domicilio,
+            'id_modalidad_prop' => $modalidad,
+            'id_estado_proc' => $estado,
+            'superficie' => $superficie,
+            'id_usuario' => $id_user,
+            'fecha_generada' =>  $fecha_generada
+        ];
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute($datos) ){
+            if ($query->execute($datos)) {
                 //print("Éxito en el registro");
                 return true;
-            }else{
+            } else {
                 //print("Error en el registro");
                 return false;
             }
@@ -176,56 +183,59 @@ class ConsultaModel extends Model{
         }
     }
     //Cargar datos al formulario
-    public function getDatosForm(){
+    public function getDatosForm()
+    {
         $items = [];
         try {
-            $stringQuery= "SELECT id_region, id_distrito_judicial, id_municipio, id_modalidad_prop, id_estado_proc, id_usuario  ";
+            $stringQuery = "SELECT id_region, id_distrito_judicial, id_municipio, id_modalidad_prop, id_estado_proc, id_usuario  ";
             $query = $this->db->conn()->prepare($stringQuery);
-
         } catch (PDOException $e) {
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
         }
     }
-    public function getNombreDistrito($idDistrito){
+    public function getNombreDistrito($idDistrito)
+    {
         $queryString = "SELECT nombre from  distritos_judiciales WHERE id = :id";
         try {
             $query = $this->db->conn()->prepare($queryString);
-            if ( $query->execute(['id' => $idDistrito ]) ){
+            if ($query->execute(['id' => $idDistrito])) {
                 $distrito = $query->fetchObject();
                 return $distrito;
-            }else{
+            } else {
                 //print "Error al ejecutar consulta";
                 return null;
             }
         } catch (PDOException $e) {
             return null;
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
         }
     }
-    public function getNombreMunicipio($id ){
+    public function getNombreMunicipio($id)
+    {
         $queryString = "SELECT nombre from municipios WHERE id = :id";
         try {
             $query = $this->db->conn()->prepare($queryString);
-            if ( $query->execute(['id' => $id] ) ){
+            if ($query->execute(['id' => $id])) {
                 $distrito = $query->fetchObject();
                 return $distrito;
-            }else{
+            } else {
                 //print "Error al ejecutar consulta";
                 return null;
             }
         } catch (PDOException $e) {
             return null;
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
         }
     }
-    public function getRegiones(){
+    public function getRegiones()
+    {
         $regiones = [];
         try {
             $region = new Region();
-            $stringQuery= " SELECT * FROM regiones ";
+            $stringQuery = " SELECT * FROM regiones ";
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute() ){
-                while($row = $query->fetch()){
+            if ($query->execute()) {
+                while ($row = $query->fetch()) {
                     $region = new Region();
                     $region->id = $row['id'];
                     $region->nombre = $row['nombre'];
@@ -233,23 +243,24 @@ class ConsultaModel extends Model{
                 }
                 return $regiones;
                 //print ("Éxito al consultar regiones");
-            }else{
+            } else {
                 //print ("Error al consultar regiones");
                 return null;
             }
         } catch (PDOException $e) {
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
             return null;
         }
     }
-    public function getDistritos($id_region){
+    public function getDistritos($id_region)
+    {
         $distritos = [];
         $distrito = new Distrito();
         $stringQuery = "SELECT * FROM distritos_judiciales WHERE id_region = :id_region";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ($query->execute( ['id_region' => $id_region] ) ){
-                while($row = $query->fetch()){
+            if ($query->execute(['id_region' => $id_region])) {
+                while ($row = $query->fetch()) {
                     //Crear en cada iteración un nuevo objeto
                     //Importante donde instansiamos el objeto,
                     //SIno se carga el mismo dato
@@ -261,22 +272,23 @@ class ConsultaModel extends Model{
                 }
                 return $distritos;
                 //print ("Éxito al consultar regiones");
-            }else{
+            } else {
                 //print ("Error al consultar regiones");
                 return null;
             }
         } catch (PDOException $e) {
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
             return null;
         }
     }
-    public function getMunicipios($id_distrito_judicial){
+    public function getMunicipios($id_distrito_judicial)
+    {
         $municipios = [];
         $stringQuery = "SELECT * FROM municipios WHERE id_distrito_judicial = :id_distrito_judicial";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if($query->execute(['id_distrito_judicial' => $id_distrito_judicial])){
-                while($row = $query->fetch()){
+            if ($query->execute(['id_distrito_judicial' => $id_distrito_judicial])) {
+                while ($row = $query->fetch()) {
                     $municipio = new Municipio();
                     $municipio->id = $row['id'];
                     $municipio->id_distrito_judicial = $row['id_distrito_judicial'];
@@ -284,26 +296,27 @@ class ConsultaModel extends Model{
                     array_push($municipios, $municipio);
                 }
                 return $municipios;
-            }else{
+            } else {
                 return null;
             }
         } catch (PDOException $e) {
-            print ("Error: " . $e->getMessage());
+            print("Error: " . $e->getMessage());
             return null;
         }
     }
-    public function getModalidades(){
+    public function getModalidades()
+    {
         $modalidades = [];
         $stringQuery = "SELECT * FROM modalidad_propiedad";
-        try{
+        try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ($query->execute()){
-                while ($row = $query->fetchObject() ){
+            if ($query->execute()) {
+                while ($row = $query->fetchObject()) {
                     array_push($modalidades, $row);
                 }
                 //echo $modalidades;
                 return $modalidades;
-            }else{
+            } else {
                 return null;
             }
         } catch (PDOException $e) {
@@ -311,17 +324,18 @@ class ConsultaModel extends Model{
             return null;
         }
     }
-    public function getEstadosProc(){
+    public function getEstadosProc()
+    {
         $estadosProc = [];
         $stringQuery = "SELECT * FROM estado_procesal";
         try {
-            $query= $this->db->conn()->prepare($stringQuery);
-            if( $query->execute() ){
-                while ($row = $query->fetchObject() ) {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute()) {
+                while ($row = $query->fetchObject()) {
                     array_push($estadosProc, $row);
                 }
                 return $estadosProc;
-            }else{
+            } else {
                 return null;
             }
         } catch (PDOexception $e) {
@@ -329,11 +343,12 @@ class ConsultaModel extends Model{
             return null;
         }
     }
-    public function getById($id_registro){
+    public function getById($id_registro)
+    {
         $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ( $query->execute( ['id' => $id_registro] ) ){
+            if ($query->execute(['id' => $id_registro])) {
                 $row = $query->fetchObject();
                 $idDistrito = $row->id_distrito_judicial;
                 $nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
@@ -343,7 +358,7 @@ class ConsultaModel extends Model{
                 $row->{"nombreMunicipio"} = $nombreMunicipio;
                 //echo var_dump($row);
                 return $row;
-            }else{
+            } else {
                 print "Fallo al ejecutar";
                 return null;
             }
@@ -352,8 +367,9 @@ class ConsultaModel extends Model{
             return null;
         }
     }
-    public function update($idRegistro, $datos){
-        $datos ['id'] = $idRegistro;
+    public function update($idRegistro, $datos)
+    {
+        $datos['id'] = $idRegistro;
         //echo var_dump($datos);
         $fecha_generada = getdate();
         $agno = $fecha_generada['year'];
@@ -371,11 +387,10 @@ class ConsultaModel extends Model{
         id_user_mod = :idUsuario
         WHERE id = :id ";
         try {
-            $query=$this->db->conn()->prepare($stringQuery);
-            if( $query->execute ($datos)){
-                return true; 
-            }
-            else{
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute($datos)) {
+                return true;
+            } else {
                 print "Error al actualizar desde el modelo";
                 return false;
             }
@@ -384,47 +399,50 @@ class ConsultaModel extends Model{
             return false;
         }
     }
-    public function getDocStatus($noExpediente){
-        $documentos =[];
+    public function getDocStatus($noExpediente)
+    {
+        $documentos = [];
         $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_status WHERE  no_expediente = :noExpediente ORDER BY id DESC";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ($query->execute( ['noExpediente' => $noExpediente] ) ) {
-                while($row = $query->fetch() ){
+            if ($query->execute(['noExpediente' => $noExpediente])) {
+                while ($row = $query->fetch()) {
                     array_push($documentos, $row);
                 }
                 //echo "Este es el vr".var_dump($datos);
                 return $documentos;
-            }else{
-                print ("Error al consultar documentos");
-               return false;
+            } else {
+                print("Error al consultar documentos");
+                return false;
             }
         } catch (PDOException $e) {
             print "Error -> " . $e->getMessage();
             return false;
         }
     }
-    public function getDocAcciones($noExpediente){
-        $documentos =[];
+    public function getDocAcciones($noExpediente)
+    {
+        $documentos = [];
         $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_acciones_real  WHERE  no_expediente = :noExpediente ORDER BY id DESC";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ($query->execute( ['noExpediente' => $noExpediente] ) ) {
-                while($row = $query->fetch() ){
+            if ($query->execute(['noExpediente' => $noExpediente])) {
+                while ($row = $query->fetch()) {
                     array_push($documentos, $row);
                 }
                 //echo "Este es el vr".var_dump($datos);
                 return $documentos;
-            }else{
-                print ("Error al consultar documentos");
-               return false;
+            } else {
+                print("Error al consultar documentos");
+                return false;
             }
         } catch (PDOException $e) {
             print "Error -> " . $e->getMessage();
             return false;
         }
     }
-    public function insertStatusDoc($noExpediente, $docStatus){
+    public function insertStatusDoc($noExpediente, $docStatus)
+    {
         $id_user = $_SESSION['user_id'];
         //Damos formato
         //Obtenemos fecha de registro
@@ -435,33 +453,33 @@ class ConsultaModel extends Model{
         $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
         //echo $fecha_generada;
         //Obteniendo datos del PDF de status
-       // echo var_dump($docStatus);
+        // echo var_dump($docStatus);
         $nombreArchivo = $docStatus['name'];
-        $nombreArchivo = "Status-".$this->getLastStatusId()."-".$noExpediente."-".$id_user."-".$fecha_generada.".pdf";
+        $nombreArchivo = "Status-" . $this->getLastStatusId() . "-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada . ".pdf";
         //$tipo = $docStatus['type'];
         //$tamanio = $docStatus['size'];
         $ruta = $docStatus['tmp_name'];
-        $destino = "resources/archivosStatus/".$nombreArchivo;
+        $destino = "resources/archivosStatus/" . $nombreArchivo;
 
-        if ( $nombreArchivo != ""  ){
-            if(copy($ruta, $destino)){
+        if ($nombreArchivo != "") {
+            if (copy($ruta, $destino)) {
                 //echo "exito";
                 $docStatus = $nombreArchivo;
-                $stringQuery= "INSERT INTO `doc_status`(`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
+                $stringQuery = "INSERT INTO `doc_status`(`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
                 VALUES (:nombre, :fecha, :id_usuario, :no_expediente)";
                 //echo "El numero de expediente" .  $noExpediente;
                 try {
                     $query = $this->db->conn()->prepare($stringQuery);
                     $arrayDatos = [
                         'nombre'  => $docStatus,
-                        'fecha'  => $fecha_generada ,
-                        'id_usuario'  =>$id_user,
+                        'fecha'  => $fecha_generada,
+                        'id_usuario'  => $id_user,
                         'no_expediente' => $noExpediente
                     ];
-                    if ($query->execute($arrayDatos) ) {
+                    if ($query->execute($arrayDatos)) {
                         print "Archivo guardado";
                         return true;
-                    }else{
+                    } else {
                         print "Error al subir archivo";
                         return false;
                     }
@@ -469,13 +487,14 @@ class ConsultaModel extends Model{
                     print "Error -> " . $e->getMessage();
                     return false;
                 }
-            }else{
+            } else {
                 //echo "el fracaso te hace mejor";
             }
         }
     }
     //Método para insertar documentos de acciones realizads
-    function insertAccionDoc($noExpediente, $documento){
+    function insertAccionDoc($noExpediente, $documento)
+    {
         $id_user = $_SESSION['user_id'];
         //Damos formato
         //Obtenemos fecha de registro
@@ -486,33 +505,33 @@ class ConsultaModel extends Model{
         $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
         //echo $fecha_generada;
         //Obteniendo datos del PDF de status
-       // echo var_dump($documento);
+        // echo var_dump($documento);
         $nombreArchivo = $documento['name'];
-        $nombreArchivo = "Accion-".$this->getLastAccionId()."-".$noExpediente."-".$id_user."-".$fecha_generada.".pdf";
+        $nombreArchivo = "Accion-" . $this->getLastAccionId() . "-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada . ".pdf";
         //$tipo = $documento['type'];
         //$tamanio = $documento['size'];
         $ruta = $documento['tmp_name'];
-        $destino = "resources/archivosAcciones/".$nombreArchivo;
+        $destino = "resources/archivosAcciones/" . $nombreArchivo;
 
-        if ( $nombreArchivo != ""  ){
-            if(copy($ruta, $destino)){
+        if ($nombreArchivo != "") {
+            if (copy($ruta, $destino)) {
                 //echo "exito";
                 $documento = $nombreArchivo;
-                $stringQuery= "INSERT INTO doc_acciones_real (`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
+                $stringQuery = "INSERT INTO doc_acciones_real (`nombre`, `fecha`, `id_usuario`, `no_expediente`) 
                 VALUES (:nombre, :fecha, :id_usuario, :no_expediente)";
                 //echo "El numero de expediente" .  $noExpediente;
                 try {
                     $query = $this->db->conn()->prepare($stringQuery);
                     $arrayDatos = [
                         'nombre'  => $documento,
-                        'fecha'  => $fecha_generada ,
-                        'id_usuario'  =>$id_user,
+                        'fecha'  => $fecha_generada,
+                        'id_usuario'  => $id_user,
                         'no_expediente' => $noExpediente
                     ];
-                    if ($query->execute($arrayDatos) ) {
+                    if ($query->execute($arrayDatos)) {
                         print "Archivo guardado";
                         return true;
-                    }else{
+                    } else {
                         print "Error al subir archivo";
                         return false;
                     }
@@ -520,9 +539,77 @@ class ConsultaModel extends Model{
                     print "Error -> " . $e->getMessage();
                     return false;
                 }
-            }else{
+            } else {
                 //echo "el fracaso te hace mejor";
             }
         }
     }
+    function buscarPor($criterio, $parametro)
+    {
+        //echo $criterio;
+        //echo $parametro;
+        //echo "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles WHERE $criterio = $parametro";
+        //echo "<br>";
+        //echo $parametro;
+        switch ($criterio) {
+            case 'id_region':
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_region = :id_parametro";
+            break;
+            case 'id_distrito_judicial':
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
+            break;
+            case 'id_municipio':
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio FROM registro_inmuebles WHERE id_municipio = :id_parametro";
+            break;
+            default:
+                $stringQuery="";
+                break;
+        }
+        $datos = [];
+        try {
+            //echo $stringQuery;
+            $query = $this->db->conn()->prepare($stringQuery);
+            $params = ['id_parametro' => $parametro];
+            //echo $params ['id_parametro'];
+            if ($query->execute($params)) {
+                while ($row = $query->fetchObject()) {
+                    //echo"entra aca";
+                    //getNombreDistrito($idDistrito);
+                    $region = new Region();
+                    $idRegion = $row->id_region;
+                    $row->nombreRegion = $region->traduceRegion($idRegion);
+                    //echo $region->traduceRegion($idRegion);
+                    $idDistrito = $row->id_distrito_judicial;
+                    $row->nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
+                    $idMunicipio = $row->id_municipio;
+                    $row->nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
+                    array_push($datos, $row);
+                }
+                return  $datos;
+            } else {
+                print("Error al ejecutar consulta");
+                return null;
+            }
+        } catch (PDOException $e) {
+            print("Error-> "  . $e->getMessage());
+            return null;
+        }
+    }
+    function getModalidadNombre($idModalidad){
+        echo "hola";
+        $stringQuery = "SELECT nombre FROM modalidad_propiedad WHERE id = :idModalidad ";
+        try {
+            $query = $this->db->conn($stringQuery);
+            if ( $query->execute( ['id' => $idModalidad ] ) ){
+                $query->fecthObject();
+                return $query->nombre;
+            }else{
+                return false;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+
 }

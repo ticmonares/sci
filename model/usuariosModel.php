@@ -79,8 +79,8 @@ class UsuariosModel extends Model{
         }
     }
 
-    public function delete($idUsuario){
-        $query = $this->db->conn()->prepare("DELETE FROM usuarios WHERE id = :id");
+    public function disable($idUsuario){
+        $query = $this->db->conn()->prepare("UPDATE usuarios set status=0 WHERE id = :id");
         try{
             $query->execute(['id' => $idUsuario]);
             return true;

@@ -19,6 +19,7 @@ body{
 }
 .table{
     background: #fff;
+    font-size: .8rem;
 }
 .table tr:nth-child(2n) {
     background: #e3e3e3;
@@ -81,4 +82,23 @@ footer.div{
     height: 200px;
     margin: 0 auto 10px;
     display: block;
+}
+
+.form-inline .form-control.registro-select{
+    width: 20rem;
+}
+#logo-main-index{
+    width: 25rem;
+}
+
+/* .regiones-map{
+    width: 33rem;
+} */
+
+.header-main{
+    font-weight: bold;
+    color: #941822;
+}
+.tbl-heading:hover{
+    cursor: pointer;
 }

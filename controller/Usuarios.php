@@ -60,7 +60,7 @@ class Usuarios extends Controller{
     }
     function borrarUsuario($param = null){
         $idUsuario = $param[0];
-        if($usuario = $this->model->delete($idUsuario)){
+        if($usuario = $this->model->disable($idUsuario)){
             $mensaje  = "Usuario: " . $idUsuario . " eliminado correctamente";
         }else{
             $mensaje = "Error al borrar alumno";
