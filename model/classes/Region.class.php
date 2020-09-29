@@ -13,7 +13,7 @@ class Region{
                 $stringRol = "TEXCOCO";
                 break;
             case 3:
-                $stringRol = "TLANEPANTLA";
+                $stringRol = "TLALNEPANTLA";
                 break;
             case 4:
                 $stringRol = "ECATEPEC";
