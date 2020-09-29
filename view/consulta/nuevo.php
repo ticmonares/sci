@@ -57,11 +57,11 @@
 
                 <div class="form-group">
                     <label for="edificio">Edificio</label>
-                    <input class="form-control" type="text" name="edificio" id="edificio" maxlength="100" required>
+                    <input class="form-control" type="text" name="edificio" id="edificio" maxlength="300" required>
                 </div>
                 <div class="form-group">
                     <label for="domicilio">Domicilio</label>
-                    <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="100" required>
+                    <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="300" required>
                 </div>
                 <div class="form-group">
                     <label for="modalidad">Modalidad de propiedad</label>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-group">
                     <label for="superficie">Superficie en metros cuadrados </label>
-                    <input class="form-control" type="number" name="superficie" id="superficie" maxlength="100" required>
+                    <input class="form-control" type="number" step="any"  name="superficie" id="superficie" required>
                 </div>
                 <!--
                 <div class="form-group">

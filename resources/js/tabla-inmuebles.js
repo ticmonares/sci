@@ -57,9 +57,6 @@ var result = "";
 window.onload = function () {
   alCargar();
   cargarURL();
-  setTimeout(function() {
-    cargarDataTable();
-}, 500);
 };
 
 function alCargar() {
@@ -86,7 +83,11 @@ function cargarDistritos() {
   httpRequest(urlGetDistrito + opt, function () {
     //console.log(this.responseText);
     $distritos = JSON.parse(this.responseText);
-    $distrito = $distritos[0].id;
+    if($distritos[0] === undefined ){
+      $distrito = 0;
+    }else{
+      $distrito = $distritos[0].id;
+    }
     //console.log($distrito);
     cargarMunicipios($distrito);
     //console.log($distritos);
@@ -157,6 +158,11 @@ function buscarPor(criterio, param) {
   let urlGetEstadoProc =
     "http://localhost/sci/consulta/buscarPor/" + criterio + "/" + param;
   preLoadHTTPRequest(urlGetEstadoProc, "", "#tbody-tabla-registros");
+  $("#tabla-registros-inmuebles").DataTable().destroy();
+  setTimeout(function () {
+    cargarDataTable();
+  }, 700);
+  //table = $("#tabla-registros-inmuebles").DataTable();
 }
 
 function preLoadHTTPRequest(urlPeticion, param, dOMID) {
@@ -170,7 +176,15 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
       //console.log("no hay");
       result += "  <tr> ";
       result += '  <td colspan="0"> No se encontraron resultados</td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
       result += "  </tr> ";
+      //destruimos la tabla
     }
     //console.log($datos);
     $datos.forEach((dato) => {
@@ -229,5 +243,9 @@ function cargarURL() {
     cargarDistritos();
     //table.destroy();
     //cargarDataTable();
+  }else{
+    setTimeout(function() {
+      cargarDataTable();
+  }, 700);
   }
 }

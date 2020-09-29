@@ -551,6 +551,10 @@ class ConsultaModel extends Model
         //echo "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio  FROM registro_inmuebles WHERE $criterio = $parametro";
         //echo "<br>";
         //echo $parametro;
+        $datos = [];
+        if ($parametro == 0){
+            $criterio = "all";
+        }
         switch ($criterio) {
             case 'id_region':
                 $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_region = :id_parametro";
@@ -561,15 +565,19 @@ class ConsultaModel extends Model
             case 'id_municipio':
                 $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_municipio = :id_parametro";
             break;
+            case 'all':
+                $stringQuery="SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles";
+            break;
             default:
                 $stringQuery="";
-                break;
+            break;
         }
         $datos = [];
         try {
             //echo $stringQuery;
             $query = $this->db->conn()->prepare($stringQuery);
-            $params = ['id_parametro' => $parametro];
+            $params=[];
+            $criterio == "all" ? : $params = ['id_parametro' => $parametro];
             //echo $params ['id_parametro'];
             if ($query->execute($params)) {
                 while ($row = $query->fetchObject()) {

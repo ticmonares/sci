@@ -221,6 +221,7 @@ class Consulta extends Controller{
     function buscarPor($params){
         $criterio = "id_".$params[0];
         $param = $params[1];
+        //echo $param;
         $resultados = $this->model->buscarPor($criterio, $param);
         if($resultados){
             $mensaje = "Exito al obtener resultados" ;

@@ -63,11 +63,11 @@
                     </div>
                     <div class="form-group">
                         <label for="edificio">Edificio</label>
-                        <input class="form-control" type="text" name="edificio" id="edificio" maxlength="100" value="<?php echo $this->registro->edificio; ?>" required>
+                        <input class="form-control" type="text" name="edificio" id="edificio" maxlength="300" value="<?php echo $this->registro->edificio; ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="domicilio">Domicilio</label>
-                        <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="100" value="<?php echo $this->registro->domicilio; ?>" required>
+                        <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="300" value="<?php echo $this->registro->domicilio; ?>" required>
                     </div>
 
                     <div class="form-group row">
@@ -128,13 +128,13 @@
                     </div>
                     <div class="form-group">
                         <label for="superficie">Superficie</label>
-                        <input class="form-control" type="text" name="superficie" id="superficie" maxlength="100" value="<?php echo $this->registro->superficie; ?>" required>
+                        <input class="form-control" type="text" step="any"  name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
                     </div>
                     <!-- <div class="form-group">
                                 <label for="doc_status">Documentación que ampara status del inmueble</label>
                                 <input class="form-control" type="file" name="doc_status" id="doc_status" required>
                             </div> -->
-                    <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
+                    <input class="btn btn-dark bg-red-pj" type="submit"  value="Editar">
                 </form>
             </div>
         </div>
