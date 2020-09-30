@@ -182,6 +182,28 @@ class ConsultaModel extends Model
             //print ("Error -> " . $e->getMessage());
         }
     }
+    //Inertamos contactos
+    function insertContacto($noExpediente, $telefono, $tipoContacto){
+        $stringQuery = "INSERT INTO contactos (no_expediente, telefono, tipo_contacto) VALUES (:noExpediente, :telefono, :tipoContacto) ";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $datos = [
+                'noExpediente' => $noExpediente,
+                'telefono' => $telefono,
+                'tipoContacto' => $tipoContacto
+            ];
+            if($query->execute($datos)){
+                echo "entra";
+                return true;
+            }else{
+                echo "No ejecuta";
+                return false;
+            }
+        } catch (PDOException $e) {
+            print ("Error -> " . $e->getMessage());
+            return false;
+        }
+    }
     //Cargar datos al formulario
     public function getDatosForm()
     {

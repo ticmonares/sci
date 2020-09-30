@@ -29,33 +29,35 @@
                 <input type="number" min="0" class="form-control" name="noExpediente" id="noExpediente" required>
         </div>
 
-        <div class="form-group">
-            <label for="region">Región</label>
-            <select class="form-control" name="region" id="region" class="region" required>
-                <option value="">Elija un opción</option>
-                <?php
-                foreach ($this->regiones as $result) {
-                ?>
-                    <option value="<?php echo $result->id ?>"> <?php echo $result->nombre ?> </option>
-                <?php
-                }
-                ?>
-            </select>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <label for="region">Región</label>
+                <select class="form-control" name="region" id="region" class="region" required>
+                    <option value="">Seleccione un opción</option>
+                    <?php
+                    foreach ($this->regiones as $result) {
+                    ?>
+                        <option value="<?php echo $result->id ?>"> <?php echo $result->nombre ?> </option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="distrito">Distrito Judicial </label>
+                <select class="form-control" name="distrito" id="distrito" class="registro" required>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+
+            <div class="col-sm-4">
+                <label for="municipio">Municipio</label>
+                <select class="form-control" name="municipio" id="municipio" required>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="distrito">Distrito Judicial </label>
-            <select class="form-control" name="distrito" id="distrito" class="registro" required>
-                <option value="">Elija una opción</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="municipio">Municipio</label>
-            <select class="form-control" name="municipio" id="municipio" required>
-                <option value="">Elija una opción</option>
-            </select>
-        </div>
 
         <div class="form-group">
             <label for="edificio">Edificio</label>
@@ -68,18 +70,37 @@
         <div class="form-group">
             <label for="modalidad">Modalidad de propiedad</label>
             <select class="form-control" name="modalidad" id="modalidad" required>
-                <option value="">Elija una opción</option>
+                <option value="">Seleccione una opción</option>
             </select>
         </div>
         <div class="form-group">
             <label for="estado_proc">Estado procesal</label>
             <select class="form-control" name="estado_proc" id="estado_proc" required>
-                <option value="">Elija una opción</option>
+                <option value="">Seleccione una opción</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="superficie">Superficie en metros cuadrados </label>
+            <label for="superficie">Superficie en <strong>metros cuadrados</strong> del <strong> área total </strong> </label>
             <input class="form-control" type="number" step="any" name="superficie" id="superficie" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="10"></textarea>
+        </div>
+        <h4>Contácto telefónico</h4>
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <label for="gobierno-estatal">Gobierno Estatal</label>
+                <input type="number"  class="form-control" name="gobierno-estatal" id="gobierno-estatal">
+            </div>
+            <div class="col-sm-4">
+                <label for="propietario">Propietario / Compra-venta</label>
+                <input type="number"  class="form-control" name="propietario" id="propietario">
+            </div>
+            <div class="col-sm-4">
+                <label for="poder-judicial">Poder Judicial</label>
+                <input type="number"  class="form-control" name="poder-judicial" id="poder-judicial">
+            </div>
         </div>
         <!--
                 <div class="form-group">
