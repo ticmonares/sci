@@ -178,6 +178,16 @@ class Consulta extends Controller
             return false;
         }
     }
+    function verContactos($noExpediente)
+    {
+        $contactos = $this->model->getContactos($noExpediente);
+        if ($contactos) {
+            return $contactos;
+            //echo "Exito";
+        } else {
+            return false;
+        }
+    }
     public function VerRegistro($param = null)
     {
         $idRegistro = $param[0];

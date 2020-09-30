@@ -204,6 +204,26 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    //Obtenemos contactos
+    function getContactos($noExpediente){
+        $datos = [];
+        $stringQuery = "SELECT no_expediente, telefono, tipo_contacto FROM contactos WHERE no_expediente = :noExpediente ";
+        try {
+            $query = $this->db->conn->prepare($stringQuery);
+            if ($query->execute( ['noExpediente' => $noExpediente ] )){
+                while($row = $query->fetchObject()){
+                    array_push($datos, $row);
+                }
+                return $datos;
+            }else{
+                print ("Error al obtener contactos");
+                return null;
+            }
+        } catch (PDOException $e) {
+            print ("Error -> " . $e->getMessage());
+            return null;
+        }
+    }
     //Cargar datos al formulario
     public function getDatosForm()
     {
