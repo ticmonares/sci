@@ -238,6 +238,6 @@
     <?php require_once 'view/footer.php'; ?>
 </body>
 <!--<script src="<?php echo constant('URL'); ?>resources/js/inmuebles.js"></script>-->
-<!-- <script src="<?php echo constant('URL') . 'resources/js/detallesInmuebles.js'; ?>"></script> -->
+<script src="<?php echo constant('URL') . 'resources/js/detallesInmuebles.js'; ?>"></script>
 
 </html>
