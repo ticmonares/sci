@@ -14,7 +14,7 @@ class Consulta extends Controller{
 
     public function nuevoRegistro(){
         //cargar formulario
-        $this->view->mensaje = "";
+        //$this->view->mensaje = "";
         $regiones = $this->model-> getRegiones();
         $this->view->regiones = $regiones;
         $this->view->render('consulta/nuevo');
@@ -47,7 +47,8 @@ class Consulta extends Controller{
             if ($this->model->insert($datos)){
                 //print "Exito";
                 $tipoMensaje = "success";
-                $mensaje = " Expediente de inmueble registrado con éxito";
+                $mensaje = "Expediente de inmueble registrado con éxito";
+                header("location:" . constant('URL') . "consulta/verRegistro/" . $this->model->getLastRegistroId());
             }else{
                 $tipoMensaje = "danger";
                 $mensaje = "ERROR: El número de expediente ya se encuentra registrado";
@@ -56,7 +57,9 @@ class Consulta extends Controller{
             $this->view->tipoMensaje = $tipoMensaje;
             $this->view->mensaje = $mensaje;
             //print $mensaje;
-            $this->render('consulta/index');
+            $regiones = $this->model-> getRegiones();
+            $this->view->regiones = $regiones;
+            $this->view->render('consulta/nuevo');
         }else{
             if(Core::validarSession()){
                 $this->view->render('main/index');

@@ -12,7 +12,7 @@ class ConsultaModel extends Model
     public function getDatos()
     {
         $datos = [];
-        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  FROM registro_inmuebles";
+        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  FROM registro_inmuebles ORDER BY no_expediente ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute()) {
