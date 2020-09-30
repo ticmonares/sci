@@ -1,40 +1,39 @@
-
-function cargarDataTable(){
-    $("#tabla-registros-inmuebles").DataTable({
-        language: {
-          sProcessing: "Procesando...",
-          sLengthMenu: "Mostrar _MENU_ registros",
-          sZeroRecords: "No se encontraron resultados",
-          sEmptyTable: "Ningún dato disponible en esta tabla",
-          sInfo:
-            "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-          // sInfo:
-          //    " ",
-          sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-          sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-          sInfoPostFix: "",
-          sSearch: "Buscar:",
-          sUrl: "",
-          sInfoThousands: ",",
-          sLoadingRecords: "Cargando...",
-          oPaginate: {
-            sFirst: "Primero",
-            sLast: "Último",
-            sNext: "Siguiente",
-            sPrevious: "Anterior",
-          },
-          oAria: {
-            sSortAscending:
-              ": Activar para ordenar la columna de manera ascendente",
-            sSortDescending:
-              ": Activar para ordenar la columna de manera descendente",
-          },
-          buttons: {
-            copy: "Copiar",
-            colvis: "Visibilidad",
-          },
-        },
-      });
+function cargarDataTable() {
+  $("#tabla-registros-inmuebles").DataTable({
+    language: {
+      sProcessing: "Procesando...",
+      sLengthMenu: "Mostrar _MENU_ registros",
+      sZeroRecords: "No se encontraron resultados",
+      sEmptyTable: "Ningún dato disponible en esta tabla",
+      sInfo:
+        "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      // sInfo:
+      //    " ",
+      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sInfoPostFix: "",
+      sSearch: "Buscar:",
+      sUrl: "",
+      sInfoThousands: ",",
+      sLoadingRecords: "Cargando...",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
+      },
+      oAria: {
+        sSortAscending:
+          ": Activar para ordenar la columna de manera ascendente",
+        sSortDescending:
+          ": Activar para ordenar la columna de manera descendente",
+      },
+      buttons: {
+        copy: "Copiar",
+        colvis: "Visibilidad",
+      },
+    },
+  });
 }
 $selectRegion = document.querySelector("#region");
 $selectRegion.addEventListener("change", function () {
@@ -83,9 +82,9 @@ function cargarDistritos() {
   httpRequest(urlGetDistrito + opt, function () {
     //console.log(this.responseText);
     $distritos = JSON.parse(this.responseText);
-    if($distritos[0] === undefined ){
+    if ($distritos[0] === undefined) {
       $distrito = 0;
-    }else{
+    } else {
       $distrito = $distritos[0].id;
     }
     //console.log($distrito);
@@ -106,7 +105,6 @@ function cargarDistritos() {
   });
   //cargarDataTable();
   cargarMunicipios();
-  
 }
 
 function getRegion() {
@@ -157,11 +155,12 @@ function buscarPor(criterio, param) {
   //alert("Buscaremos por "  +  criterio + " con parametro " + param);
   let urlGetEstadoProc =
     "http://localhost/sci/consulta/buscarPor/" + criterio + "/" + param;
-  preLoadHTTPRequest(urlGetEstadoProc, "", "#tbody-tabla-registros");
   $("#tabla-registros-inmuebles").DataTable().destroy();
-  setTimeout(function () {
-    cargarDataTable();
-  }, 1000);
+  preLoadHTTPRequest(urlGetEstadoProc, "", "#tbody-tabla-registros");
+
+  // setTimeout(function () {
+  //   cargarDataTable();
+  // }, 1000);
   //table = $("#tabla-registros-inmuebles").DataTable();
 }
 
@@ -194,7 +193,8 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
       result += "  <td> " + dato.nombreDistrito + "</td> ";
       result += "  <td> " + dato.nombreMunicipio + "</td> ";
       result += "  <td> " + dato.edificio + "</td> ";
-      result += "  <td> " + modalidadToString(dato.id_modalidad_prop) + "</td> ";
+      result +=
+        "  <td> " + modalidadToString(dato.id_modalidad_prop) + "</td> ";
       result += "  <td> " + estadoToString(dato.id_estado_proc) + "</td> ";
       result +=
         '  <td> <a href="http://localhost/sci/consulta/VerRegistro/' +
@@ -203,6 +203,7 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
       result += "  </tr> ";
     });
     document.querySelector(dOMID).innerHTML = result;
+    cargarDataTable();
     result = "";
   });
 }
@@ -243,9 +244,9 @@ function cargarURL() {
     cargarDistritos();
     //table.destroy();
     //cargarDataTable();
-  }else{
-    setTimeout(function() {
-      cargarDataTable();
-  }, 700);
+  } else {
+    // setTimeout(function () {
+    cargarDataTable();
+    // }, 000);
   }
 }
