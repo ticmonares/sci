@@ -38,11 +38,24 @@ class Consulta extends Controller
             $edificio = $_POST['edificio'];
             $domicilio = $_POST['domicilio'];
             $modalidad = $_POST['modalidad'];
-            $estado = $_POST['estado_proc'];
+            if (isset ( $_POST['estado_proc'])){
+                $estado = $_POST['estado_proc'];
+            }else{
+                $estado = 6;
+            }
+            isset($_POST['estado_proc']) ? :
             $superficie = $_POST['superficie'];
-            $contactoGobierno = $_POST['gobierno-estatal'];
-            $contactoPropietario = $_POST['propietario'];
-            $contactoPJ = $_POST['poder-judicial'];
+            //Contáctos
+            $contactoGobierno = $_POST['nombreGob'];
+            $contactoPropietario = $_POST['nombreProp'];
+            $contactoPJ = $_POST['nombrePJ'];
+
+            $telGobierno = $_POST['telGob'];
+            $telPropietario = $_POST['telProp'];
+            $telPJ = $_POST['telPJ'];
+
+
+
             //$doc_status = [];
             //$doc_status = $_FILES['doc_status'];
             $datos = [
@@ -62,7 +75,7 @@ class Consulta extends Controller
                 $mensaje = "Expediente de inmueble registrado con éxito";
                 //Una vez registrado el inmueble, registramos los contactos
                 if (!$contactoGobierno == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoGobierno, 1);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoGobierno, $telGobierno, 1);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto gobierno");
                     } else {
@@ -70,7 +83,7 @@ class Consulta extends Controller
                     }
                 }
                 if (!$contactoPropietario == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoPropietario, 2);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoPropietario, $telPropietario, 2);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto propietario");
                     } else {
@@ -78,7 +91,7 @@ class Consulta extends Controller
                     }
                 }
                 if (!$contactoPJ == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoPJ, 3);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoPJ, $telPJ, 3);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto PJ");
                     } else {
@@ -97,7 +110,6 @@ class Consulta extends Controller
             $regiones = $this->model->getRegiones();
             $this->view->regiones = $regiones;
             $this->view->render('consulta/nuevo');
-
         } else {
             if (Core::validarSession()) {
                 $this->view->render('main/index');
@@ -183,8 +195,9 @@ class Consulta extends Controller
         $contactos = $this->model->getContactos($noExpediente);
         if ($contactos) {
             return $contactos;
-            //echo "Exito";
+            //echo "Exito al consultar contactos";
         } else {
+            //echo "Error al consultar contactos";
             return false;
         }
     }
@@ -207,6 +220,8 @@ class Consulta extends Controller
             $this->view->docStatus = $docStatus;
             $this->view->docAcciones = $docAcciones;
             //$this->view->mensaje = "Ver detalles";
+            //Agregamos los contactos
+            $this->view->contactos = $this->verContactos($noExpediente);
             $this->view->render('consulta/detalle');
         } else {
             //$mensaje = "Error";
@@ -233,6 +248,83 @@ class Consulta extends Controller
         $this->view->tipoMensaje = $tipoMensaje;
         $this->view->mensaje = $mensaje;
         $this->render('consulta/index');
+    }
+
+    function editarContacto($params = null)
+    {
+        $noExpediente = $params[0];
+        $datos = [];
+        $datos['nombre'] = $_POST['nombreGob'];
+        $datos['telefono'] = $_POST['telGob'];
+        if ($this->existeContacto($noExpediente, 1)){
+            print "Se va a actualizar";
+            if($this->model->updateContactos($noExpediente, $datos, 1)){
+                // print "contacto actualizado";
+            }else{
+                // print "falla al actualizar";
+            }
+        }else{
+            // print "No se encontro registro... se va crear";
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 1);
+            if ($newContacto){
+                // print "Contacto agregado desde update";
+            }else{
+                // print "Falla al agregar desde update";
+            }
+        }
+
+        $datos = [];
+        $datos['nombre'] = $_POST['nombreProp'];
+        $datos['telefono'] = $_POST['telProp'];
+
+        if ($this->existeContacto($noExpediente, 2)){
+            print "Se va a actualizar";
+            if($this->model->updateContactos($noExpediente, $datos, 2)){
+                // print "contacto actualizado";
+            }else{
+                // print "falla al actualizar";
+            }
+        }else{
+            // print "No se encontro registro... se va crear";
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 2);
+            if ($newContacto){
+                // print "Contacto agregado desde update";
+            }else{
+                // print "Falla al agregar desde update";
+            }
+        }
+
+        $datos = [];
+        $datos['nombre'] = $_POST['nombrePJ'];
+        $datos['telefono'] = $_POST['telPJ'];
+        if ($this->existeContacto($noExpediente, 3)){
+            print "Se va a actualizar";
+            if($this->model->updateContactos($noExpediente, $datos, 3)){
+                // print "contacto actualizado";
+            }else{
+                // print "falla al actualizar";
+            }
+        }else{
+            // print "No se encontro registro... se va crear";
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 3);
+            if ($newContacto){
+                // print "Contacto agregado desde update";
+            }else{
+                // print "Falla al agregar desde update";
+            }
+        }
+
+        header("location:" . constant('URL') . "consulta/verRegistro/" . $this->model->getLastRegistroId());
+        
+    }
+
+    function existeContacto($noExpediente, $tipoContacto){
+        $rows = $this->model->existeContacto($noExpediente, $tipoContacto);
+        if ($rows > 0 ){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function subirDocumento($param = null)

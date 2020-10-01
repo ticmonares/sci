@@ -183,44 +183,47 @@ class ConsultaModel extends Model
         }
     }
     //Inertamos contactos
-    function insertContacto($noExpediente, $telefono, $tipoContacto){
-        $stringQuery = "INSERT INTO contactos (no_expediente, telefono, tipo_contacto) VALUES (:noExpediente, :telefono, :tipoContacto) ";
+    function insertContacto($noExpediente, $nombre, $telefono, $tipoContacto)
+    {
+        $stringQuery = "INSERT INTO contactos (no_expediente, nombre, telefono, tipo_contacto) VALUES (:noExpediente, :nombre, :telefono, :tipoContacto) ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             $datos = [
                 'noExpediente' => $noExpediente,
+                'nombre' => $nombre,
                 'telefono' => $telefono,
                 'tipoContacto' => $tipoContacto
             ];
-            if($query->execute($datos)){
+            if ($query->execute($datos)) {
                 echo "entra";
                 return true;
-            }else{
+            } else {
                 echo "No ejecuta";
                 return false;
             }
         } catch (PDOException $e) {
-            print ("Error -> " . $e->getMessage());
+            print("Error -> " . $e->getMessage());
             return false;
         }
     }
     //Obtenemos contactos
-    function getContactos($noExpediente){
+    function getContactos($noExpediente)
+    {
         $datos = [];
-        $stringQuery = "SELECT no_expediente, telefono, tipo_contacto FROM contactos WHERE no_expediente = :noExpediente ";
+        $stringQuery = "SELECT nombre, telefono, tipo_contacto FROM contactos WHERE no_expediente = :noExpediente ";
         try {
-            $query = $this->db->conn->prepare($stringQuery);
-            if ($query->execute( ['noExpediente' => $noExpediente ] )){
-                while($row = $query->fetchObject()){
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute(['noExpediente' => $noExpediente])) {
+                while ($row = $query->fetchObject()) {
                     array_push($datos, $row);
                 }
                 return $datos;
-            }else{
-                print ("Error al obtener contactos");
+            } else {
+                print("Error al obtener contactos");
                 return null;
             }
         } catch (PDOException $e) {
-            print ("Error -> " . $e->getMessage());
+            print("Error -> " . $e->getMessage());
             return null;
         }
     }
@@ -441,6 +444,58 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    function updateContactos($noExpediente, $datos, $tipoContacto)
+    {
+        $nombre = $datos['nombre'];
+        $telefono = $datos['telefono'];
+        $stringQuery = 'UPDATE contactos SET nombre = :nombre, telefono = :telefono WHERE no_expediente = :no_expediente AND tipo_contacto = :tipo_contacto';
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'nombre' => $nombre,
+                'telefono' => $telefono,
+                'no_expediente' => $noExpediente,
+                'tipo_contacto' => $tipoContacto
+            ];
+            //print var_dump($data);
+            if ($query->execute($data)) {
+                //print "Exito al actualizar contactos";
+                print $query->rowCount();
+                if ($query->rowCount() != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                //print "Error al actualizar contactos";
+                return false;
+            }
+        } catch (PDOException $e) {
+            //print var_dump($data);
+            //print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    function existeContacto($noExpediente, $tipoContacto)
+    {
+        $stringQuery = "SELECT no_expediente FROM contactos WHERE no_expediente = :no_expediente AND tipo_contacto = :tipo_contacto";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'no_expediente' => $noExpediente,
+                'tipo_contacto' => $tipoContacto
+            ];
+            if ( $query->execute($data) ){
+                return $query->rowCount();
+            }else{
+                return false;
+            }
+        } catch (PDOException $e) {
+            //print var_dump($data);
+            //print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
     public function getDocStatus($noExpediente)
     {
         $documentos = [];
@@ -594,32 +649,32 @@ class ConsultaModel extends Model
         //echo "<br>";
         //echo $parametro;
         $datos = [];
-        if ($parametro == 0){
+        if ($parametro == 0) {
             $criterio = "all";
         }
         switch ($criterio) {
             case 'id_region':
                 $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_region = :id_parametro";
-            break;
+                break;
             case 'id_distrito_judicial':
                 $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
-            break;
+                break;
             case 'id_municipio':
                 $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_municipio = :id_parametro";
-            break;
+                break;
             case 'all':
-                $stringQuery="SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles";
-            break;
+                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles";
+                break;
             default:
-                $stringQuery="";
-            break;
+                $stringQuery = "";
+                break;
         }
         $datos = [];
         try {
             //echo $stringQuery;
             $query = $this->db->conn()->prepare($stringQuery);
-            $params=[];
-            $criterio == "all" ? : $params = ['id_parametro' => $parametro];
+            $params = [];
+            $criterio == "all" ?: $params = ['id_parametro' => $parametro];
             //echo $params ['id_parametro'];
             if ($query->execute($params)) {
                 while ($row = $query->fetchObject()) {

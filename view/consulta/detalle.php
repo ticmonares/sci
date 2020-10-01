@@ -1,5 +1,4 @@
-<?php require_once 'modalStatus.php'; ?>
-<?php require_once 'modalAcciones.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -234,9 +233,82 @@
             </div>
         </div>
     </div>
-
+    <!--Cargamos contactos-->
+    <?php
+    $contactoGob  = "No hay registro";
+    $contactoProp = "No hay registro";
+    $contactoPJ = "No hay registro";
+    $telefonoGob = "";
+    $telefonoProp = "";
+    $telefonoPJ = "";
+    if ( $this->contactos ){
+        // print ("Hay  registros");
+        foreach ($this->contactos as $contacto) {
+            // $contacto->tipo_contacto == 1 ? $contactoGob = $contacto->telefono : "-";
+            // $contacto->tipo_contacto == 2 ? $contactoProp = $contacto->telefono : "-";
+            // $contacto->tipo_contacto == 3 ? $contactoPJ = $contacto->telefono : "-";
+            switch ($contacto->tipo_contacto) {
+                case 1:
+                    $contactoGob = $contacto->nombre;
+                    $telefonoGob = $contacto->telefono;
+                    break;
+                case 2:
+                    $contactoProp = $contacto->nombre;
+                    $telefonoProp = $contacto->telefono;
+                    break;
+                case 3:
+                    $contactoPJ = $contacto->nombre;
+                    $telefonoPJ = $contacto->telefono;
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+    }
+    ?>
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-12">
+                <h4>Contácto</h4>
+            </div>
+            <div class="col-12 col-sm-4 ">
+                <h5>Gobierno Estatal</h5>
+                <p>
+                    <?php echo $contactoGob ?>
+                    <a href="tel: <?php echo $telefonoGob; ?>">
+                    <?php echo $telefonoGob; ?>
+                    </a>
+                </p>
+            </div>
+            <div class="col-12 col-sm-4 ">
+                <h5>Propietario C/V</h5>
+                <p>
+                    <?php echo $contactoProp ?>
+                    <a href="tel: <?php echo $telefonoProp; ?>">
+                        <?php echo $telefonoProp; ?>
+                    </a>
+                </p>
+            </div>
+            <div class="col-12 col-sm-4 ">
+                <h5>Poder Judicial</h5>
+                <p>
+                    <?php echo $contactoPJ ?>
+                    <a href="tel: <?php echo $telefonoPJ; ?>">
+                    <?php echo $telefonoPJ; ?>
+                    </a>
+                </p>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-dark bg-red-pj"  data-toggle="modal" data-target="#modalContacto" >Editar contáctos</button>
+            </div>
+        </div>
+    </div>
     <?php require_once 'view/footer.php'; ?>
 </body>
+<?php require_once 'modalStatus.php'; ?>
+<?php require_once 'modalAcciones.php'; ?>
+<?php require_once 'modalContacto.php'; ?>
 <!--<script src="<?php echo constant('URL'); ?>resources/js/inmuebles.js"></script>-->
 <script src="<?php echo constant('URL') . 'resources/js/detallesInmuebles.js'; ?>"></script>
 

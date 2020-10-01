@@ -90,16 +90,19 @@
         <h4>Contácto telefónico</h4>
         <div class="form-group row">
             <div class="col-sm-4">
-                <label for="gobierno-estatal">Gobierno Estatal</label>
-                <input type="number"  class="form-control" name="gobierno-estatal" id="gobierno-estatal">
+                <label for="nombreGob">Gobierno Estatal</label>
+                <input type="text" class="form-control" name ="nombreGob" placeholder="Nombre de contácto">
+                <input type="number"  class="form-control" name="telGob" id="gobierno-estatal" placeholder="Número" >
             </div>
             <div class="col-sm-4">
-                <label for="propietario">Propietario / Compra-venta</label>
-                <input type="number"  class="form-control" name="propietario" id="propietario">
+                <label for="nombreProp">Propietario C/V</label>
+                <input type="text" class="form-control" name ="nombreProp" placeholder="Nombre de contácto">
+                <input type="number"  class="form-control" name="telProp" id="gobierno-estatal" placeholder="Número" >
             </div>
             <div class="col-sm-4">
-                <label for="poder-judicial">Poder Judicial</label>
-                <input type="number"  class="form-control" name="poder-judicial" id="poder-judicial">
+                <label for="nombrePJ">Poder Judicial</label>
+                <input type="text" class="form-control" name ="nombrePJ" placeholder="Nombre de contácto">
+                <input type="number"  class="form-control" name="telPJ" id="gobierno-estatal" placeholder="Número" >
             </div>
         </div>
         <!--
