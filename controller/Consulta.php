@@ -235,7 +235,11 @@ class Consulta extends Controller
         $datos['edificio'] = $_POST['edificio'];
         $datos['domicilio'] = $_POST['domicilio'];
         $datos['idModalidadProp'] = $_POST['modalidad'];
-        $datos['idEstadoProc'] = $_POST['estado_proc'];
+        if (isset ( $_POST['estado_proc'])){
+            $datos['idEstadoProc']  = $_POST['estado_proc'];
+        }else{
+            $datos['idEstadoProc']  = 6;
+        }
         $datos['superficie'] = $_POST['superficie'];
         $result = $this->model->update($idRegistro, $datos);
         if ($result) {

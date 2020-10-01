@@ -12,5 +12,9 @@ function validarModalidadEscriturada(){
     }else{
         $selectEstadoProc.disabled=false; 
     }
-    console.log( $selectEstadoProc.options[$selectEstadoProc.selectedIndex].value);
+    //console.log( $selectEstadoProc.options[$selectEstadoProc.selectedIndex].value);
 }
+
+window.onload = function () {
+    validarModalidadEscriturada();
+  };
