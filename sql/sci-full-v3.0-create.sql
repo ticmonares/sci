@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-10-2020 a las 18:19:47
+-- Tiempo de generación: 02-10-2020 a las 19:27:02
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -448,23 +448,23 @@ INSERT INTO `registro_inmuebles` (`id`, `no_expediente`, `id_region`, `id_distri
 (81, 81, 1, 16, 105, 'Almacén de San Lorenzo (Bienes Incautados)', 'Calle Hidalgo S/N San Lorenzo Tepaltitlán, Toluca, Estado de México.', 3, 1, '589.65', 6, '2020-10-02', '2020-10-02', 6),
 (82, 82, 1, 16, 105, 'Almacén de Papelería Toluca', 'Calle Plutarco González No. 1005, Barrio de San Bernandino, Toluca, Estado de México.', 3, 1, '502.24', 6, '2020-10-02', '0000-00-00', 0),
 (83, 83, 1, 16, 105, 'Inmueble de Ayapango', 'Calle 16 de Septiembre No. 9, en su intersección con la calle Gabriel Ramos Millán, Ayapango Estado de México.', 1, 1, '75.25', 6, '2020-10-02', '0000-00-00', 0),
-(85, 84, 1, 16, 105, 'Casa del Poder Judicial', 'Lerdo de Tejada poniente No. 265, Colonia Centro, Toluca Estado de México', 3, 1, '1468.32', 6, '2020-10-02', '0000-00-00', 0),
-(87, 85, 1, 16, 105, 'Escuela Judicial, Toluca', 'Calle Josefa Ortiz de Domínguez No. 306 Norte, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '2049.79', 6, '2020-10-02', '0000-00-00', 0),
-(88, 86, 1, 16, 105, 'Archivo General  del Poder Judicial', 'Calle Independencia No. 106, en el poblado de San Pablo Autopan, Municipio de Toluca, Estado de México', 3, 1, '5516.18', 6, '2020-10-02', '0000-00-00', 0),
-(89, 87, 1, 16, 105, 'Anexo a la Escuela Judicial', 'Casa No. 711 de la Avenida Independencia Oriente, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1417.12', 6, '2020-10-02', '0000-00-00', 0),
-(90, 88, 1, 16, 105, 'Edificio Central del Poder Judicial del Estado de México', 'Calle Nicolás Bravo Norte No. 201, Colonia Centro, Toluca, Estado de México.', 5, 1, '3193.75', 6, '2020-10-02', '0000-00-00', 0),
-(91, 89, 1, 16, 105, 'Unidad Deportiva de San Lorenzo Tepaltitlán', 'Calzada San Mateo S/N, San Lorenzo Tepaltitlán, Toluca, Estado de México.', 3, 1, '30967.66', 6, '2020-10-02', '0000-00-00', 0),
-(92, 90, 1, 16, 105, 'Instituto de Investigaciones Judiciales', 'Avenida Independencia No. 709, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1200.00', 6, '2020-10-02', '0000-00-00', 0),
-(93, 91, 1, 16, 105, 'Nuevo Edificio Administrativo “A”', 'Calle Josefa Ortiz de Domínguez No. 207 Norte, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '2578.00', 6, '2020-10-02', '0000-00-00', 0),
-(94, 92, 1, 16, 105, 'Casa del Juzgador en Retiro', 'Avenida Independencia No. 707, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '564.05', 6, '2020-10-02', '0000-00-00', 0),
-(95, 93, 1, 16, 105, 'Edificio del Centro de Convivencia Familiar de Toluca', 'Avenida Independencia No. 705, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '408.65', 6, '2020-10-02', '0000-00-00', 0),
-(96, 94, 1, 16, 105, 'Nuevo Edificio Administrativo “B”', 'Avenida Independencia No. 616 Oriente, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1871.30', 6, '2020-10-02', '0000-00-00', 0),
-(97, 95, 1, 16, 105, '\"Predio de Toluca  Lote C  (TERRENO)\"', 'Calle Dr. Nicolás San Juan, S/N, Ex Hacienda la Magdalena (Barrio San Juan de la Cruz), Santa Cruz Atzcapotzaltongo, Toluca, Estado de México.   ', 1, 1, '15669.79', 6, '2020-10-02', '0000-00-00', 0),
-(98, 96, 1, 16, 105, '\"Predio de Villa Victoria (TERRENO)\"', 'Carretera  - El Oro, Las Peñas, a un costado del Centro de Salud Urbano.', 1, 1, '4000.00', 6, '2020-10-02', '0000-00-00', 0),
-(99, 97, 1, 16, 105, '\"Inmueble de Santiago Tianguistenco  (Terreno)\"', 'Inmueble ubicado en la calle José Miranda N° 506 en Santiago Tianguistenco, Estado de México', 8, 1, '7552.16', 6, '2020-10-02', '0000-00-00', 0),
-(100, 98, 1, 16, 105, '\"Inmueble Nicolás Romero (TERRENO)\"', 'Cerrada Guadalupe Victoria y Andador sin nombre, Colonia Independencia, Nicolás Romero, Estado de México.', 1, 1, '6769.66', 6, '2020-10-02', '0000-00-00', 0),
-(101, 99, 1, 16, 105, 'OFICINAS DE COMUNICACIÓN SOCIAL', 'Calle Leona Vicario número 305, Colonia Santa Clara, Municipio de Toluca, Estado de México.  ', 3, 1, '394.10', 6, '2020-10-02', '0000-00-00', 0),
-(102, 100, 1, 16, 105, 'Casa', 'Calle Leona Vicario número 303, Colonia Santa Clara, Municipio de Toluca, Estado de México.', 3, 1, '971.85', 6, '2020-10-02', '0000-00-00', 0);
+(84, 84, 1, 16, 105, 'Casa del Poder Judicial', 'Lerdo de Tejada poniente No. 265, Colonia Centro, Toluca Estado de México', 3, 1, '1468.32', 6, '2020-10-02', '0000-00-00', 0),
+(85, 85, 1, 16, 105, 'Escuela Judicial, Toluca', 'Calle Josefa Ortiz de Domínguez No. 306 Norte, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '2049.79', 6, '2020-10-02', '0000-00-00', 0),
+(86, 86, 1, 16, 105, 'Archivo General  del Poder Judicial', 'Calle Independencia No. 106, en el poblado de San Pablo Autopan, Municipio de Toluca, Estado de México', 3, 1, '5516.18', 6, '2020-10-02', '0000-00-00', 0),
+(87, 87, 1, 16, 105, 'Anexo a la Escuela Judicial', 'Casa No. 711 de la Avenida Independencia Oriente, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1417.12', 6, '2020-10-02', '0000-00-00', 0),
+(88, 88, 1, 16, 105, 'Edificio Central del Poder Judicial del Estado de México', 'Calle Nicolás Bravo Norte No. 201, Colonia Centro, Toluca, Estado de México.', 5, 1, '3193.75', 6, '2020-10-02', '0000-00-00', 0),
+(89, 89, 1, 16, 105, 'Unidad Deportiva de San Lorenzo Tepaltitlán', 'Calzada San Mateo S/N, San Lorenzo Tepaltitlán, Toluca, Estado de México.', 3, 1, '30967.66', 6, '2020-10-02', '0000-00-00', 0),
+(90, 90, 1, 16, 105, 'Instituto de Investigaciones Judiciales', 'Avenida Independencia No. 709, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1200.00', 6, '2020-10-02', '0000-00-00', 0),
+(91, 91, 1, 16, 105, 'Nuevo Edificio Administrativo “A”', 'Calle Josefa Ortiz de Domínguez No. 207 Norte, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '2578.00', 6, '2020-10-02', '0000-00-00', 0),
+(92, 92, 1, 16, 105, 'Casa del Juzgador en Retiro', 'Avenida Independencia No. 707, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '564.05', 6, '2020-10-02', '0000-00-00', 0),
+(93, 93, 1, 16, 105, 'Edificio del Centro de Convivencia Familiar de Toluca', 'Avenida Independencia No. 705, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '408.65', 6, '2020-10-02', '0000-00-00', 0),
+(94, 94, 1, 16, 105, 'Nuevo Edificio Administrativo “B”', 'Avenida Independencia No. 616 Oriente, Colonia Santa Clara, Toluca, Estado de México.', 3, 1, '1871.30', 6, '2020-10-02', '0000-00-00', 0),
+(95, 95, 1, 16, 105, '\"Predio de Toluca  Lote C  (TERRENO)\"', 'Calle Dr. Nicolás San Juan, S/N, Ex Hacienda la Magdalena (Barrio San Juan de la Cruz), Santa Cruz Atzcapotzaltongo, Toluca, Estado de México.   ', 1, 1, '15669.79', 6, '2020-10-02', '0000-00-00', 0),
+(96, 96, 1, 16, 109, '\"Predio de Villa Victoria (TERRENO)\"', 'Carretera  - El Oro, Las Peñas, a un costado del Centro de Salud Urbano.', 1, 1, '4000.00', 6, '2020-10-02', '0000-00-00', 0),
+(97, 97, 1, 12, 79, '\"Inmueble de Santiago Tianguistenco  (Terreno)\"', 'Inmueble ubicado en la calle José Miranda N° 506 en Santiago Tianguistenco, Estado de México', 8, 1, '7552.16', 6, '2020-10-02', '0000-00-00', 0),
+(98, 98, 3, 15, 104, 'Inmueble Nicolás Romero (TERRENO)', 'Cerrada Guadalupe Victoria y Andador sin nombre, Colonia Independencia, Nicolás Romero, Estado de México.', 1, 1, '6769.66', 6, '2020-10-02', '2020-10-02', 6),
+(99, 99, 1, 16, 105, 'OFICINAS DE COMUNICACIÓN SOCIAL', 'Calle Leona Vicario número 305, Colonia Santa Clara, Municipio de Toluca, Estado de México.  ', 3, 1, '394.10', 6, '2020-10-02', '0000-00-00', 0),
+(100, 100, 1, 16, 105, 'Casa', 'Calle Leona Vicario número 303, Colonia Santa Clara, Municipio de Toluca, Estado de México.', 3, 1, '971.85', 6, '2020-10-02', '0000-00-00', 0);
 
 -- --------------------------------------------------------
 
@@ -638,7 +638,7 @@ ALTER TABLE `regiones`
 -- AUTO_INCREMENT de la tabla `registro_inmuebles`
 --
 ALTER TABLE `registro_inmuebles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
