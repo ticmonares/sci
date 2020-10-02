@@ -131,7 +131,10 @@
 
                     <div class="form-group">
                         <label for="observaciones">Observaciones</label>
-                        <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $this->observacion->observacion;?></textarea>
+                        <?php 
+                        !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;  
+                        ?>
+                        <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion;?></textarea>
                     </div>
 
                     <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
