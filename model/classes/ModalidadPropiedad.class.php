@@ -28,6 +28,9 @@ class ModalidadPropiedad
                         case 7:
                                 $modalidadString = "ARRENDAMIENTO";
                                 break;
+                        case 7:
+                                $modalidadString = "DECOMISADO";
+                                break;
                         default:
                                 $modalidadString = "OTRO";
                                 break;

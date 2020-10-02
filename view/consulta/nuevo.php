@@ -87,22 +87,24 @@
             <label for="observaciones">Observaciones</label>
             <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="10"></textarea>
         </div>
+
         <h4>Contácto telefónico</h4>
+
         <div class="form-group row">
             <div class="col-sm-4">
                 <label for="nombreGob">Gobierno Estatal</label>
-                <input type="text" class="form-control" name ="nombreGob" placeholder="Nombre de contácto">
-                <input type="number"  class="form-control" name="telGob" id="gobierno-estatal" placeholder="Número" >
+                <input type="text" class="form-control" name="nombreGob" placeholder="Nombre de contácto">
+                <input type="number" class="form-control" name="telGob" id="gobierno-estatal" placeholder="Número">
             </div>
             <div class="col-sm-4">
                 <label for="nombreProp">Propietario C/V</label>
-                <input type="text" class="form-control" name ="nombreProp" placeholder="Nombre de contácto">
-                <input type="number"  class="form-control" name="telProp" id="gobierno-estatal" placeholder="Número" >
+                <input type="text" class="form-control" name="nombreProp" placeholder="Nombre de contácto">
+                <input type="number" class="form-control" name="telProp" id="gobierno-estatal" placeholder="Número">
             </div>
             <div class="col-sm-4">
                 <label for="nombrePJ">Poder Judicial</label>
-                <input type="text" class="form-control" name ="nombrePJ" placeholder="Nombre de contácto">
-                <input type="number"  class="form-control" name="telPJ" id="gobierno-estatal" placeholder="Número" >
+                <input type="text" class="form-control" name="nombrePJ" placeholder="Nombre de contácto">
+                <input type="number" class="form-control" name="telPJ" id="gobierno-estatal" placeholder="Número">
             </div>
         </div>
         <!--

@@ -9,7 +9,7 @@ class ConsultaModel extends Model
     {
         parent::__construct();
     }
-    public function getDatos()
+    function getDatos()
     {
         $datos = [];
         $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  FROM registro_inmuebles ORDER BY no_expediente ";
@@ -35,7 +35,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getLastRegistroId()
+    function getLastRegistroId()
     {
         $stringQuery = "SELECT id FROM registro_inmuebles ORDER BY id DESC LIMIT 1";
         try {
@@ -50,7 +50,7 @@ class ConsultaModel extends Model
             //print ("Error -> " . $e->getMessage()  );
         }
     }
-    public function getLastStatusId()
+    function getLastStatusId()
     {
         $stringQuery = "SELECT id FROM doc_status ORDER BY id DESC LIMIT 1";
         try {
@@ -65,7 +65,7 @@ class ConsultaModel extends Model
             //print ("Error -> " . $e->getMessage()  );
         }
     }
-    public function getLastAccionId()
+    function getLastAccionId()
     {
         $stringQuery = "SELECT id FROM doc_acciones_real ORDER BY id DESC LIMIT 1";
         try {
@@ -81,7 +81,7 @@ class ConsultaModel extends Model
         }
     }
     //Insert
-    public function insert($datos)
+    function insert($datos)
     {
         $noExpediente = $datos['noExpediente'];
         //echo $noExpediente . "<br>";
@@ -206,6 +206,27 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    //insertamos observaciones
+    function insertObservacion($noExpediente, $observaciones)
+    {   
+        print $observaciones;
+        $stringQuery = "INSERT INTO `observaciones`(`no_expediente`, `observacion`) VALUES (:no_expediente, :observacion) ";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'no_expediente' => $noExpediente,
+                'observacion' => $observaciones
+            ];
+            if ($query->execute($data)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            print("Error -> " . $e->getMessage());
+            return false;
+        }
+    }
     //Obtenemos contactos
     function getContactos($noExpediente)
     {
@@ -228,7 +249,7 @@ class ConsultaModel extends Model
         }
     }
     //Cargar datos al formulario
-    public function getDatosForm()
+    function getDatosForm()
     {
         $items = [];
         try {
@@ -238,7 +259,7 @@ class ConsultaModel extends Model
             print("Error: " . $e->getMessage());
         }
     }
-    public function getNombreDistrito($idDistrito)
+    function getNombreDistrito($idDistrito)
     {
         $queryString = "SELECT nombre from  distritos_judiciales WHERE id = :id";
         try {
@@ -255,7 +276,7 @@ class ConsultaModel extends Model
             print("Error: " . $e->getMessage());
         }
     }
-    public function getNombreMunicipio($id)
+    function getNombreMunicipio($id)
     {
         $queryString = "SELECT nombre from municipios WHERE id = :id";
         try {
@@ -272,7 +293,7 @@ class ConsultaModel extends Model
             print("Error: " . $e->getMessage());
         }
     }
-    public function getRegiones()
+    function getRegiones()
     {
         $regiones = [];
         try {
@@ -297,7 +318,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getDistritos($id_region)
+    function getDistritos($id_region)
     {
         $distritos = [];
         $distrito = new Distrito();
@@ -326,7 +347,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getMunicipios($id_distrito_judicial)
+    function getMunicipios($id_distrito_judicial)
     {
         $municipios = [];
         $stringQuery = "SELECT * FROM municipios WHERE id_distrito_judicial = :id_distrito_judicial";
@@ -349,7 +370,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getModalidades()
+    function getModalidades()
     {
         $modalidades = [];
         $stringQuery = "SELECT * FROM modalidad_propiedad";
@@ -369,7 +390,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getEstadosProc()
+    function getEstadosProc()
     {
         $estadosProc = [];
         $stringQuery = "SELECT * FROM estado_procesal";
@@ -388,7 +409,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function getById($id_registro)
+    function getById($id_registro)
     {
         $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
         try {
@@ -412,7 +433,7 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    public function update($idRegistro, $datos)
+    function update($idRegistro, $datos)
     {
         $datos['id'] = $idRegistro;
         //echo var_dump($datos);
@@ -485,9 +506,9 @@ class ConsultaModel extends Model
                 'no_expediente' => $noExpediente,
                 'tipo_contacto' => $tipoContacto
             ];
-            if ( $query->execute($data) ){
+            if ($query->execute($data)) {
                 return $query->rowCount();
-            }else{
+            } else {
                 return false;
             }
         } catch (PDOException $e) {
@@ -496,7 +517,7 @@ class ConsultaModel extends Model
             return false;
         }
     }
-    public function getDocStatus($noExpediente)
+    function getDocStatus($noExpediente)
     {
         $documentos = [];
         $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_status WHERE  no_expediente = :noExpediente ORDER BY id DESC";
@@ -517,7 +538,7 @@ class ConsultaModel extends Model
             return false;
         }
     }
-    public function getDocAcciones($noExpediente)
+    function getDocAcciones($noExpediente)
     {
         $documentos = [];
         $stringQuery = "SELECT nombre, fecha, no_expediente FROM doc_acciones_real  WHERE  no_expediente = :noExpediente ORDER BY id DESC";
@@ -538,7 +559,7 @@ class ConsultaModel extends Model
             return false;
         }
     }
-    public function insertStatusDoc($noExpediente, $docStatus)
+    function insertStatusDoc($noExpediente, $docStatus)
     {
         $id_user = $_SESSION['user_id'];
         //Damos formato

@@ -43,8 +43,9 @@ class Consulta extends Controller
             }else{
                 $estado = 6;
             }
-            isset($_POST['estado_proc']) ? :
             $superficie = $_POST['superficie'];
+            //Observaciones
+            $observaciones = $_POST['observaciones'];
             //Contáctos
             $contactoGobierno = $_POST['nombreGob'];
             $contactoPropietario = $_POST['nombreProp'];
@@ -53,11 +54,7 @@ class Consulta extends Controller
             $telGobierno = $_POST['telGob'];
             $telPropietario = $_POST['telProp'];
             $telPJ = $_POST['telPJ'];
-
-
-
-            //$doc_status = [];
-            //$doc_status = $_FILES['doc_status'];
+            
             $datos = [
                 'noExpediente' => $noExpediente,
                 'region' => $region,
@@ -71,8 +68,17 @@ class Consulta extends Controller
             ];
             if ($this->model->insert($datos)) {
                 //print "Exito";
-                $tipoMensaje = "success";
-                $mensaje = "Expediente de inmueble registrado con éxito";
+                //Registramos en observaciones, si es que hay
+                if (!$observaciones == ""){
+                    $observacion = $this->model->insertObservacion($noExpediente, $observaciones);
+                    if ($observacion){
+                        //print "Observación registrada con éxito";
+                        //die();
+                    }else{
+                        //print "Error al registrar observación";
+                        die();
+                    }
+                }
                 //Una vez registrado el inmueble, registramos los contactos
                 if (!$contactoGobierno == "") {
                     $contacto = $this->model->insertContacto($noExpediente, $contactoGobierno, $telGobierno, 1);
@@ -98,6 +104,8 @@ class Consulta extends Controller
                         // print ("Error al registrar contacto PJ");
                     }
                 }
+                $tipoMensaje = "success";
+                $mensaje = "Expediente de inmueble registrado con éxito";
                 header("location:" . constant('URL') . "consulta/verRegistro/" . $this->model->getLastRegistroId());
             } else {
                 $tipoMensaje = "danger";
