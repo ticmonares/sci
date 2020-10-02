@@ -258,10 +258,12 @@ class Consulta extends Controller
             $datos['idEstadoProc']  = 6;
         }
         $datos['superficie'] = $_POST['superficie'];
-        $result = $this->model->update($idRegistro, $datos);
+        $observaciones = $_POST['observaciones'];
+        $noExpediente = $_POST['noExpediente'];
+        $result = $this->model->update($idRegistro, $datos, $observaciones, $noExpediente);
         if ($result) {
             $tipoMensaje = "success";
-            $mensaje = "Expediente  actualizado con éxito";
+            $mensaje = "Expediente ". $noExpediente." actualizado con éxito";
         } else {
             $tipoMensaje = "danger";
             $mensaje = "Error al actualizar registro";
@@ -269,6 +271,15 @@ class Consulta extends Controller
         $this->view->tipoMensaje = $tipoMensaje;
         $this->view->mensaje = $mensaje;
         $this->render('consulta/index');
+    }
+
+    function existeObservacion($noExpediente){
+        $rows = $this->model->existeContacto($noExpediente);
+        if ($rows > 0 ){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function editarContacto($params = null)

@@ -209,7 +209,7 @@ class ConsultaModel extends Model
     //insertamos observaciones
     function insertObservacion($noExpediente, $observaciones)
     {   
-        print $observaciones;
+        //print $observaciones;
         $stringQuery = "INSERT INTO `observaciones`(`no_expediente`, `observacion`) VALUES (:no_expediente, :observacion) ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
@@ -452,7 +452,7 @@ class ConsultaModel extends Model
         }
     }
     
-    function update($idRegistro, $datos)
+    function update($idRegistro, $datos, $observaciones, $noExpediente)
     {
         $datos['id'] = $idRegistro;
         //echo var_dump($datos);
@@ -474,13 +474,69 @@ class ConsultaModel extends Model
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute($datos)) {
-                return true;
+                //evaluamos si existe el registro lo editamos
+                if ($this->existeObservacion($noExpediente) > 0){
+                    $observacion = $this->updateObservacion($observaciones, $noExpediente);
+                    if ($observacion){
+                        //print "Exito al actualizar la observación";
+                        return true;
+                    }else{
+                        print "Error al actualizar la observación";
+                        return false;
+                    }
+                }else{
+                    //Sino lo creamos
+                    if ($this->insertObservacion($noExpediente, $observaciones)){
+                        //print "Exito al insertar observación desde actualización";
+                        return true;
+                    }else{
+                        print "Error al insertar observación desde actualización";
+                        return false;
+                    }
+                }
             } else {
                 print "Error al actualizar desde el modelo";
                 return false;
             }
         } catch (PDOException $e) {
             print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    function updateObservacion($observaciones, $noExpediente){
+        $stringQuery = "UPDATE observaciones SET observacion = :observacion WHERE no_expediente = :no_expediente";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'observacion' =>  $observaciones,
+                'no_expediente' => $noExpediente
+            ];            
+            if ($query->execute($data)){
+                return true;
+            }else{
+                print "Error al actualizar observación";
+                return false;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    function existeObservacion($noExpediente){
+        $stringQuery = "SELECT no_expediente FROM observaciones WHERE no_expediente = :no_expediente";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'no_expediente' => $noExpediente,
+            ];
+            if ($query->execute($data)) {
+                return $query->rowCount();
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            //print var_dump($data);
+            //print "Error -> " . $e->getMessage();
             return false;
         }
     }

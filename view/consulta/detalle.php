@@ -27,6 +27,7 @@
                 <form action="<?php echo constant('URL') . 'consulta/editarRegistro/' . $this->registro->id; ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
+                            <input type="text" name="noExpediente" id="noExpediente" hidden value="<?php echo $this->registro->no_expediente ?>" >
                             <label for="region">Región</label>
                             <select class="form-control" name="region" id="region" class="region" required disabled>
                                 <?php
@@ -125,7 +126,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="superficie">Superficie</label>
+                        <label for="superficie">Superficie  <strong>total</strong> en <strong>metros cuadrados</strong> </label>
                         <input class="form-control" type="text" step="any" name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
                     </div>
 
@@ -134,7 +135,7 @@
                         <?php 
                         !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;  
                         ?>
-                        <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion;?></textarea>
+                        <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion;?></textarea>
                     </div>
 
                     <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
