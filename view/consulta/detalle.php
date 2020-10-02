@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -127,13 +126,15 @@
                     </div>
                     <div class="form-group">
                         <label for="superficie">Superficie</label>
-                        <input class="form-control" type="text" step="any"  name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
+                        <input class="form-control" type="text" step="any" name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
                     </div>
-                    <!-- <div class="form-group">
-                                <label for="doc_status">Documentación que ampara status del inmueble</label>
-                                <input class="form-control" type="file" name="doc_status" id="doc_status" required>
-                            </div> -->
-                    <input class="btn btn-dark bg-red-pj" type="submit"  value="Editar">
+
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones</label>
+                        <textarea class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $this->observacion->observacion;?></textarea>
+                    </div>
+
+                    <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
                 </form>
             </div>
         </div>
@@ -241,7 +242,7 @@
     $telefonoGob = "";
     $telefonoProp = "";
     $telefonoPJ = "";
-    if ( $this->contactos ){
+    if ($this->contactos) {
         // print ("Hay  registros");
         foreach ($this->contactos as $contacto) {
             // $contacto->tipo_contacto == 1 ? $contactoGob = $contacto->telefono : "-";
@@ -277,7 +278,7 @@
                 <p>
                     <?php echo $contactoGob ?>
                     <a href="tel: <?php echo $telefonoGob; ?>">
-                    <?php echo $telefonoGob; ?>
+                        <?php echo $telefonoGob; ?>
                     </a>
                 </p>
             </div>
@@ -295,12 +296,12 @@
                 <p>
                     <?php echo $contactoPJ ?>
                     <a href="tel: <?php echo $telefonoPJ; ?>">
-                    <?php echo $telefonoPJ; ?>
+                        <?php echo $telefonoPJ; ?>
                     </a>
                 </p>
             </div>
             <div class="col-12">
-                <button class="btn btn-dark bg-red-pj"  data-toggle="modal" data-target="#modalContacto" >Editar contáctos</button>
+                <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalContacto">Editar contáctos</button>
             </div>
         </div>
     </div>

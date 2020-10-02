@@ -227,6 +227,31 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    //Obtener datos por id
+    function getById($id_registro)
+    {
+        $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute(['id' => $id_registro])) {
+                $row = $query->fetchObject();
+                $idDistrito = $row->id_distrito_judicial;
+                $nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
+                $row->{"nombreDistrito"} = $nombreDistrito;
+                $idMunicipio = $row->id_municipio;
+                $nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
+                $row->{"nombreMunicipio"} = $nombreMunicipio;
+                //echo var_dump($row);
+                return $row;
+            } else {
+                print "Fallo al ejecutar";
+                return null;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return null;
+        }
+    }
     //Obtenemos contactos
     function getContactos($noExpediente)
     {
@@ -409,30 +434,24 @@ class ConsultaModel extends Model
             return null;
         }
     }
-    function getById($id_registro)
-    {
-        $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
+    function getObservacion($noExpediente){
+        $stringQuery = "SELECT observacion FROM observaciones WHERE no_expediente = :no_expediente";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
-            if ($query->execute(['id' => $id_registro])) {
-                $row = $query->fetchObject();
-                $idDistrito = $row->id_distrito_judicial;
-                $nombreDistrito = $this->getNombreDistrito($idDistrito)->nombre;
-                $row->{"nombreDistrito"} = $nombreDistrito;
-                $idMunicipio = $row->id_municipio;
-                $nombreMunicipio = $this->getNombreMunicipio($idMunicipio)->nombre;
-                $row->{"nombreMunicipio"} = $nombreMunicipio;
-                //echo var_dump($row);
-                return $row;
-            } else {
-                print "Fallo al ejecutar";
+            $data = ['no_expediente' => $noExpediente ];
+            if ($query->execute($data)){
+                $observacion = $query->fetchObject();
+                return $observacion;
+            }else{
+                // print "Error al obtener observacion";
                 return null;
             }
-        } catch (PDOException $e) {
-            print "Error -> " . $e->getMessage();
+        } catch (PDOexception $e) {
+            //print ("Error ->  " . $e->getMessage());
             return null;
         }
     }
+    
     function update($idRegistro, $datos)
     {
         $datos['id'] = $idRegistro;

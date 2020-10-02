@@ -206,9 +206,17 @@ class Consulta extends Controller
             //echo "Exito al consultar contactos";
         } else {
             //echo "Error al consultar contactos";
-            return false;
+            return null;
         }
     }
+     function verObservacion($noExpediente){
+         $observacion = $this->model->getObservacion($noExpediente);
+         if ($observacion){
+            return $observacion;
+         }else{
+             return null;
+         }
+     }
     public function VerRegistro($param = null)
     {
         $idRegistro = $param[0];
@@ -230,6 +238,7 @@ class Consulta extends Controller
             //$this->view->mensaje = "Ver detalles";
             //Agregamos los contactos
             $this->view->contactos = $this->verContactos($noExpediente);
+            $this->view->observacion = $this->verObservacion($noExpediente);
             $this->view->render('consulta/detalle');
         } else {
             //$mensaje = "Error";
