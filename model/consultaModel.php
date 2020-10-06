@@ -104,6 +104,7 @@ class ConsultaModel extends Model
         //echo $estado . "<br>";
         $superficie = $datos['superficie'];
         //echo $superficie . "<br>";
+        $valorAvaluo = $datos['valorAvaluo'];
         $id_user = $_SESSION['user_id'];
         //Obtenemos fecha de registro
         $fecha_generada = getdate();
@@ -143,6 +144,7 @@ class ConsultaModel extends Model
             id_modalidad_prop, 
             id_estado_proc, 
             superficie, 
+            valor_avaluo,
             id_usuario, 
             fecha_generada)
             VALUES (
@@ -157,6 +159,7 @@ class ConsultaModel extends Model
             :id_modalidad_prop, 
             :id_estado_proc, 
             :superficie, 
+            :valor_avaluo,
             :id_usuario, 
             :fecha_generada)
          ";
@@ -172,6 +175,7 @@ class ConsultaModel extends Model
             'id_modalidad_prop' => $modalidad,
             'id_estado_proc' => $estado,
             'superficie' => $superficie,
+            'valor_avaluo' => $valorAvaluo,
             'id_usuario' => $id_user,
             'fecha_generada' =>  $fecha_generada
         ];
@@ -238,7 +242,7 @@ class ConsultaModel extends Model
     function getById($id_registro)
     {
         $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio,
-        domicilio, id_modalidad_prop, id_estado_proc, superficie 
+        domicilio, id_modalidad_prop, id_estado_proc, superficie, valor_avaluo
         FROM registro_inmuebles WHERE id = :id";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
@@ -476,7 +480,7 @@ class ConsultaModel extends Model
         //echo var_dump($datos);
         $stringQuery = "UPDATE registro_inmuebles SET 
         edificio = :edificio, domicilio = :domicilio, id_modalidad_prop = :idModalidadProp, 
-        id_estado_proc = :idEstadoProc, superficie = :superficie,
+        id_estado_proc = :idEstadoProc, superficie = :superficie, valor_avaluo = :valorAvaluo,
         fecha_mod = :fechaMod,
         id_user_mod = :idUsuario
         WHERE id = :id ";

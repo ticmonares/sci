@@ -122,9 +122,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="superficie">Superficie <strong>total</strong> en <strong>metros cuadrados</strong> </label>
-                        <input class="form-control" type="text" step="any" name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="superficie">Superficie <strong>total</strong> en <strong>metros cuadrados</strong> </label>
+                            <input class="form-control" type="number" step="any" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="valor_avaluo">Valor de avalúo</label>
+                            $<input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
+                        </div>
                     </div>
 
                     <div class="form-group">

@@ -24,16 +24,16 @@
             </div>
             <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" ">
 
-                <div class="form-group row">
-                    <div class="col-sm-4" >
-                        <label for="noExpediente">Número de expediente</label>
-                        <input type="number" min="0" class="form-control" name="noExpediente" id="noExpediente" required>
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="noInventario">Número de inventario</label>
-                        <input type="text" min="0" class="form-control" name="noInventario" id="noInventario" maxlength="10" required>
-                    </div>
+                <div class=" form-group row">
+                <div class="col-sm-4">
+                    <label for="noExpediente">Número de expediente</label>
+                    <input type="number" min="0" class="form-control" name="noExpediente" id="noExpediente" required>
                 </div>
+                <div class="col-sm-4">
+                    <label for="noInventario">Número de inventario</label>
+                    <input type="text" min="0" class="form-control" name="noInventario" id="noInventario" maxlength="10" required>
+                </div>
+        </div>
 
         <div class="form-group row">
             <div class="col-sm-4">
@@ -73,21 +73,33 @@
             <label for="domicilio">Domicilio</label>
             <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="300" required>
         </div>
-        <div class="form-group">
-            <label for="modalidad">Modalidad de propiedad</label>
-            <select class="form-control" name="modalidad" id="modalidad" required>
-                <option value="">Seleccione una opción</option>
-            </select>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="modalidad">Modalidad de propiedad</label>
+                <select class="form-control" name="modalidad" id="modalidad" required>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label for="estado_proc">Estado procesal</label>
+                <select class="form-control" name="estado_proc" id="estado_proc" required>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6" >
+                <label for="superficie">Superficie en <strong>metros cuadrados</strong> del <strong> área total </strong> </label>
+                <input class="form-control" type="number" step="any" name="superficie" id="superficie" value="0" required>
+            </div>
+            <div class="col-sm-6">
+                <label for="valor_avaluo">Valor de avalúo </label>
+                <input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo" value="0" required>
+            </div>
         </div>
         <div class="form-group">
-            <label for="estado_proc">Estado procesal</label>
-            <select class="form-control" name="estado_proc" id="estado_proc" required>
-                <option value="">Seleccione una opción</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="superficie">Superficie en <strong>metros cuadrados</strong> del <strong> área total </strong> </label>
-            <input class="form-control" type="number" step="any" name="superficie" id="superficie" required>
+            <label for="img_inmueble">Imagen del inmueble <strong>En formato JPEG</strong> </label>
+            <input class="form-control" type="file" name="img_inmueble" id="img_inmueble">
         </div>
         <div class="form-group">
             <label for="observaciones">Observaciones</label>
@@ -101,19 +113,19 @@
                 <label for="nombreGob">Gobierno Estatal</label>
                 <input type="text" class="form-control" name="nombreGob" placeholder="Nombre de contácto">
                 <input type="number" class="form-control mt-1" name="telGob" id="gobierno-estatal" placeholder="Número">
-                <input type="email" class="form-control mt-1" name="mailGob" id="mailGob" placeholder="E-mail" >
+                <input type="email" class="form-control mt-1" name="mailGob" id="mailGob" placeholder="E-mail">
             </div>
             <div class="col-sm-4">
                 <label for="nombreProp">Propietario C/V</label>
                 <input type="text" class="form-control" name="nombreProp" placeholder="Nombre de contácto">
                 <input type="number" class="form-control mt-1" name="telProp" id="gobierno-estatal" placeholder="Número">
-                <input type="email" class="form-control mt-1" name="mailProp" id="mailProp" placeholder="E-mail" >
+                <input type="email" class="form-control mt-1" name="mailProp" id="mailProp" placeholder="E-mail">
             </div>
             <div class="col-sm-4">
                 <label for="nombrePJ">Poder Judicial</label>
                 <input type="text" class="form-control" name="nombrePJ" placeholder="Nombre de contácto">
                 <input type="number" class="form-control mt-1" name="telPJ" id="gobierno-estatal" placeholder="Número">
-                <input type="email" class="form-control mt-1" name="mailPJ" id="mailPJ" placeholder="E-mail" >
+                <input type="email" class="form-control mt-1" name="mailPJ" id="mailPJ" placeholder="E-mail">
             </div>
         </div>
         <!--

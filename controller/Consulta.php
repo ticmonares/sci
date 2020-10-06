@@ -45,6 +45,7 @@ class Consulta extends Controller
                 $estado = 6;
             }
             $superficie = $_POST['superficie'];
+            $valorAvaluo = $_POST['valor_avaluo'];
             //Observaciones
             $observaciones = $_POST['observaciones'];
             //Contáctos
@@ -72,7 +73,8 @@ class Consulta extends Controller
                 'domicilio' => $domicilio,
                 'modalidad' => $modalidad,
                 'estado' => $estado,
-                'superficie' => $superficie
+                'superficie' => $superficie,
+                'valorAvaluo' => $valorAvaluo
             ];
             if ($this->model->insert($datos)) {
                 //print "Exito";
@@ -266,8 +268,9 @@ class Consulta extends Controller
             $datos['idEstadoProc']  = 6;
         }
         $datos['superficie'] = $_POST['superficie'];
-        $observaciones = $_POST['observaciones'];
+        $datos['valorAvaluo'] = $_POST['valor_avaluo'];
         $noExpediente = $_POST['noExpediente'];
+        $observaciones = $_POST['observaciones'];
         $result = $this->model->update($idRegistro, $datos, $observaciones, $noExpediente);
         if ($result) {
             $tipoMensaje = "success";
