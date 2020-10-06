@@ -12,7 +12,9 @@ class ConsultaModel extends Model
     function getDatos()
     {
         $datos = [];
-        $stringQuery = "SELECT id, no_expediente, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  FROM registro_inmuebles ORDER BY no_expediente ";
+        $stringQuery = "SELECT 
+        id, no_expediente, no_inventario, id_region,  id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc  
+        FROM registro_inmuebles ORDER BY no_expediente ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute()) {
@@ -85,6 +87,7 @@ class ConsultaModel extends Model
     {
         $noExpediente = $datos['noExpediente'];
         //echo $noExpediente . "<br>";
+        $noInventario = $datos['noInventario'];
         $region = $datos['region'];
         //echo $region . "<br>";
         $distrito = $datos['distrito'];
@@ -131,6 +134,7 @@ class ConsultaModel extends Model
         $stringQuery = "INSERT INTO registro_inmuebles(
             id, 
             no_expediente, 
+            no_inventario,
             id_region, 
             id_distrito_judicial, 
             id_municipio, 
@@ -144,6 +148,7 @@ class ConsultaModel extends Model
             VALUES (
             :id, 
             :no_expediente, 
+            :no_inventario,
             :id_region, 
             :id_distrito_judicial, 
             :id_municipio, 
@@ -158,6 +163,7 @@ class ConsultaModel extends Model
         $datos = [
             'id' => null,
             'no_expediente' => $noExpediente,
+            'no_inventario' => $noInventario,
             'id_region' =>  $region,
             'id_distrito_judicial' => $distrito,
             'id_municipio' =>  $municipio,
@@ -230,7 +236,9 @@ class ConsultaModel extends Model
     //Obtener datos por id
     function getById($id_registro)
     {
-        $stringQuery = "SELECT * FROM registro_inmuebles WHERE id = :id";
+        $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio,
+        domicilio, id_modalidad_prop, id_estado_proc, superficie 
+        FROM registro_inmuebles WHERE id = :id";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute(['id' => $id_registro])) {
@@ -750,16 +758,16 @@ class ConsultaModel extends Model
         }
         switch ($criterio) {
             case 'id_region':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_region = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_region = :id_parametro";
                 break;
             case 'id_distrito_judicial':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_distrito_judicial = :id_parametro";
                 break;
             case 'id_municipio':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_municipio = :id_parametro";
+                $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles WHERE id_municipio = :id_parametro";
                 break;
             case 'all':
-                $stringQuery = "SELECT id, no_expediente, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles";
+                $stringQuery = "SELECT id, no_expediente, no_inventario, id_region, id_distrito_judicial, id_municipio, edificio, id_modalidad_prop, id_estado_proc FROM registro_inmuebles";
                 break;
             default:
                 $stringQuery = "";

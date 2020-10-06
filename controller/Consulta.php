@@ -32,6 +32,7 @@ class Consulta extends Controller
             //     echo "REgistremos la observación " . $observaciones;
             // }
             $noExpediente = $_POST['noExpediente'];
+            $noInventario = $_POST['noInventario'];
             $region = $_POST['region'];
             $distrito = $_POST['distrito'];
             $municipio = $_POST['municipio'];
@@ -57,6 +58,7 @@ class Consulta extends Controller
             
             $datos = [
                 'noExpediente' => $noExpediente,
+                'noInventario' => $noInventario,
                 'region' => $region,
                 'distrito' => $distrito,
                 'municipio' => $municipio,

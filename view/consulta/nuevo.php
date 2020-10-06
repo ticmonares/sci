@@ -24,10 +24,16 @@
             </div>
             <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" ">
 
-                <div class=" form-group">
-                <label for="noExpediente">Número de expediente</label>
-                <input type="number" min="0" class="form-control" name="noExpediente" id="noExpediente" required>
-        </div>
+                <div class="form-group row">
+                    <div class="col-sm-4" >
+                        <label for="noExpediente">Número de expediente</label>
+                        <input type="number" min="0" class="form-control" name="noExpediente" id="noExpediente" required>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="noInventario">Número de inventario</label>
+                        <input type="text" min="0" class="form-control" name="noInventario" id="noInventario" maxlength="10" required>
+                    </div>
+                </div>
 
         <div class="form-group row">
             <div class="col-sm-4">

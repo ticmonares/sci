@@ -9,16 +9,13 @@
 
 <body>
     <?php require_once 'view/header.php'; ?>
-    <div class="container py-5 mb-5">
-        <div id="main">
-            <h1 class="center">Editar expediente: <?php echo $this->registro->no_expediente; ?> </h1>
-        </div>
+    <div class="container py-5 mb-5 bg-light rounded>
+            <h1 class="center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+            <h2 class="center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
         <div class="center">
             <?php
             if (isset($this->mensaje)) {
                 echo $this->mensaje;
-            } else {
-                echo "Ver detalles";
             }
             ?>
         </div>

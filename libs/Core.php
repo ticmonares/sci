@@ -14,15 +14,25 @@ class Core
             return false;
         }
     }
-
-    public static function validarRol()
-    {
+    //Función para indicar que roles pueden hacer ciertas acciones
+    //Se recibe como parámetro el rol minimo, en caso de ser 1, solo 1 y 0 retorna true
+    //Si se recibe un 0 solo 0 sera true... 2; 0, 1 y 2  seran true
+    public static function validarRolMinimo($rol){
+        if ( self::validarSession() ){
+            if ( $_SESSION['user_rol'] <= $rol ){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
     public static function validarSU()
     {
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 0) {
                 return true;
+            }else{
+                return false;
             }
         } else {
             return false;
@@ -33,6 +43,8 @@ class Core
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 1) {
                 return true;
+            }else{
+                return false;
             }
         } else {
             return false;
@@ -43,6 +55,8 @@ class Core
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 2) {
                 return true;
+            }else{
+                return false;
             }
         } else {
             return false;

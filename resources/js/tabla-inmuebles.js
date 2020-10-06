@@ -182,6 +182,7 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
       result += '  <td colspan="0"> </td> ';
       result += '  <td colspan="0"> </td> ';
       result += '  <td colspan="0"> </td> ';
+      result += '  <td colspan="0"> </td> ';
       result += "  </tr> ";
       //destruimos la tabla
     }
@@ -189,6 +190,7 @@ function preLoadHTTPRequest(urlPeticion, param, dOMID) {
     $datos.forEach((dato) => {
       result += "  <tr> ";
       result += "  <td> " + dato.no_expediente + "</td> ";
+      result += "  <td> " + dato.no_inventario + "</td> ";
       result += "  <td> " + dato.nombreRegion + "</td> ";
       result += "  <td> " + dato.nombreDistrito + "</td> ";
       result += "  <td> " + dato.nombreMunicipio + "</td> ";
@@ -220,7 +222,7 @@ function cargarURL() {
      */
   if (url.length == 6) {
     let region = url[5];
-    console.log(region);
+    //console.log(region);
     switch (region) {
       case "toluca":
         param = 1;

@@ -90,7 +90,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 <!-- <th scope="col">#</th> -->
-                                <th class="tbl-heading" scope="col">No. Exp</th>
+                                <th class="tbl-heading" scope="col">#Exp</th>
+                                <th class="tbl-heading" scope="col">#Inventario </th>
                                 <th class="tbl-heading" scope="col">Región</th>
                                 <th class="tbl-heading" scope="col">Distrito J.</th>
                                 <th class="tbl-heading" scope="col">Municipio</th>
@@ -121,6 +122,11 @@
                                         echo $registro->no_expediente;
                                         ?>
                                     </th>
+                                    <td>
+                                        <?php
+                                        echo $registro->no_inventario;
+                                        ?>
+                                    </td>
                                     <td>
                                         <?php
                                         $region = new Region();
