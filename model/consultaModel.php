@@ -553,6 +553,52 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    function updateInmuebleImg($noExpediente, $datosImg, $formato){
+        $id_user = $_SESSION['user_id'];
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        //echo $fecha_generada;
+        //Obteniendo datos del PDF de status
+        // echo var_dump($documento);
+        $nombreArchivo = $datosImg['name'];
+        $nombreArchivo = "Imagen-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada .".". $formato;
+        //$tipo = $datosImg['type'];
+        //$tamanio = $datosImg['size'];
+        $ruta = $datosImg['tmp_name'];
+        $destino = "resources/imagenes-inmuebles/" . $nombreArchivo;
+        if ($nombreArchivo != "") {
+            if (copy($ruta, $destino)) {
+                //echo "exito";
+                $datosImg = $nombreArchivo;
+                $stringQuery = "UPDATE doc_img_inmuebles SET nombre = :nombre, fecha = :fecha, id_usuario = :id_usuario WHERE no_expediente = :no_expediente";
+                //echo "El numero de expediente" .  $noExpediente;
+                try {
+                    $query = $this->db->conn()->prepare($stringQuery);
+                    $arrayDatos = [
+                        'no_expediente' => $noExpediente,
+                        'nombre'  => $datosImg,
+                        'fecha'  => $fecha_generada,
+                        'id_usuario'  => $id_user
+                    ];
+                    if ($query->execute($arrayDatos)) {
+                        print "Archivo guardado";
+                        return true;
+                    } else {
+                        print "Error al subir archivo";
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    print "Error -> " . $e->getMessage();
+                    return false;
+                }
+            } else {
+                //echo "error al crear archivo";
+            }
+        }
+    }
     function updateContactos($noExpediente, $datos, $tipoContacto)
     {
         $nombre = $datos['nombre'];
@@ -586,6 +632,24 @@ class ConsultaModel extends Model
         } catch (PDOException $e) {
             //print var_dump($data);
             print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
+    function existeImagen($noExpediente){
+        $stringQuery = "SELECT no_expediente FROM doc_img_inmuebles WHERE no_expediente = :no_expediente";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'no_expediente' => $noExpediente
+            ];
+            if ($query->execute($data)) {
+                return $query->rowCount();
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            //print var_dump($data);
+            //print "Error -> " . $e->getMessage();
             return false;
         }
     }
@@ -651,6 +715,24 @@ class ConsultaModel extends Model
             return false;
         }
     }
+    function getImagenInmueble($noExpediente){
+        $stringQuery = "SELECT nombre, fecha FROM doc_img_inmuebles WHERE no_expediente = :noExpediente";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            $data = [
+                'noExpediente' => $noExpediente
+            ];
+            if ($query->execute($data)){
+                $imagen = $query->fetchObject();
+                return $imagen;
+            }else{
+                return null;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return false;
+        }
+    }
     function insertStatusDoc($noExpediente, $docStatus)
     {
         $id_user = $_SESSION['user_id'];
@@ -703,8 +785,7 @@ class ConsultaModel extends Model
         }
     }
     //Método para insertar documentos de acciones realizads
-    function insertAccionDoc($noExpediente, $documento)
-    {
+    function insertAccionDoc( $noExpediente, $documento) {
         $id_user = $_SESSION['user_id'];
         //Damos formato
         //Obtenemos fecha de registro
@@ -751,6 +832,54 @@ class ConsultaModel extends Model
                 }
             } else {
                 //echo "el fracaso te hace mejor";
+            }
+        }
+    }
+    function insertInmuebleImg($noExpediente, $datosImg, $formato)
+    {
+        $id_user = $_SESSION['user_id'];
+        $fecha_generada = getdate();
+        $agno = $fecha_generada['year'];
+        $mes = $fecha_generada['mon'];
+        $dia = $fecha_generada['mday'];
+        $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
+        //echo $fecha_generada;
+        //Obteniendo datos del PDF de status
+        // echo var_dump($documento);
+        $nombreArchivo = $datosImg['name'];
+        $nombreArchivo = "Imagen-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada .".". $formato;
+        //$tipo = $datosImg['type'];
+        //$tamanio = $datosImg['size'];
+        $ruta = $datosImg['tmp_name'];
+        $destino = "resources/imagenes-inmuebles/" . $nombreArchivo;
+        if ($nombreArchivo != "") {
+            if (copy($ruta, $destino)) {
+                //echo "exito";
+                $datosImg = $nombreArchivo;
+                $stringQuery = "INSERT INTO doc_img_inmuebles(no_expediente, nombre, fecha, id_usuario)
+                VALUES (:no_expediente, :nombre, :fecha, :id_usuario)";
+                //echo "El numero de expediente" .  $noExpediente;
+                try {
+                    $query = $this->db->conn()->prepare($stringQuery);
+                    $arrayDatos = [
+                        'no_expediente' => $noExpediente,
+                        'nombre'  => $datosImg,
+                        'fecha'  => $fecha_generada,
+                        'id_usuario'  => $id_user
+                    ];
+                    if ($query->execute($arrayDatos)) {
+                        print "Archivo guardado";
+                        return true;
+                    } else {
+                        print "Error al subir archivo";
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    print "Error -> " . $e->getMessage();
+                    return false;
+                }
+            } else {
+                //echo "error al crear archivo";
             }
         }
     }

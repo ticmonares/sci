@@ -92,5 +92,25 @@ class Core
         }
         return false;
     }
+    public static function validarImagen($tipo, $tamanio){
+        if($tamanio < 1000000){
+            switch ($tipo) {
+                case 'image/jpg':
+                    return true;
+                    break;
+                case 'image/png':
+                    return true;
+                    break;
+                case 'image/jpeg':
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }else{
+            return false;
+        }
+    }
 }
 ?>

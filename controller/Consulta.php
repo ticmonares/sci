@@ -1,12 +1,12 @@
 <?php
 class Consulta extends Controller
 {
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
         $this->view->datos = [];
     }
-    public function render()
+    function render()
     {
         //muestra los datos
         $datos = $this->model->getDatos();
@@ -15,7 +15,7 @@ class Consulta extends Controller
     }
 
 
-    public function nuevoRegistro()
+    function nuevoRegistro()
     {
         //cargar formulario
         //$this->view->mensaje = "";
@@ -24,13 +24,9 @@ class Consulta extends Controller
         $this->view->render('consulta/nuevo');
     }
 
-    public function  registrarNuevo()
+    function  registrarNuevo()
     {
         if (isset($_POST['region'])) {
-            // if ( isset($observaciones) ){
-            //     $observaciones = $_POST['observaciones'];
-            //     echo "REgistremos la observación " . $observaciones;
-            // }
             $noExpediente = $_POST['noExpediente'];
             $noInventario = $_POST['noInventario'];
             $region = $_POST['region'];
@@ -39,13 +35,16 @@ class Consulta extends Controller
             $edificio = $_POST['edificio'];
             $domicilio = $_POST['domicilio'];
             $modalidad = $_POST['modalidad'];
-            if (isset ( $_POST['estado_proc'])){
+            if (isset($_POST['estado_proc'])) {
                 $estado = $_POST['estado_proc'];
-            }else{
+            } else {
                 $estado = 6;
             }
             $superficie = $_POST['superficie'];
             $valorAvaluo = $_POST['valor_avaluo'];
+
+
+
             //Observaciones
             $observaciones = $_POST['observaciones'];
             //Contáctos
@@ -78,13 +77,29 @@ class Consulta extends Controller
             ];
             if ($this->model->insert($datos)) {
                 //print "Exito";
+                //Insertamos la imagen después de crear el regsitro con no_expediente
+                //Imagen
+                $datosImg = [];
+                $datosImg = $_FILES['img_inmueble'];
+                $tipo = $datosImg['type'];
+                $tamanio = $datosImg['size'];
+                if (Core::validarImagen($tipo, $tamanio)) {
+                    $formato = str_replace("image/", "", $tipo);
+                    $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
+                    if ($imgResult) {
+                        print "Imagen insertada con exito";
+                    } else {
+                        print "Error al insertar imagen";
+                        die();
+                    }
+                }
                 //Registramos en observaciones, si es que hay
-                if (!$observaciones == ""){
+                if (!$observaciones == "") {
                     $observacion = $this->model->insertObservacion($noExpediente, $observaciones);
-                    if ($observacion){
+                    if ($observacion) {
                         //print "Observación registrada con éxito";
                         //die();
-                    }else{
+                    } else {
                         //print "Error al registrar observación";
                         die();
                     }
@@ -95,7 +110,7 @@ class Consulta extends Controller
                     if ($contacto) {
                         // print ("Éxito al registrar contacto gobierno");
                     } else {
-                        print ("Error al registrar contacto gobierno");
+                        print("Error al registrar contacto gobierno");
                     }
                 }
                 if (!$contactoPropietario == "") {
@@ -103,7 +118,7 @@ class Consulta extends Controller
                     if ($contacto) {
                         // print ("Éxito al registrar contacto propietario");
                     } else {
-                        print ("Error al registrar contacto propietario");
+                        print("Error al registrar contacto propietario");
                     }
                 }
                 if (!$contactoPJ == "") {
@@ -111,7 +126,7 @@ class Consulta extends Controller
                     if ($contacto) {
                         // print ("Éxito al registrar contacto PJ");
                     } else {
-                        print ("Error al registrar contacto PJ");
+                        print("Error al registrar contacto PJ");
                     }
                 }
                 $tipoMensaje = "success";
@@ -137,8 +152,11 @@ class Consulta extends Controller
         }
     }
 
+    function insertInmuebleImg()
+    {
+    }
 
-    public function getDistrito($param = null)
+    function getDistrito($param = null)
     {
         //Recibimos el id del distrito
         //print " Se cargo  el id " . $distrito[0];
@@ -153,7 +171,7 @@ class Consulta extends Controller
         echo $distritosJSON;
     }
 
-    public function getMunicipios($param = null)
+    function getMunicipios($param = null)
     {
         $id_distrito = $param[0];
         $municipios = $this->model->getMunicipios($id_distrito);
@@ -219,15 +237,24 @@ class Consulta extends Controller
             return null;
         }
     }
-     function verObservacion($noExpediente){
-         $observacion = $this->model->getObservacion($noExpediente);
-         if ($observacion){
+    function verObservacion($noExpediente)
+    {
+        $observacion = $this->model->getObservacion($noExpediente);
+        if ($observacion) {
             return $observacion;
-         }else{
-             return null;
-         }
-     }
-    public function VerRegistro($param = null)
+        } else {
+            return null;
+        }
+    }
+    function verImagen($noExpediente){
+        $imagen = $this->model->getImagenInmueble($noExpediente);
+        if ($imagen){
+            return $imagen;
+        }else{
+            return null;
+        }
+    }
+    function verRegistro($param = null)
     {
         $idRegistro = $param[0];
         $registro = $this->model->getById($idRegistro);
@@ -249,6 +276,7 @@ class Consulta extends Controller
             //Agregamos los contactos
             $this->view->contactos = $this->verContactos($noExpediente);
             $this->view->observacion = $this->verObservacion($noExpediente);
+            $this->view->imagen = $this->verImagen($noExpediente);
             $this->view->render('consulta/detalle');
         } else {
             //$mensaje = "Error";
@@ -262,9 +290,9 @@ class Consulta extends Controller
         $datos['edificio'] = $_POST['edificio'];
         $datos['domicilio'] = $_POST['domicilio'];
         $datos['idModalidadProp'] = $_POST['modalidad'];
-        if (isset ( $_POST['estado_proc'])){
+        if (isset($_POST['estado_proc'])) {
             $datos['idEstadoProc']  = $_POST['estado_proc'];
-        }else{
+        } else {
             $datos['idEstadoProc']  = 6;
         }
         $datos['superficie'] = $_POST['superficie'];
@@ -274,7 +302,7 @@ class Consulta extends Controller
         $result = $this->model->update($idRegistro, $datos, $observaciones, $noExpediente);
         if ($result) {
             $tipoMensaje = "success";
-            $mensaje = "Expediente ". $noExpediente." actualizado con éxito";
+            $mensaje = "Expediente " . $noExpediente . " actualizado con éxito";
         } else {
             $tipoMensaje = "danger";
             $mensaje = "Error al actualizar registro";
@@ -284,11 +312,61 @@ class Consulta extends Controller
         $this->render('consulta/index');
     }
 
-    function existeObservacion($noExpediente){
+    function existeObservacion($noExpediente)
+    {
         $rows = $this->model->existeContacto($noExpediente);
-        if ($rows > 0 ){
+        if ($rows > 0) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    function editarImagen($params = null){
+        $noExpediente = $params[0];
+        //Imagen
+        $datosImg = [];
+        $datosImg = $_FILES['img_inmueble'];
+        $tipo = $datosImg['type'];
+        $tamanio = $datosImg['size'];
+        if (Core::validarImagen($tipo, $tamanio)) {
+            $formato = str_replace("image/", "", $tipo);
+            if ( $this->existeImagen($noExpediente) ){
+                //Actualizamos
+                $imgResult = $this->model->updateInmuebleImg($noExpediente, $datosImg, $formato);
+                if ($imgResult) {
+                    $mensaje =  "Imagen actualizada con exito";
+                    $tipoMensaje = "success";
+                } else {
+                    $mensaje =  "Error al actualizar imagen";
+                    $tipoMensaje = "danger";
+                    die();
+                }
+            }else{
+                //insertamos
+                $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
+                if ($imgResult) {
+                    $mensaje =  "Imagen insertada con exito";
+                    $tipoMensaje = "success";
+                } else {
+                    $mensaje =  "Error al insertar imagen";
+                    $tipoMensaje = "danger";
+                    die();
+                }
+            }
         }else{
+            $mensaje =  "Error al subir archivo, no cumple con el formato o tamaño especificado";
+            $tipoMensaje = "danger";
+        }
+        $this->view->tipoMensaje = $tipoMensaje;
+        $this->view->mensaje = $mensaje;
+        $this->render('consulta/index'.$noExpediente."/");
+    }
+    function existeImagen($noExpediente){
+        $rows = $this->model->existeImagen($noExpediente);
+        if ($rows > 0) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -300,20 +378,19 @@ class Consulta extends Controller
         $datos['nombre'] = $_POST['nombreGob'];
         $datos['telefono'] = $_POST['telGob'];
         $datos['correo'] = $_POST['mailGob'];
-        if ($this->existeContacto($noExpediente, 1)){
+        if ($this->existeContacto($noExpediente, 1)) {
             print "Se va a actualizar";
-            if($this->model->updateContactos($noExpediente, $datos, 1)){
+            if ($this->model->updateContactos($noExpediente, $datos, 1)) {
                 // print "contacto actualizado";
-            }else{
-                 print "falla al actualizar";
-
+            } else {
+                print "falla al actualizar";
             }
-        }else{
+        } else {
             // print "No se encontro registro... se va crear";
             $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 1);
-            if ($newContacto){
+            if ($newContacto) {
                 // print "Contacto agregado desde update";
-            }else{
+            } else {
                 // print "Falla al agregar desde update";
             }
         }
@@ -323,19 +400,19 @@ class Consulta extends Controller
         $datos['telefono'] = $_POST['telProp'];
         $datos['correo'] = $_POST['mailProp'];
 
-        if ($this->existeContacto($noExpediente, 2)){
+        if ($this->existeContacto($noExpediente, 2)) {
             print "Se va a actualizar";
-            if($this->model->updateContactos($noExpediente, $datos, 2)){
+            if ($this->model->updateContactos($noExpediente, $datos, 2)) {
                 // print "contacto actualizado";
-            }else{
-              print "falla al actualizar";
+            } else {
+                print "falla al actualizar";
             }
-        }else{
+        } else {
             // print "No se encontro registro... se va crear";
             $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 2);
-            if ($newContacto){
+            if ($newContacto) {
                 // print "Contacto agregado desde update";
-            }else{
+            } else {
                 // print "Falla al agregar desde update";
             }
         }
@@ -344,33 +421,32 @@ class Consulta extends Controller
         $datos['nombre'] = $_POST['nombrePJ'];
         $datos['telefono'] = $_POST['telPJ'];
         $datos['correo'] = $_POST['mailPJ'];
-        if ($this->existeContacto($noExpediente, 3)){
+        if ($this->existeContacto($noExpediente, 3)) {
             print "Se va a actualizar";
-            if($this->model->updateContactos($noExpediente, $datos, 3)){
+            if ($this->model->updateContactos($noExpediente, $datos, 3)) {
                 // print "contacto actualizado";
-            }else{
-                 print "falla al actualizar";
-
+            } else {
+                print "falla al actualizar";
             }
-        }else{
+        } else {
             // print "No se encontro registro... se va crear";
             $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 3);
-            if ($newContacto){
+            if ($newContacto) {
                 // print "Contacto agregado desde update";
-            }else{
+            } else {
                 // print "Falla al agregar desde update";
             }
         }
 
         header("location:" . constant('URL') . "consulta/verRegistro/" . $this->model->getLastRegistroId());
-        
     }
 
-    function existeContacto($noExpediente, $tipoContacto){
+    function existeContacto($noExpediente, $tipoContacto)
+    {
         $rows = $this->model->existeContacto($noExpediente, $tipoContacto);
-        if ($rows > 0 ){
+        if ($rows > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

@@ -22,7 +22,7 @@
                 }
                 ?>
             </div>
-            <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" ">
+            <form action="<?php echo constant('URL') . 'consulta/registrarNuevo'; ?>" method="POST" enctype="multipart/form-data" >
 
                 <div class=" form-group row">
                 <div class="col-sm-4">
@@ -90,15 +90,15 @@
         <div class="form-group row">
             <div class="col-sm-6" >
                 <label for="superficie">Superficie en <strong>metros cuadrados</strong> del <strong> área total </strong> </label>
-                <input class="form-control" type="number" step="any" name="superficie" id="superficie" value="0" required>
+                <input class="form-control" type="number" step="any" name="superficie" id="superficie"  required>
             </div>
             <div class="col-sm-6">
                 <label for="valor_avaluo">Valor de avalúo </label>
-                <input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo" value="0" required>
+                <input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo"  required>
             </div>
         </div>
         <div class="form-group">
-            <label for="img_inmueble">Imagen del inmueble <strong>En formato JPEG</strong> </label>
+            <label for="img_inmueble">Imagen del inmueble <strong>En formato JPEG/JPG/PNG</strong> </label>
             <input class="form-control" type="file" name="img_inmueble" id="img_inmueble">
         </div>
         <div class="form-group">

@@ -10,7 +10,7 @@
 <body>
     <?php require_once 'view/header.php'; ?>
     <div class="container mt-4 py-5 mb-5 bg-light rounded">
-            <h1 class=" center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+        <h1 class=" center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
         <h2 class="center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
         <div class="center">
             <?php
@@ -140,10 +140,31 @@
                         ?>
                         <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion; ?></textarea>
                     </div>
-
                     <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
                 </form>
             </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <?php
+            //si no viene el registro con informaicón
+            if (!isset($this->imagen->fecha)) {
+                
+            } else {
+            ?>
+                <div class="d-flex justify-content-center">
+                    <img class="img-inmueble img-fluid" src="<?php echo constant('URL') . 'resources/imagenes-inmuebles/' . $this->imagen->nombre ?>" class="img-rounded" alt="Imagen inmueble">
+                </div>
+                <div class="col-12">
+                    <p class="text-center">
+                        <cite title="Source Title">
+                            Imagen actualizada el <?php echo $this->imagen->fecha; ?>
+                        </cite>
+                    </p>
+                </div>
+            <?php
+            }
+            ?>
+            <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalImagen">Actualizar imagen</button>
         </div>
     </div>
 
@@ -298,7 +319,7 @@
                 </p>
                 <p>
                     <a href="mailto: <?php echo $mailGob ?> ">
-                    <?php echo $mailGob; ?>
+                        <?php echo $mailGob; ?>
                     </a>
                 </p>
             </div>
@@ -314,7 +335,7 @@
                 </p>
                 <p>
                     <a href="mailto: <?php echo $mailProp ?> ">
-                    <?php echo $mailProp; ?>
+                        <?php echo $mailProp; ?>
                     </a>
                 </p>
             </div>
@@ -330,7 +351,7 @@
                 </p>
                 <p>
                     <a href="mailto: <?php echo $mailPJ ?> ">
-                    <?php echo $mailPJ; ?>
+                        <?php echo $mailPJ; ?>
                     </a>
                 </p>
             </div>
@@ -341,6 +362,7 @@
     </div>
     <?php require_once 'view/footer.php'; ?>
 </body>
+<?php require_once 'modalImagen.php'; ?>
 <?php require_once 'modalStatus.php'; ?>
 <?php require_once 'modalAcciones.php'; ?>
 <?php require_once 'modalContacto.php'; ?>

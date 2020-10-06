@@ -117,4 +117,8 @@ footer.div{
 .page-link:hover {
     color: #941822;
 }
-
+.img-inmueble{
+    width: 40vw;
+    /* max-width: 41rem; */
+    border-radius: 1rem;
+}
