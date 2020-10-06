@@ -100,17 +100,20 @@
             <div class="col-sm-4">
                 <label for="nombreGob">Gobierno Estatal</label>
                 <input type="text" class="form-control" name="nombreGob" placeholder="Nombre de contácto">
-                <input type="number" class="form-control" name="telGob" id="gobierno-estatal" placeholder="Número">
+                <input type="number" class="form-control mt-1" name="telGob" id="gobierno-estatal" placeholder="Número">
+                <input type="email" class="form-control mt-1" name="mailGob" id="mailGob" placeholder="E-mail" >
             </div>
             <div class="col-sm-4">
                 <label for="nombreProp">Propietario C/V</label>
                 <input type="text" class="form-control" name="nombreProp" placeholder="Nombre de contácto">
-                <input type="number" class="form-control" name="telProp" id="gobierno-estatal" placeholder="Número">
+                <input type="number" class="form-control mt-1" name="telProp" id="gobierno-estatal" placeholder="Número">
+                <input type="email" class="form-control mt-1" name="mailProp" id="mailProp" placeholder="E-mail" >
             </div>
             <div class="col-sm-4">
                 <label for="nombrePJ">Poder Judicial</label>
                 <input type="text" class="form-control" name="nombrePJ" placeholder="Nombre de contácto">
-                <input type="number" class="form-control" name="telPJ" id="gobierno-estatal" placeholder="Número">
+                <input type="number" class="form-control mt-1" name="telPJ" id="gobierno-estatal" placeholder="Número">
+                <input type="email" class="form-control mt-1" name="mailPJ" id="mailPJ" placeholder="E-mail" >
             </div>
         </div>
         <!--

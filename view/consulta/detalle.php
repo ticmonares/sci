@@ -9,9 +9,9 @@
 
 <body>
     <?php require_once 'view/header.php'; ?>
-    <div class="container py-5 mb-5 bg-light rounded>
-            <h1 class="center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
-            <h2 class="center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
+    <div class="container mt-4 py-5 mb-5 bg-light rounded">
+            <h1 class=" center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+        <h2 class="center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
         <div class="center">
             <?php
             if (isset($this->mensaje)) {
@@ -24,7 +24,7 @@
                 <form action="<?php echo constant('URL') . 'consulta/editarRegistro/' . $this->registro->id; ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <input type="text" name="noExpediente" id="noExpediente" hidden value="<?php echo $this->registro->no_expediente ?>" >
+                            <input type="text" name="noExpediente" id="noExpediente" hidden value="<?php echo $this->registro->no_expediente ?>">
                             <label for="region">Región</label>
                             <select class="form-control" name="region" id="region" class="region" required disabled>
                                 <?php
@@ -123,16 +123,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="superficie">Superficie  <strong>total</strong> en <strong>metros cuadrados</strong> </label>
+                        <label for="superficie">Superficie <strong>total</strong> en <strong>metros cuadrados</strong> </label>
                         <input class="form-control" type="text" step="any" name="superficie" id="superficie" maxlength="300" value="<?php echo $this->registro->superficie; ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="observaciones">Observaciones</label>
-                        <?php 
-                        !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;  
+                        <?php
+                        !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;
                         ?>
-                        <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion;?></textarea>
+                        <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion; ?></textarea>
                     </div>
 
                     <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
@@ -243,6 +243,9 @@
     $telefonoGob = "";
     $telefonoProp = "";
     $telefonoPJ = "";
+    $mailGob = "";
+    $mailProp = "";
+    $mailPJ = "";
     if ($this->contactos) {
         // print ("Hay  registros");
         foreach ($this->contactos as $contacto) {
@@ -253,14 +256,17 @@
                 case 1:
                     $contactoGob = $contacto->nombre;
                     $telefonoGob = $contacto->telefono;
+                    $mailGob = $contacto->correo;
                     break;
                 case 2:
                     $contactoProp = $contacto->nombre;
                     $telefonoProp = $contacto->telefono;
+                    $mailProp = $contacto->correo;
                     break;
                 case 3:
                     $contactoPJ = $contacto->nombre;
                     $telefonoPJ = $contacto->telefono;
+                    $mailPJ = $contacto->correo;
                     break;
                 default:
                     # code...
@@ -269,7 +275,7 @@
         }
     }
     ?>
-    <div class="container mb-5">
+    <div class="container mb-5 bg-light rounded">
         <div class="row">
             <div class="col-12">
                 <h4>Contácto</h4>
@@ -278,8 +284,15 @@
                 <h5>Gobierno Estatal</h5>
                 <p>
                     <?php echo $contactoGob ?>
+                </p>
+                <p>
                     <a href="tel: <?php echo $telefonoGob; ?>">
                         <?php echo $telefonoGob; ?>
+                    </a>
+                </p>
+                <p>
+                    <a href="mailto: <?php echo $mailGob ?> ">
+                    <?php echo $mailGob; ?>
                     </a>
                 </p>
             </div>
@@ -287,8 +300,15 @@
                 <h5>Propietario C/V</h5>
                 <p>
                     <?php echo $contactoProp ?>
+                </p>
+                <p>
                     <a href="tel: <?php echo $telefonoProp; ?>">
                         <?php echo $telefonoProp; ?>
+                    </a>
+                </p>
+                <p>
+                    <a href="mailto: <?php echo $mailProp ?> ">
+                    <?php echo $mailProp; ?>
                     </a>
                 </p>
             </div>
@@ -296,8 +316,15 @@
                 <h5>Poder Judicial</h5>
                 <p>
                     <?php echo $contactoPJ ?>
+                </p>
+                <p>
                     <a href="tel: <?php echo $telefonoPJ; ?>">
                         <?php echo $telefonoPJ; ?>
+                    </a>
+                </p>
+                <p>
+                    <a href="mailto: <?php echo $mailPJ ?> ">
+                    <?php echo $mailPJ; ?>
                     </a>
                 </p>
             </div>

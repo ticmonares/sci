@@ -15,17 +15,20 @@
                         <div class="col-sm-4">
                             <label for="nombreGob">Gobierno Estatal</label>
                             <input type="text" class="form-control" name="nombreGob" placeholder="Nombre de contácto" value="<?php echo $contactoGob; ?>" >
-                            <input type="number" class="form-control" name="telGob" id="gobierno-estatal" placeholder="Número" value="<?php echo $telefonoGob; ?>" >
+                            <input type="number" class="form-control mt-1" name="telGob" id="gobierno-estatal" placeholder="Número" value="<?php echo $telefonoGob; ?>" >
+                            <input type="email" class="form-control mt-1" name="mailGob" id="mailGob" placeholder="E-mail" value="<?php echo $mailGob; ?>" >
                         </div>
                         <div class="col-sm-4">
                             <label for="nombreProp">Propietario C/V</label>
                             <input type="text" class="form-control" name="nombreProp" placeholder="Nombre de contácto" value="<?php echo $contactoProp; ?>" >
-                            <input type="number" class="form-control" name="telProp" id="telProp" placeholder="Número" valuse="<?php echo $telefonoProp; ?>" >
+                            <input type="number" class="form-control mt-1" name="telProp" id="telProp" placeholder="Número" value="<?php echo $telefonoProp; ?>" >
+                            <input type="email" class="form-control mt-1" name="mailProp" id="mailProp" placeholder="E-mail" value="<?php echo $mailProp; ?>" >
                         </div>
                         <div class="col-sm-4">
                             <label for="nombrePJ">Poder Judicial</label>
                             <input type="text" class="form-control" name="nombrePJ" placeholder="Nombre de contácto" value="<?php echo $contactoPJ; ?>" >
-                            <input type="number" class="form-control" name="telPJ" id="telPJ" placeholder="Número" value="<?php echo $telefonoPJ; ?>" >
+                            <input type="number" class="form-control mt-1" name="telPJ" id="telPJ" placeholder="Número" value="<?php echo $telefonoPJ; ?>" >
+                            <input type="email" class="form-control mt-1" name="mailPJ" id="mailPJ" placeholder="E-mail" value="<?php echo $mailPJ; ?>" >
                         </div>
                     </div>
                     <div class="modal-footer">

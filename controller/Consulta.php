@@ -48,14 +48,20 @@ class Consulta extends Controller
             //Observaciones
             $observaciones = $_POST['observaciones'];
             //Contáctos
+            //Nombres
             $contactoGobierno = $_POST['nombreGob'];
             $contactoPropietario = $_POST['nombreProp'];
             $contactoPJ = $_POST['nombrePJ'];
-
+            //Teléfonos
             $telGobierno = $_POST['telGob'];
             $telPropietario = $_POST['telProp'];
             $telPJ = $_POST['telPJ'];
-            
+            //Correos
+            $mailGobierno = $_POST['mailGob'];
+            $mailPropietario = $_POST['mailProp'];
+            $mailPJ = $_POST['mailPJ'];
+
+
             $datos = [
                 'noExpediente' => $noExpediente,
                 'noInventario' => $noInventario,
@@ -83,27 +89,27 @@ class Consulta extends Controller
                 }
                 //Una vez registrado el inmueble, registramos los contactos
                 if (!$contactoGobierno == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoGobierno, $telGobierno, 1);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoGobierno, $telGobierno, $mailGobierno, 1);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto gobierno");
                     } else {
-                        // print ("Error al registrar contacto gobierno");
+                        print ("Error al registrar contacto gobierno");
                     }
                 }
                 if (!$contactoPropietario == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoPropietario, $telPropietario, 2);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoPropietario, $telPropietario, $mailPropietario, 2);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto propietario");
                     } else {
-                        // print ("Error al registrar contacto propietario");
+                        print ("Error al registrar contacto propietario");
                     }
                 }
                 if (!$contactoPJ == "") {
-                    $contacto = $this->model->insertContacto($noExpediente, $contactoPJ, $telPJ, 3);
+                    $contacto = $this->model->insertContacto($noExpediente, $contactoPJ, $telPJ, $mailPJ, 3);
                     if ($contacto) {
                         // print ("Éxito al registrar contacto PJ");
                     } else {
-                        // print ("Error al registrar contacto PJ");
+                        print ("Error al registrar contacto PJ");
                     }
                 }
                 $tipoMensaje = "success";
@@ -290,16 +296,18 @@ class Consulta extends Controller
         $datos = [];
         $datos['nombre'] = $_POST['nombreGob'];
         $datos['telefono'] = $_POST['telGob'];
+        $datos['correo'] = $_POST['mailGob'];
         if ($this->existeContacto($noExpediente, 1)){
             print "Se va a actualizar";
             if($this->model->updateContactos($noExpediente, $datos, 1)){
                 // print "contacto actualizado";
             }else{
-                // print "falla al actualizar";
+                 print "falla al actualizar";
+
             }
         }else{
             // print "No se encontro registro... se va crear";
-            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 1);
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 1);
             if ($newContacto){
                 // print "Contacto agregado desde update";
             }else{
@@ -310,17 +318,18 @@ class Consulta extends Controller
         $datos = [];
         $datos['nombre'] = $_POST['nombreProp'];
         $datos['telefono'] = $_POST['telProp'];
+        $datos['correo'] = $_POST['mailProp'];
 
         if ($this->existeContacto($noExpediente, 2)){
             print "Se va a actualizar";
             if($this->model->updateContactos($noExpediente, $datos, 2)){
                 // print "contacto actualizado";
             }else{
-                // print "falla al actualizar";
+              print "falla al actualizar";
             }
         }else{
             // print "No se encontro registro... se va crear";
-            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 2);
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 2);
             if ($newContacto){
                 // print "Contacto agregado desde update";
             }else{
@@ -331,16 +340,18 @@ class Consulta extends Controller
         $datos = [];
         $datos['nombre'] = $_POST['nombrePJ'];
         $datos['telefono'] = $_POST['telPJ'];
+        $datos['correo'] = $_POST['mailPJ'];
         if ($this->existeContacto($noExpediente, 3)){
             print "Se va a actualizar";
             if($this->model->updateContactos($noExpediente, $datos, 3)){
                 // print "contacto actualizado";
             }else{
-                // print "falla al actualizar";
+                 print "falla al actualizar";
+
             }
         }else{
             // print "No se encontro registro... se va crear";
-            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], 3);
+            $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 3);
             if ($newContacto){
                 // print "Contacto agregado desde update";
             }else{

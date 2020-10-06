@@ -52,8 +52,14 @@ a.button{
 .bg-red-pj{
     background: #941822;
 }
-.btn.bg-red-pj:hover{
+.btn-dark.btn.bg-red-pj:hover{
     background: #70141c;
+}
+.btn-dark.btn.bg-red-pj:active{
+    background: #580f15;
+}
+.btn-dark.btn.bg-red-pj:focus{
+    background: #580f15;
 }
 .page-footer {
     color:  #ffffff;

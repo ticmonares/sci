@@ -189,15 +189,16 @@ class ConsultaModel extends Model
         }
     }
     //Inertamos contactos
-    function insertContacto($noExpediente, $nombre, $telefono, $tipoContacto)
+    function insertContacto($noExpediente, $nombre, $telefono, $correo, $tipoContacto)
     {
-        $stringQuery = "INSERT INTO contactos (no_expediente, nombre, telefono, tipo_contacto) VALUES (:noExpediente, :nombre, :telefono, :tipoContacto) ";
+        $stringQuery = "INSERT INTO contactos (no_expediente, nombre, telefono, correo, tipo_contacto) VALUES (:noExpediente, :nombre, :telefono, :correo, :tipoContacto) ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             $datos = [
                 'noExpediente' => $noExpediente,
                 'nombre' => $nombre,
                 'telefono' => $telefono,
+                'correo' => $correo,
                 'tipoContacto' => $tipoContacto
             ];
             if ($query->execute($datos)) {
@@ -264,7 +265,7 @@ class ConsultaModel extends Model
     function getContactos($noExpediente)
     {
         $datos = [];
-        $stringQuery = "SELECT nombre, telefono, tipo_contacto FROM contactos WHERE no_expediente = :noExpediente ";
+        $stringQuery = "SELECT nombre, telefono, correo, tipo_contacto FROM contactos WHERE no_expediente = :noExpediente ";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             if ($query->execute(['noExpediente' => $noExpediente])) {
@@ -552,12 +553,16 @@ class ConsultaModel extends Model
     {
         $nombre = $datos['nombre'];
         $telefono = $datos['telefono'];
-        $stringQuery = 'UPDATE contactos SET nombre = :nombre, telefono = :telefono WHERE no_expediente = :no_expediente AND tipo_contacto = :tipo_contacto';
+        $correo = $datos['correo'];
+        //print $correo;
+        $stringQuery = 'UPDATE contactos SET nombre = :nombre, telefono = :telefono, correo = :correo
+        WHERE no_expediente = :no_expediente AND tipo_contacto = :tipo_contacto';
         try {
             $query = $this->db->conn()->prepare($stringQuery);
             $data = [
                 'nombre' => $nombre,
                 'telefono' => $telefono,
+                'correo' => $correo,
                 'no_expediente' => $noExpediente,
                 'tipo_contacto' => $tipoContacto
             ];
@@ -576,7 +581,7 @@ class ConsultaModel extends Model
             }
         } catch (PDOException $e) {
             //print var_dump($data);
-            //print "Error -> " . $e->getMessage();
+            print "Error -> " . $e->getMessage();
             return false;
         }
     }
