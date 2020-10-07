@@ -10,15 +10,14 @@
 <body>
     <?php require_once 'view/header.php'; ?>
     <div class="container mt-4 py-5 mb-5 bg-light rounded">
-        <h1 class=" center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
-        <h2 class="center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
-        <div class="center">
-            <?php
-            if (isset($this->mensaje)) {
-                echo $this->mensaje;
-            }
-            ?>
-        </div>
+        <h1 class=" text-center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+        <h2 class="text-center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
+        <?php
+        if (isset($this->mensaje)) {
+            //echo $this->mensaje;
+            Core::alert($this->mensaje, $this->tipoMensaje);
+        }
+        ?>
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <form action="<?php echo constant('URL') . 'consulta/editarRegistro/' . $this->registro->id; ?>" method="POST" enctype="multipart/form-data">

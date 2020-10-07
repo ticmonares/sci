@@ -254,9 +254,13 @@ class Consulta extends Controller
             return null;
         }
     }
-    function verRegistro($param = null)
-    {
-        $idRegistro = $param[0];
+    function verRegistro($param = null, $url = true )
+    {   
+        if ($url){
+            $idRegistro = $param[0];
+        }else{
+            $idRegistro = $param;
+        }
         $registro = $this->model->getById($idRegistro);
         $modalidades  = $this->model->getModalidades();
         $estados  = $this->model->getEstadosProc();
@@ -358,9 +362,12 @@ class Consulta extends Controller
             $mensaje =  "Error al subir archivo, no cumple con el formato o tamaño especificado";
             $tipoMensaje = "danger";
         }
+        $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
+        $idRegistro = $idRegistro->id;
         $this->view->tipoMensaje = $tipoMensaje;
         $this->view->mensaje = $mensaje;
-        $this->VerRegistro($noExpediente);
+        //envíamos false para que lea todo el
+        $this->VerRegistro($idRegistro, false);
     }
     function existeImagen($noExpediente){
         $rows = $this->model->existeImagen($noExpediente);

@@ -265,6 +265,21 @@ class ConsultaModel extends Model
             return null;
         }
     }
+    function getIdByNoExpediente($noExpediente){
+        $stringQuery = "SELECT id FROM registro_inmuebles WHERE no_expediente = :noExpediente";
+        try {
+            $query = $this->db->conn()->prepare($stringQuery);
+            if ($query->execute(['noExpediente' => $noExpediente])){
+                $id = $query->fetchObject();
+                return $id;
+            }else{
+                return null;
+            }
+        } catch (PDOException $e) {
+            print "Error -> " . $e->getMessage();
+            return null;
+        }
+    }
     //Obtenemos contactos
     function getContactos($noExpediente)
     {
