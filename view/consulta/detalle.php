@@ -161,13 +161,18 @@
                     </p>
                 </div>
             <?php
+            require_once 'carruselmg.php';
             }
             ?>
-            <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalImagen">Actualizar imagen</button>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalImagen">Actualizar imagen</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container  mb-5 ">
+    <div class="container bg-light rounded  mb-5 ">
         <div class="row">
             <div class="col clearfix mb-4">
                 <h3>Historial de documentos</h3>
@@ -354,7 +359,7 @@
                     </a>
                 </p>
             </div>
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalContacto">Editar contáctos</button>
             </div>
         </div>
