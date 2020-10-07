@@ -584,7 +584,7 @@ class ConsultaModel extends Model
                         'id_usuario'  => $id_user
                     ];
                     if ($query->execute($arrayDatos)) {
-                        print "Archivo guardado";
+                       // print "Archivo guardado";
                         return true;
                     } else {
                         print "Error al subir archivo";
@@ -820,7 +820,7 @@ class ConsultaModel extends Model
                         'no_expediente' => $noExpediente
                     ];
                     if ($query->execute($arrayDatos)) {
-                        print "Archivo guardado";
+                        //print "Archivo guardado";
                         return true;
                     } else {
                         print "Error al subir archivo";
@@ -868,7 +868,7 @@ class ConsultaModel extends Model
                         'id_usuario'  => $id_user
                     ];
                     if ($query->execute($arrayDatos)) {
-                        print "Archivo guardado";
+                        //print "Archivo guardado";
                         return true;
                     } else {
                         print "Error al subir archivo";

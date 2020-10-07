@@ -85,8 +85,9 @@ class Core
         <?php
     }
     public static function validarPDF($tipo, $tamanio){
+        print $tamanio;
         if ($tipo == "application/pdf"){
-            if($tamanio < 1000000){
+            if($tamanio < 10000000){
                 return true;
             }
         }

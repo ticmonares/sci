@@ -360,7 +360,7 @@ class Consulta extends Controller
         }
         $this->view->tipoMensaje = $tipoMensaje;
         $this->view->mensaje = $mensaje;
-        $this->render('consulta/index'.$noExpediente."/");
+        $this->VerRegistro($noExpediente);
     }
     function existeImagen($noExpediente){
         $rows = $this->model->existeImagen($noExpediente);
@@ -461,7 +461,8 @@ class Consulta extends Controller
         $documento = $_FILES['documento'];
         $tipo = $documento['type'];
         $tamanio = $documento['size'];
-
+        // print 'tipo' . $tipo;
+        // print var_dump($documento);
         if (Core::validarPDF($tipo, $tamanio)) {
             if ($tipoDocumento == 0) {
                 $docResult = $this->model->insertStatusDoc($noExpediente, $documento);
