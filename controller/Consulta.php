@@ -311,9 +311,10 @@ class Consulta extends Controller
             $tipoMensaje = "danger";
             $mensaje = "Error al actualizar registro";
         }
-        $this->view->tipoMensaje = $tipoMensaje;
-        $this->view->mensaje = $mensaje;
-        $this->render('consulta/index');
+        // $this->view->tipoMensaje = $tipoMensaje;
+        // $this->view->mensaje = $mensaje;
+        // $this->render('consulta/index');
+        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro );
     }
 
     function existeObservacion($noExpediente)
@@ -381,16 +382,17 @@ class Consulta extends Controller
     function editarContacto($params = null)
     {
         $noExpediente = $params[0];
+        //Contacto 1
         $datos = [];
         $datos['nombre'] = $_POST['nombreGob'];
         $datos['telefono'] = $_POST['telGob'];
         $datos['correo'] = $_POST['mailGob'];
         if ($this->existeContacto($noExpediente, 1)) {
-            print "Se va a actualizar";
+            //print "Se va a actualizar";
             if ($this->model->updateContactos($noExpediente, $datos, 1)) {
                 // print "contacto actualizado";
             } else {
-                print "falla al actualizar";
+                //print "falla al actualizar";
             }
         } else {
             // print "No se encontro registro... se va crear";
@@ -401,18 +403,18 @@ class Consulta extends Controller
                 // print "Falla al agregar desde update";
             }
         }
-
+        //Contacto 2
         $datos = [];
         $datos['nombre'] = $_POST['nombreProp'];
         $datos['telefono'] = $_POST['telProp'];
         $datos['correo'] = $_POST['mailProp'];
 
         if ($this->existeContacto($noExpediente, 2)) {
-            print "Se va a actualizar";
+            //print "Se va a actualizar";
             if ($this->model->updateContactos($noExpediente, $datos, 2)) {
                 // print "contacto actualizado";
             } else {
-                print "falla al actualizar";
+                //print "falla al actualizar";
             }
         } else {
             // print "No se encontro registro... se va crear";
@@ -423,29 +425,40 @@ class Consulta extends Controller
                 // print "Falla al agregar desde update";
             }
         }
-
+        //Contacto 3
         $datos = [];
         $datos['nombre'] = $_POST['nombrePJ'];
         $datos['telefono'] = $_POST['telPJ'];
         $datos['correo'] = $_POST['mailPJ'];
         if ($this->existeContacto($noExpediente, 3)) {
-            print "Se va a actualizar";
+            //print "Se va a actualizar";
             if ($this->model->updateContactos($noExpediente, $datos, 3)) {
                 // print "contacto actualizado";
+                $mensaje = "Contacto actualizado";
+                $tipoMensaje ="success";
             } else {
-                print "falla al actualizar";
+                //print "falla al actualizar";
+                $mensaje = "falla al actualizar";
+                $tipoMensaje ="danger";
             }
         } else {
             // print "No se encontro registro... se va crear";
             $newContacto = $this->model->insertContacto($noExpediente, $datos['nombre'], $datos['telefono'], $datos['correo'], 3);
             if ($newContacto) {
                 // print "Contacto agregado desde update";
+                $mensaje = "Contacto agregado correctamente";
+                $tipoMensaje ="success";
             } else {
-                // print "Falla al agregar desde update";
+                //print "Falla al agregar desde update";
             }
         }
-
-        header("location:" . constant('URL') . "consulta/verRegistro/" . $this->model->getLastRegistroId());
+        $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
+        $idRegistro = $idRegistro->id;
+        // $this->view->tipoMensaje = $tipoMensaje;
+        // $this->view->mensaje = $mensaje;
+        // //envíamos false para que lea todo el
+        // $this->VerRegistro($idRegistro, false);
+        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro );
     }
 
     function existeContacto($noExpediente, $tipoContacto)

@@ -123,12 +123,12 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label for="superficie">Superficie <strong>total</strong> en <strong>metros cuadrados</strong> </label>
-                            <input class="form-control" type="number" step="any" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
+                            <label for="superficie">Superficie <strong>total</strong> en <strong>m2</strong> </label>
+                            <input class="form-control" type="text"  name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
                         </div>
                         <div class="col-sm-6">
                             <label for="valor_avaluo">Valor de avalúo</label>
-                            $<input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
+                            $<input class="form-control" type="text"  name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
                         </div>
                     </div>
 
@@ -139,7 +139,7 @@
                         ?>
                         <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion; ?></textarea>
                     </div>
-                    <input class="btn btn-dark bg-red-pj" type="submit" value="Editar">
+                    <input class="btn btn-dark bg-red-pj" id="btn-submit" type="submit" value="Editar">
                 </form>
             </div>
         </div>
@@ -161,13 +161,18 @@
                     </p>
                 </div>
             <?php
+            require_once 'carruselmg.php';
             }
             ?>
-            <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalImagen">Actualizar imagen</button>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalImagen">Actualizar imagen</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container  mb-5 ">
+    <div class="container bg-light rounded  mb-5 ">
         <div class="row">
             <div class="col clearfix mb-4">
                 <h3>Historial de documentos</h3>
@@ -354,7 +359,7 @@
                     </a>
                 </p>
             </div>
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <button class="btn btn-dark bg-red-pj" data-toggle="modal" data-target="#modalContacto">Editar contáctos</button>
             </div>
         </div>
