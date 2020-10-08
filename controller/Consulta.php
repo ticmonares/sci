@@ -249,6 +249,7 @@ class Consulta extends Controller
     function verImagen($noExpediente){
         $imagen = $this->model->getImagenInmueble($noExpediente);
         if ($imagen){
+            //print "Si hay";
             return $imagen;
         }else{
             return null;

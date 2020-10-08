@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap CSS-->
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>resources/bootstrap/css/bootstrap.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="<?php echo constant('URL'); ?>resources/css/dafault.css">
-    <!-- MDBootstrap Datatables  -->
-    <link href="<?php echo constant('URL').'/resources/dt/dataTables.bootstrap4.min.js' ?>" rel="stylesheet">
-    <!-- MDBootstrap Datatables  -->
-    <script type="text/javascript" src="<?php echo constant('URL').'resources/dt/jquery.dataTables.min.js'; ?>"></script>
-    <script type="text/javascript" src="<?php echo constant('URL').'resources/dt/dataTables.bootstrap4.min.js'; ?>"></script>
+    <!--Lightbox CSS -->
+    <link rel="stylesheet" href="<?php echo constant('URL') . 'resources\css\lightbox.min.css'; ?>">
+    <!--Estilos de la galería-->
+    <link rel="stylesheet" href="  <?php echo constant('URL') .  'resources/css/gallery-styles.min.css'; ?> ">
+    <!--Mis estilos-->
+    <link rel="stylesheet" href="<?php echo constant('URL') . 'resources/css/default.css'; ?>">
+
 </head>
 
 <body>
@@ -65,6 +65,18 @@
             </div>
         </nav>
     </div>
+    <!--Script... RESPETAR ORDEN-->
+    <!--JQUERY-->
+    <script src="<?php echo constant('URL') . 'resources/js/jquery.min.js'; ?>"></script>
+    <!--POPPER-->
+    <script src="<?php echo constant('URL') . 'resources/js/popper.min.js'; ?>"></script>
+    <!--BOOTSTRAP-->
+    <script src="<?php echo constant('URL') . 'resources/bootstrap/js/bootstrap.min.js'; ?>"></script>
+    <!--LIGHTBOX-->
+    <script src="<?php echo constant('URL') . 'resources\js\lightbox.min.js'; ?> "></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="<?php echo constant('URL') . 'resources/dt/jquery.dataTables.min.js'; ?>"></script>
+    <script type="text/javascript" src="<?php echo constant('URL') . 'resources/dt/dataTables.bootstrap4.min.js'; ?>"></script>
 </body>
 
 </html>

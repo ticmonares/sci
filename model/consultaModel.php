@@ -731,6 +731,7 @@ class ConsultaModel extends Model
         }
     }
     function getImagenInmueble($noExpediente){
+        $imagenes = [];
         $stringQuery = "SELECT nombre, fecha FROM doc_img_inmuebles WHERE no_expediente = :noExpediente";
         try {
             $query = $this->db->conn()->prepare($stringQuery);
@@ -738,8 +739,11 @@ class ConsultaModel extends Model
                 'noExpediente' => $noExpediente
             ];
             if ($query->execute($data)){
-                $imagen = $query->fetchObject();
-                return $imagen;
+                while ($row = $query->fetchObject()) {
+                    array_push($imagenes, $row);
+                }
+                //echo $imagenes;
+                return $imagenes;
             }else{
                 return null;
             }
