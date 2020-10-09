@@ -124,11 +124,11 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="superficie">Superficie <strong>total</strong> en <strong>m2</strong> </label>
-                            <input class="form-control" type="text" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
+                            <input class="form-control only-number" type="text" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
                         </div>
                         <div class="col-sm-6">
                             <label for="valor_avaluo">Valor de avalúo</label>
-                            $<input class="form-control" type="text" name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
+                            $<input class="form-control only-number" type="text" name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
                         </div>
                     </div>
 
@@ -145,7 +145,11 @@
         </div>
     </div>
     <?php
-    require_once 'carruselmg.php';
+    if (isset($this->imagen)) {
+        require_once 'carruselmg.php';
+    } else {
+        require_once 'agregarImg.php';
+    }
     ?>
     <div class="container bg-light rounded  mb-5 ">
         <div class="row">

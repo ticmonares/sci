@@ -15,6 +15,8 @@ function validarModalidadEscriturada() {
   //console.log( $selectEstadoProc.options[$selectEstadoProc.selectedIndex].value);
 }
 
+
+
 window.onload = function () {
   //al cargar
   validarModalidadEscriturada();
@@ -24,8 +26,8 @@ window.onload = function () {
   superficieBlur();
 };
 
+//Formato de medidas
 $inputValorAvaluo = document.querySelector("#valor_avaluo");
-
 //Aquí le damos el formato de moneda
 function formatoMoneda($input) {
   //Leemos el valor del input
@@ -71,14 +73,14 @@ $inputSuperficie.addEventListener("blur", superficieBlur);
 
 
 function superficieFocus() {
-    console.log("converitmos a numero");
+    //console.log("converitmos a numero");
     let superficie = $inputSuperficie.value;
     $inputSuperficie.value = stringANumero(superficie);
 }
 function superficieBlur() {
     let numero = formatoMoneda($inputSuperficie);
     numero = monedaANumero(numero);
-    console.log(numero);
+    //console.log(numero);
     $inputSuperficie.value = numero;
 }
 //En esta funciónhacemos el mismo proceso pero quitamos el signo de pesos
@@ -95,4 +97,19 @@ $buttonSubmit.addEventListener("click", valorOriginal);
 function valorOriginal() {
   valorFocus();
   superficieFocus();
+}
+
+//Sólo aceptamos números a todos los inputs con la clase only number
+$inputOnlyNumbers = document.querySelectorAll('.only-number');
+$inputOnlyNumbers.forEach($inputNumber => {
+    //console.log("Sólo aceptamos números");
+    $inputNumber.addEventListener("keypress", soloNumeros, false);
+});
+
+//Solo permite introducir numeros.
+function soloNumeros(e) {
+    var key = window.event ? e.which : e.keyCode;
+    if (key < 48 || key > 57) {
+            e.preventDefault();
+    }
 }

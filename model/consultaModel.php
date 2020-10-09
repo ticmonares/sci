@@ -861,12 +861,17 @@ class ConsultaModel extends Model
         $agno = $fecha_generada['year'];
         $mes = $fecha_generada['mon'];
         $dia = $fecha_generada['mday'];
+        //Datos para el nombre único
+        $nombreArchivo = $fecha_generada['hours'];
+        $nombreArchivo .= $fecha_generada['minutes'];
+        $nombreArchivo .= $fecha_generada['seconds'];
         $fecha_generada = Core::formatDBFecha($agno, $mes, $dia);
         //echo $fecha_generada;
         //Obteniendo datos del PDF de status
         // echo var_dump($documento);
-        $nombreArchivo = $datosImg['name'];
-        $nombreArchivo = "Imagen-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada .".". $formato;
+        //$nombreArchivo = $datosImg['name'];
+        
+        $nombreArchivo = "Imagen-" . $noExpediente . "-" . $id_user . "-" . $fecha_generada ."-".$nombreArchivo .".". $formato;
         //$tipo = $datosImg['type'];
         //$tamanio = $datosImg['size'];
         $ruta = $datosImg['tmp_name'];

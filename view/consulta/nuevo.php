@@ -92,12 +92,12 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <label for="superficie">*Superficie en <strong>metros cuadrados</strong> del <strong> área total </strong> </label>
-                        <input class="form-control" type="number" step="any" name="superficie" id="superficie" required>
+                        <label for="superficie">*Superficie en <strong>m2</strong> del <strong> área total </strong> </label>
+                        <input class="form-control only-number" type="text"  name="superficie" id="superficie"  required>
                     </div>
                     <div class="col-sm-6">
                         <label for="valor_avaluo">*Valor de avalúo </label>
-                        <input class="form-control" type="number" step="any" name="valor_avaluo" id="valor_avaluo" required>
+                        <input class="form-control only-number" type="text"  name="valor_avaluo" id="valor_avaluo" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -139,7 +139,7 @@
                 -->
                 <div class="row">
                     <div class="col-12 mb-5">
-                        <input class="btn btn-dark bg-red-pj" type="submit" value="Agregar">
+                        <input class="btn btn-dark bg-red-pj" id="btn-submit" type="submit" value="Agregar">
                     </div>
                 </div>
             </form>

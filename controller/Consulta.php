@@ -27,6 +27,7 @@ class Consulta extends Controller
     function  registrarNuevo()
     {
         if (isset($_POST['region'])) {
+            $mensaje = "";
             $noExpediente = $_POST['noExpediente'];
             $noInventario = $_POST['noInventario'];
             $region = $_POST['region'];
@@ -42,9 +43,6 @@ class Consulta extends Controller
             }
             $superficie = $_POST['superficie'];
             $valorAvaluo = $_POST['valor_avaluo'];
-
-
-
             //Observaciones
             $observaciones = $_POST['observaciones'];
             //Contáctos
@@ -60,8 +58,6 @@ class Consulta extends Controller
             $mailGobierno = $_POST['mailGob'];
             $mailPropietario = $_POST['mailProp'];
             $mailPJ = $_POST['mailPJ'];
-
-
             $datos = [
                 'noExpediente' => $noExpediente,
                 'noInventario' => $noInventario,
@@ -78,21 +74,12 @@ class Consulta extends Controller
             if ($this->model->insert($datos)) {
                 //print "Exito";
                 //Insertamos la imagen después de crear el regsitro con no_expediente
-                //Imagen
-                $datosImg = [];
-                $datosImg = $_FILES['img_inmueble'];
-                $tipo = $datosImg['type'];
-                $tamanio = $datosImg['size'];
-                if (Core::validarImagen($tipo, $tamanio)) {
-                    $formato = str_replace("image/", "", $tipo);
-                    $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
-                    if ($imgResult) {
-                        print "Imagen insertada con exito";
-                    } else {
-                        print "Error al insertar imagen";
-                        die();
-                    }
+                //Envíamos el tercer parámetro como falso
+                //para indicar que no se ejecuta por URL
+                if ($this->insertInmuebleImg($noExpediente, false)) {
+                    $mensaje += "Imagen y ";
                 }
+
                 //Registramos en observaciones, si es que hay
                 if (!$observaciones == "") {
                     $observacion = $this->model->insertObservacion($noExpediente, $observaciones);
@@ -152,8 +139,57 @@ class Consulta extends Controller
         }
     }
 
-    function insertInmuebleImg()
+    function insertInmuebleImg($params, $isURL = true)
     {
+        if ($isURL) {
+            $noExpediente = $params[0];
+        } else {
+            $noExpediente = $params;
+        }
+        $datosImg = [];
+        $datosImg = $_FILES['img_inmueble'];
+        $tipo = $datosImg['type'];
+        $tamanio = $datosImg['size'];
+        if (Core::validarImagen($tipo, $tamanio)) {
+            $formato = str_replace("image/", "", $tipo);
+            $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
+            if ($imgResult) {
+                //print "Imagen insertada con exito";
+                $mensaje =  "Imagen actualizada con éxito";
+                $tipoMensaje = "success";
+                if ($isURL) {
+                    $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
+                    $idRegistro = $idRegistro->id;
+                    $this->view->tipoMensaje = $tipoMensaje;
+                    $this->view->mensaje = $mensaje;
+                    //envíamos false para que lea todo el
+                    $this->VerRegistro($idRegistro, false);
+                } else {
+                    return true;
+                }
+            } else {
+                print "Error al insertar imagen";
+                $mensaje =  "Error al actualizar imagen";
+                $tipoMensaje = "danger";
+                die();
+                return false;
+            }
+        } else {
+            //print "Error al insertar imagen";
+            $mensaje =  "<p>Error en el formato o tamaño de la imagen,
+            comprime o convierte tu imagen 
+            <a href='https://www.iloveimg.com/es/comprimir-imagen' target='blank' > 
+            aquí.
+            </a>
+            </p>";
+            $tipoMensaje = "danger";
+            $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
+            $idRegistro = $idRegistro->id;
+            $this->view->tipoMensaje = $tipoMensaje;
+            $this->view->mensaje = $mensaje;
+            //envíamos false para que lea todo el
+            $this->VerRegistro($idRegistro, false);
+        }
     }
 
     function getDistrito($param = null)
@@ -246,20 +282,21 @@ class Consulta extends Controller
             return null;
         }
     }
-    function verImagen($noExpediente){
+    function verImagen($noExpediente)
+    {
         $imagen = $this->model->getImagenInmueble($noExpediente);
-        if ($imagen){
+        if ($imagen) {
             //print "Si hay";
             return $imagen;
-        }else{
+        } else {
             return null;
         }
     }
-    function verRegistro($param = null, $url = true )
-    {   
-        if ($url){
+    function verRegistro($param = null, $isURL = true)
+    {
+        if ($isURL) {
             $idRegistro = $param[0];
-        }else{
+        } else {
             $idRegistro = $param;
         }
         $registro = $this->model->getById($idRegistro);
@@ -315,7 +352,7 @@ class Consulta extends Controller
         // $this->view->tipoMensaje = $tipoMensaje;
         // $this->view->mensaje = $mensaje;
         // $this->render('consulta/index');
-        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro );
+        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro);
     }
 
     function existeObservacion($noExpediente)
@@ -328,50 +365,52 @@ class Consulta extends Controller
         }
     }
 
-    function editarImagen($params = null){
-        $noExpediente = $params[0];
-        //Imagen
-        $datosImg = [];
-        $datosImg = $_FILES['img_inmueble'];
-        $tipo = $datosImg['type'];
-        $tamanio = $datosImg['size'];
-        if (Core::validarImagen($tipo, $tamanio)) {
-            $formato = str_replace("image/", "", $tipo);
-            if ( $this->existeImagen($noExpediente) ){
-                //Actualizamos
-                $imgResult = $this->model->updateInmuebleImg($noExpediente, $datosImg, $formato);
-                if ($imgResult) {
-                    $mensaje =  "Imagen actualizada con exito";
-                    $tipoMensaje = "success";
-                } else {
-                    $mensaje =  "Error al actualizar imagen";
-                    $tipoMensaje = "danger";
-                    die();
-                }
-            }else{
-                //insertamos
-                $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
-                if ($imgResult) {
-                    $mensaje =  "Imagen insertada con exito";
-                    $tipoMensaje = "success";
-                } else {
-                    $mensaje =  "Error al insertar imagen";
-                    $tipoMensaje = "danger";
-                    die();
-                }
-            }
-        }else{
-            $mensaje =  "Error al subir archivo, no cumple con el formato o tamaño especificado";
-            $tipoMensaje = "danger";
-        }
-        $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
-        $idRegistro = $idRegistro->id;
-        $this->view->tipoMensaje = $tipoMensaje;
-        $this->view->mensaje = $mensaje;
-        //envíamos false para que lea todo el
-        $this->VerRegistro($idRegistro, false);
-    }
-    function existeImagen($noExpediente){
+    // function editarImagen($params = null){
+    //     $noExpediente = $params[0];
+    //     //Imagen
+    //     $datosImg = [];
+    //     $datosImg = $_FILES['img_inmueble'];
+    //     $tipo = $datosImg['type'];
+    //     $tamanio = $datosImg['size'];
+    //     if (Core::validarImagen($tipo, $tamanio)) {
+    //         $formato = str_replace("image/", "", $tipo);
+    //         if ( $this->existeImagen($noExpediente) ){
+    //             //Actualizamos
+    //             $imgResult = $this->model->updateInmuebleImg($noExpediente, $datosImg, $formato);
+    //             if ($imgResult) {
+    //                 $mensaje =  "Imagen actualizada con exito";
+    //                 $tipoMensaje = "success";
+    //             } else {
+    //                 $mensaje =  "Error al actualizar imagen";
+    //                 $tipoMensaje = "danger";
+    //                 die();
+    //             }
+    //         }else{
+    //             //insertamos
+    //             $imgResult = $this->model->insertInmuebleImg($noExpediente, $datosImg, $formato);
+    //             if ($imgResult) {
+    //                 $mensaje =  "Imagen insertada con exito";
+    //                 $tipoMensaje = "success";
+    //             } else {
+    //                 $mensaje =  "Error al insertar imagen";
+    //                 $tipoMensaje = "danger";
+    //                 die();
+    //             }
+    //         }
+    //     }else{
+    //         $mensaje =  "Error al subir archivo, no cumple con el formato o tamaño especificado";
+    //         $tipoMensaje = "danger";
+    //     }
+    //     $idRegistro = $this->model->getIdByNoExpediente($noExpediente);
+    //     $idRegistro = $idRegistro->id;
+    //     $this->view->tipoMensaje = $tipoMensaje;
+    //     $this->view->mensaje = $mensaje;
+    //     //envíamos false para que lea todo el
+    //     $this->VerRegistro($idRegistro, false);
+    // }
+
+    function existeImagen($noExpediente)
+    {
         $rows = $this->model->existeImagen($noExpediente);
         if ($rows > 0) {
             return true;
@@ -436,11 +475,11 @@ class Consulta extends Controller
             if ($this->model->updateContactos($noExpediente, $datos, 3)) {
                 // print "contacto actualizado";
                 $mensaje = "Contacto actualizado";
-                $tipoMensaje ="success";
+                $tipoMensaje = "success";
             } else {
                 //print "falla al actualizar";
                 $mensaje = "falla al actualizar";
-                $tipoMensaje ="danger";
+                $tipoMensaje = "danger";
             }
         } else {
             // print "No se encontro registro... se va crear";
@@ -448,7 +487,7 @@ class Consulta extends Controller
             if ($newContacto) {
                 // print "Contacto agregado desde update";
                 $mensaje = "Contacto agregado correctamente";
-                $tipoMensaje ="success";
+                $tipoMensaje = "success";
             } else {
                 //print "Falla al agregar desde update";
             }
@@ -459,7 +498,7 @@ class Consulta extends Controller
         // $this->view->mensaje = $mensaje;
         // //envíamos false para que lea todo el
         // $this->VerRegistro($idRegistro, false);
-        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro );
+        header("location:" . constant('URL') . "consulta/verRegistro/" . $idRegistro);
     }
 
     function existeContacto($noExpediente, $tipoContacto)

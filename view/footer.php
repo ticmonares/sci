@@ -5,3 +5,4 @@
         </span>
     </div>
 </footer>
+<script src="<?php echo constant('URL') . 'resources/js/main.js' ?>"></script>

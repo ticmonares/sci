@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-            <form action="<?php echo constant('URL') . 'consulta/editarImagen/'. $this->registro->no_expediente ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo constant('URL') . 'consulta/insertInmuebleImg/'. $this->registro->no_expediente ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="img_inmueble">Seleccione un archivo en formato PNG/JPG/JPEG menor o igual a 1MB </label>
                         <input class="form-control-file" type="file" name="img_inmueble" id="img_inmueble" required>

@@ -2,9 +2,10 @@
     margin: 0;
     padding: 0;
 }
-html{
-    /*font-size: 64%;*/
-}
+/* html{
+    font-size: 64%;
+} 
+*/
 body{
     /*font-size: 1.5rem;*/
     font-family: Arial, Helvetica, sans-serif;
@@ -121,7 +122,19 @@ footer.div{
     width: 40vw;
     /* max-width: 41rem; */
     border-radius: 1rem;
+    /* height: 10rem;  */
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+/*
+Aplicamos esta regla para que todas las miagenes se muestren del
+mismo tamaño pero sin deformarse
+*/
+@supports(object-fit: cover){
+    .img-inmueble{
+      height: 10rem;
+      object-fit: cover;
+      object-position: center center;
+    }
 }
 .rounded{
     border-radius:1rem !important;
