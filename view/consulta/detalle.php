@@ -144,17 +144,22 @@
             </div>
         </div>
     </div>
+    <!-- //Galería de imagenes -->
     <?php
     if (isset($this->imagen)) {
-        require_once 'carruselmg.php';
+        require_once 'galeria.php';
     } else {
         require_once 'agregarImg.php';
     }
     ?>
+    <!-- Módulo de obra -->
+    <?php
+    require_once 'obra.php';
+    ?>
     <div class="container bg-light rounded  mb-5 ">
         <div class="row">
             <div class="col clearfix mb-4">
-                <h3>Historial de documentos</h3>
+                <h2>Historial de documentos</h2>
                 <!-- Button trigger modal -->
                 <a href="#" class="btn btn-dark bg-red-pj float-left" data-toggle="modal" data-target="#modalStatus">Agregar Status</a>
                 <a href="#" class="btn btn-dark bg-red-pj float-right" data-toggle="modal" data-target="#modalAcciones">Agregar Evidencia</a>
@@ -346,6 +351,7 @@
     <?php require_once 'view/footer.php'; ?>
 </body>
 <?php require_once 'modalImagen.php'; ?>
+<?php require_once 'modalObra.php'; ?>
 <?php require_once 'modalStatus.php'; ?>
 <?php require_once 'modalAcciones.php'; ?>
 <?php require_once 'modalContacto.php'; ?>

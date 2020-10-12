@@ -1,4 +1,8 @@
 <?php
+//requires
+require_once 'Obra.php';
+?>
+<?php
 class Consulta extends Controller
 {
     function __construct()
@@ -21,6 +25,7 @@ class Consulta extends Controller
         //$this->view->mensaje = "";
         $regiones = $this->model->getRegiones();
         $this->view->regiones = $regiones;
+        $this->view->plano = 
         $this->view->render('consulta/nuevo');
     }
 
@@ -319,6 +324,10 @@ class Consulta extends Controller
             $this->view->contactos = $this->verContactos($noExpediente);
             $this->view->observacion = $this->verObservacion($noExpediente);
             $this->view->imagen = $this->verImagen($noExpediente);
+            //Planos
+            $planos = new Obra();
+            $this->view->planos = $planos->getPlanoByNoExpediente($noExpediente);
+            //print var_dump($this->view->planos);
             $this->view->render('consulta/detalle');
         } else {
             //$mensaje = "Error";
@@ -588,3 +597,4 @@ class Consulta extends Controller
         $this->view->render('consulta/index');
     }
 }
+

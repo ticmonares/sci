@@ -17,11 +17,12 @@ class Core
     //Función para indicar que roles pueden hacer ciertas acciones
     //Se recibe como parámetro el rol minimo, en caso de ser 1, solo 1 y 0 retorna true
     //Si se recibe un 0 solo 0 sera true... 2; 0, 1 y 2  seran true
-    public static function validarRolMinimo($rol){
-        if ( self::validarSession() ){
-            if ( $_SESSION['user_rol'] <= $rol ){
+    public static function validarRolMinimo($rol)
+    {
+        if (self::validarSession()) {
+            if ($_SESSION['user_rol'] <= $rol) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -31,7 +32,7 @@ class Core
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 0) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } else {
@@ -43,7 +44,7 @@ class Core
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 1) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } else {
@@ -55,7 +56,7 @@ class Core
         if (isset($_SESSION['user_rol'])) {
             if ($_SESSION['user_rol'] == 2) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } else {
@@ -69,32 +70,35 @@ class Core
         return $fechaFormateada;
     }
 
-    public static function alert($mensaje, $tipo = null){
-     
-        if ( !($tipo != "success" || $tipo != "danger" || $tipo != "warning" ) ) {
+    public static function alert($mensaje, $tipo = null)
+    {
+
+        if (!($tipo != "success" || $tipo != "danger" || $tipo != "warning")) {
             $tipo = "info";
         }
-        ?>
-            <div class="alert alert-<?php echo $tipo ?>">
-                <?php
-                if (isset($mensaje)) {
-                    echo $mensaje;
-                }
-                ?>
-            </div>
-        <?php
+?>
+        <div class="alert alert-<?php echo $tipo ?>">
+            <?php
+            if (isset($mensaje)) {
+                echo $mensaje;
+            }
+            ?>
+        </div>
+    <?php
     }
-    public static function validarPDF($tipo, $tamanio){
+    public static function validarPDF($tipo, $tamanio)
+    {
         print $tamanio;
-        if ($tipo == "application/pdf"){
-            if($tamanio < 10000000){
+        if ($tipo == "application/pdf") {
+            if ($tamanio < 10000000) {
                 return true;
             }
         }
         return false;
     }
-    public static function validarImagen($tipo, $tamanio){
-        if($tamanio < 1000000){
+    public static function validarImagen($tipo, $tamanio)
+    {
+        if ($tamanio < 1000000) {
             switch ($tipo) {
                 case 'image/jpg':
                     return true;
@@ -109,9 +113,39 @@ class Core
                     return false;
                     break;
             }
-        }else{
+        } else {
             return false;
         }
     }
-}
-?>
+    public static function mostrarAlerta($tipo, $titulo, $string, $footer = null, $url)
+    {
+    ?>
+        <script>
+            const tipo = "<?php echo $tipo; ?>";
+            const titulo = "<?php echo $titulo; ?>";
+            const string = "<?php echo $string; ?>";
+            const footer = "<?php echo $footer; ?>";
+            const url = "<?php echo $url; ?>";
+            Swal.fire({
+                icon: tipo,
+                title: titulo,
+                text: string,
+                footer: footer,
+                preConfirm: () => {
+                    window.location = url;
+                }
+            });
+        </script>
+    <?php
+    }
+    public static function redireccionaJS($url)
+    {
+    ?>
+        <script>
+            const url = "<?php echo $url; ?>";
+            window.location = url;
+        </script>
+    <?php
+        }
+    }
+    ?>

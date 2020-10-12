@@ -2,6 +2,8 @@
 require_once 'model/classes/Region.class.php';
 require_once 'model/classes/Distrito.class.php';
 require_once 'model/classes/Municipio.class.php';
+//Agregamos el modelo de la obra
+require_once 'model/obraModel.php';
 
 class ConsultaModel extends Model
 {
@@ -965,5 +967,8 @@ class ConsultaModel extends Model
             print("Error-> "  . $e->getMessage());
             return null;
         }
+    }
+    function selectPlano($noExpediente){
+        "HOOLA";
     }
 }

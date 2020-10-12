@@ -77,6 +77,6 @@
     <!-- MDBootstrap Datatables  -->
     <script type="text/javascript" src="<?php echo constant('URL') . 'resources/dt/jquery.dataTables.min.js'; ?>"></script>
     <script type="text/javascript" src="<?php echo constant('URL') . 'resources/dt/dataTables.bootstrap4.min.js'; ?>"></script>
-</body>
-
-</html>
+    <!-- Alertas -->
+    <!-- <script type="text/javascript" src="<?php echo constant('URL') . 'resources/js/sweetalert.min.js'; ?>"></script> -->
+    
