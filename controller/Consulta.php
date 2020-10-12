@@ -1,6 +1,5 @@
 <?php
 //requires
-require_once 'Obra.php';
 ?>
 <?php
 class Consulta extends Controller
@@ -197,7 +196,7 @@ class Consulta extends Controller
         }
     }
 
-    function getDistrito($param = null)
+    public function getDistrito($param = null)
     {
         //Recibimos el id del distrito
         //print " Se cargo  el id " . $distrito[0];
@@ -212,7 +211,7 @@ class Consulta extends Controller
         echo $distritosJSON;
     }
 
-    function getMunicipios($param = null)
+    public function getMunicipios($param = null)
     {
         $id_distrito = $param[0];
         $municipios = $this->model->getMunicipios($id_distrito);
@@ -325,6 +324,7 @@ class Consulta extends Controller
             $this->view->observacion = $this->verObservacion($noExpediente);
             $this->view->imagen = $this->verImagen($noExpediente);
             //Planos
+            require_once 'Obra.php';
             $planos = new Obra();
             $this->view->planos = $planos->getPlanoByNoExpediente($noExpediente);
             //print var_dump($this->view->planos);
