@@ -9,6 +9,7 @@
 
 <body>
     <?php require_once 'view/header.php'; ?>
+    <?php require_once 'view/preloader/index.php'; ?>
     <div class="container">
         <div id="main">
             <h1 class="center">Registros</h1>

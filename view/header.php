@@ -12,7 +12,11 @@
     <!--Estilos de la galería-->
     <link rel="stylesheet" href="  <?php echo constant('URL') .  'resources/css/gallery-styles.min.css'; ?> ">
     <!--Mis estilos-->
+    <!-- default -->
     <link rel="stylesheet" href="<?php echo constant('URL') . 'resources/css/default.css'; ?>">
+    <!-- preloader -->
+    
+
 
 </head>
 

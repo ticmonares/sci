@@ -1,4 +1,5 @@
 function cargarDataTable() {
+  quitarPreloader();
   $("#tabla-registros-inmuebles").DataTable({
     language: {
       sProcessing: "Procesando...",
@@ -152,6 +153,7 @@ function getDistrito() {
 }
 
 function buscarPor(criterio, param) {
+  mostrarPreloader();
   //alert("Buscaremos por "  +  criterio + " con parametro " + param);
   let urlGetEstadoProc =
     "http://localhost/sci/consulta/buscarPor/" + criterio + "/" + param;
@@ -251,4 +253,30 @@ function cargarURL() {
     cargarDataTable();
     // }, 000);
   }
+}
+
+// Preloader
+$modalPreloader = document.querySelector("#miModal");
+
+function quitarPreloader() {
+  let clase = $modalPreloader.className;
+  clase = clase.replace("activo", "");
+  $modalPreloader.className = clase;
+  enableScroll();
+}
+function mostrarPreloader() {
+  disableScroll();
+  let clase = $modalPreloader.className;
+  clase += " activo ";
+  $modalPreloader.className = clase;
+}
+function disableScroll() {
+  var x = window.scrollX;
+  var y = window.scrollY;
+  window.onscroll = function () {
+    window.scrollTo(x, y);
+  };
+}
+function enableScroll() {
+  window.onscroll = null;
 }

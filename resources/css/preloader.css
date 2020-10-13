@@ -1,0 +1,48 @@
+.preloader-modal-contenido {
+  /* background-color:aqua; */
+  /* width:300px;
+    padding: 10px 20px;
+    margin: 20% auto;
+    position: relative; */
+}
+.preloader-modal {
+  color: #eee;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: all 1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#miModal.activo {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.preloader {
+  width: 70px;
+  height: 70px;
+  border: 10px solid #eee;
+  border-top: 10px solid #666;
+  /* border-top: 10px solid #941822; */
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
