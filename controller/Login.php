@@ -22,15 +22,19 @@ class Login extends Controller{
             'contrasena' => $contrasena
         ];
         if ($this->model->validaLogin($datos)){
-            $mensaje = "Bienvenido";
-            $render= "main/index";
+            // $mensaje = "Bienvenido";
+            // $tipoMensaje = "success";
+            // $render= "main/index";
+            header('location:' . constant('URL').'main');
         }else{
-            $mensaje = "Comprueba tus datos";
+            $mensaje = "¡ERROR! Comprueba tu usario o contraseña";
+            $tipoMensaje = "danger";
             $render= "login/index";
         }
         $this->view->mensaje = $mensaje;
-        header('location:' . constant('URL').'main');
-        //$this->view->render($render);
+        $this->view->tipoMensaje = $tipoMensaje;
+        
+        $this->view->render($render);
     }
 }
 ?>

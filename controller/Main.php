@@ -8,11 +8,5 @@ class Main extends Controller{
     function render(){
         $this->view->render('main/index');
     }
-
-    function saludo(){
-        ?>
-        <h2>Hola</h2>
-        <?php
-    }
 }
 ?>
