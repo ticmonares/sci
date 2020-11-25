@@ -1,5 +1,7 @@
 <?php
 require_once 'model/classes/Region.class.php';
+require_once 'model/classes/ModalidadPropiedad.class.php';
+require_once 'model/classes/EstadoProcesal.class.php';
 require_once 'model/classes/Distrito.class.php';
 require_once 'model/classes/Municipio.class.php';
 //Agregamos el modelo de la obra

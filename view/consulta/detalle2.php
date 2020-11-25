@@ -10,12 +10,8 @@
 <body>
     <?php require_once 'view/header.php'; ?>
     <div class="container mt-4 py-5 mb-5 bg-light rounded">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-4">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
-                <p class="lead">Inventario: <?php echo $this->registro->no_inventario; ?></p>
-            </div>
-        </div>
+        <h1 class=" text-center">Expediente: <?php echo $this->registro->no_expediente; ?> </h1>
+        <h2 class="text-center">Inventario: <?php echo $this->registro->no_inventario; ?> </h2>
         <?php
         if (isset($this->mensaje)) {
             //echo $this->mensaje;
@@ -24,97 +20,127 @@
         ?>
         <div class="row">
             <div class="col-md-10 mx-auto">
-
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-4">
-                                <strong>Región: </strong>
+                <form action="<?php echo constant('URL') . 'consulta/editarRegistro/' . $this->registro->id; ?>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="text" name="noExpediente" id="noExpediente" hidden value="<?php echo $this->registro->no_expediente ?>">
+                            <label for="region">Región</label>
+                            <select class="form-control" name="region" id="region" class="region" required disabled>
                                 <?php
                                 $region = new Region();
                                 $id_region = $this->registro->id_region;
-                                echo $region->traduceRegion($id_region);
+                                echo $region->cargaSelectRol($id_region);
                                 ?>
-                            </div>
-                            <div class="col-4">
-                                <strong>Distrito Judicial: </strong>
-                                <?php
-                                echo $this->registro->nombreDistrito;
-                                ?>
-                            </div>
-                            <div class="col-4">
-                                <strong>Distrito Judicial: </strong>
-                                <?php
-                                echo $this->registro->nombreDistrito;
-                                ?>
-                            </div>
+                            </select>
                         </div>
-                    </li>
-                    <li class="list-group-item">
-                        <p>
-                            <strong>Edificio</strong>
-                        </p>
-                        <p>
-                            <?php echo $this->registro->edificio; ?>
-                        </p>
-                    </li>
-                    <li class="list-group-item">
-                        <p>
-                            <strong>Domicilio</strong>
-                        </p>
-                        <p>
-                            <?php echo $this->registro->domicilio; ?>
-                        </p>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>Modalidad de propiedad </strong>
-                                <?php
-                                $modalidad = new ModalidadPropiedad();
-                                echo $modalidad->toString($this->registro->id_modalidad_prop);
-                                ?>
-                            </div>
-                            <div class="col-6">
-                                <strong>Estado procesal </strong>
-                                <?php
-                                $estado = new EstadoProcesal();
-                                echo $estado->toString($this->registro->id_estado_proc);
-                                ?>
-                            </div>
+                        <div class="col-sm-6">
+                            <label for="distrito">Distrito Judicial </label>
+                            <select class="form-control" name="distrito" id="distrito" class="registro" required disabled>
+                                <!-- <option value="">Elija una opción</option> -->
+                                <option value="0">
+                                    <?php
+                                    echo $this->registro->nombreDistrito;
+                                    ?>
+                                </option>
+                            </select>
                         </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-6">
-                                <strong>Superficie total: </strong>
+                    </div>
+                    <div class="form-group">
+                        <label for="municipio">Municipio</label>
+                        <select class="form-control" name="municipio" id="municipio" required disabled>
+                            <!-- <option value="">Elija una opción</option> -->
+                            <option value="0">
                                 <?php
-                                echo $this->registro->superficie;
+                                echo $this->registro->nombreMunicipio;
                                 ?>
-                            </div>
-                            <div class="col-6">
-                                <strong>Valor de avalúo: </strong>
-                                <?php
-                                echo $this->registro->valor_avaluo;
-                                ?>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-12">
-                                <strong>Observaciones</strong>
-                                <?php
-                                !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;
-                                ?>
-                                <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7" disabled>
-                                    <?php echo $observacion; ?>
-                                </textarea>
-                            </div>
-                    </li>
-                </ul>
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edificio">Edificio</label>
+                        <input class="form-control" type="text" name="edificio" id="edificio" maxlength="300" value="<?php echo $this->registro->edificio; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio">Domicilio</label>
+                        <input class="form-control" type="text" name="domicilio" id="domicilio" maxlength="300" value="<?php echo $this->registro->domicilio; ?>" required>
+                    </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="modalidad">Modalidad de propiedad</label>
+                            <select class="form-control" name="modalidad" id="modalidad" required>
+                                <?php
+                                $this->modalidades;
+                                foreach ($this->modalidades as $modalidad) {
+                                    if ($this->registro->id_modalidad_prop == $modalidad->id) {
+                                ?>
+                                        <option selected value="<?php echo $modalidad->id ?>">
+                                            <?php
+                                            echo $modalidad->nombre;
+                                            ?>
+                                        </option>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <option value="<?php echo $modalidad->id ?>">
+                                            <?php
+                                            echo $modalidad->nombre;
+                                            ?>
+                                        </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="estado_proc">Estado procesal</label>
+                            <select class="form-control" name="estado_proc" id="estado_proc" required>
+                                <?php
+                                $this->estados_proc;
+                                foreach ($this->estados_proc as $estado_proc) {
+                                    if ($this->registro->id_estado_proc == $estado_proc->id) {
+                                ?>
+                                        <option selected value="<?php echo $estado_proc->id ?>">
+                                            <?php
+                                            echo $estado_proc->nombre;
+                                            ?>
+                                            </>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <option value="<?php echo $estado_proc->id ?>">
+                                            <?php
+                                            echo $estado_proc->nombre;
+                                            ?>
+                                        </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="superficie">Superficie <strong>total</strong> en <strong>m2</strong> </label>
+                            <input class="form-control only-number" type="text" name="superficie" id="superficie" maxlength="30" value="<?php echo $this->registro->superficie; ?>" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="valor_avaluo">Valor de avalúo</label>
+                            $<input class="form-control only-number" type="text" name="valor_avaluo" id="valor_avaluo" maxlength="30" value="<?php echo $this->registro->valor_avaluo; ?>" required>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones</label>
+                        <?php
+                        !isset($this->observacion->observacion) ?  $observacion = "" : $observacion = $this->observacion->observacion;
+                        ?>
+                        <textarea maxlength="1000" class="form-control" name="observaciones" id="observaciones" cols="30" rows="7"><?php echo $observacion; ?></textarea>
+                    </div>
+                    <input class="btn btn-dark bg-red-pj" id="btn-submit" type="submit" value="Editar">
+                </form>
             </div>
         </div>
     </div>
